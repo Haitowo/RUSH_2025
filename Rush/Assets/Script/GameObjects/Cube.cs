@@ -1,6 +1,8 @@
+using Com.IsartDigital.Rush.Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -19,7 +21,6 @@ namespace Com.IsartDigital.Rush.Cube
         [SerializeField] private string _GroundTag = "Ground";
         [SerializeField] private string _ArrowTag = "Arrow";
 
-        [SerializeField] private float _TickSpeed = 2f;
         [SerializeField] private float _Angle = 90f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
@@ -42,10 +43,21 @@ namespace Com.IsartDigital.Rush.Cube
 
         public Action doAction {  get; private set; }
 
+        private GameManager _GameManager;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Awake()
+        private void Start()
         {
+            _GameManager = GameManager.Instance;
+            if (_GameManager == null)
+            {
+                Debug.LogError("GameManager.Instance is null in Cube!");
+                return;
+            }
+
+            _GameManager.tickAction += ReceiveTick;
             _SelfTransform = transform;
+
             _Direction = Vector3.forward;
             _Axis = Vector3.right;
             doAction = DoActionVoid;
@@ -55,7 +67,7 @@ namespace Com.IsartDigital.Rush.Cube
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            Tick();
+            //Tick();
             doAction();
         }
 
@@ -66,10 +78,16 @@ namespace Com.IsartDigital.Rush.Cube
                 CheckCollision();
                 _ElapsedTime = 0f;
 
-                if (doAction == DoActionStopCube) IncreaseStopTickCube();
+                if (doAction == DoActionVoid) IncreaseStopTickCube();
             }
 
             CalculateRatio();
+        }
+
+        private void ReceiveTick()
+        {
+            CheckCollision();
+            if (doAction == DoActionVoid) IncreaseStopTickCube();
         }
 
         private void SetStateVoid() => doAction = DoActionVoid;
@@ -96,27 +114,17 @@ namespace Com.IsartDigital.Rush.Cube
             doAction = DoActionFall;
         }
 
-        private void SetStateStopCube()
-        {
-            doAction = DoActionStopCube;
-        }
-
-        private void DoActionStopCube()
-        {
-
-        }
-
         private void DoActionVoid(){}
 
         private void DoActionMove()
         {
-            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _Ratio) + _PivotPoint;
-            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _Ratio);
+            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _GameManager.ratio) + _PivotPoint;
+            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _GameManager.ratio);
         }
 
         private void DoActionFall()
         {
-            transform.position = Vector3.Lerp(_FromPos, _ToPos, _Ratio);
+            transform.position = Vector3.Lerp(_FromPos, _ToPos, _GameManager.ratio);
         }
 
         private void CheckCollision()
@@ -135,6 +143,7 @@ namespace Com.IsartDigital.Rush.Cube
             {
                 lCollided = lHit.collider.gameObject;
                 lCollisionLayer = (ECollision)lCollided.layer;
+                Debug.Log(lCollided.layer);
 
                 switch (lCollisionLayer)
                 {
@@ -146,12 +155,13 @@ namespace Com.IsartDigital.Rush.Cube
                         SetStateMove();
                         break;
                     case ECollision.STOP:
-                        SetStateStopCube();
+                        SetStateVoid();
                         break;
                     case ECollision.TELEPORTER:
                         break;
-                        break;
                     case ECollision.TURNSTILE:
+                        break;
+                    case ECollision.CONVEYORS:
                         break;
                     default:
                         break;
@@ -159,7 +169,7 @@ namespace Com.IsartDigital.Rush.Cube
             }
             else SetStateFall();
 
-            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateStopCube();
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateVoid();
         }
 
         private void CalculateRatio()
@@ -183,6 +193,12 @@ namespace Com.IsartDigital.Rush.Cube
                 SetStateMove();
                 _StopCubeTickCount = 0;
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (_GameManager != null)
+                _GameManager.tickAction -= ReceiveTick;
         }
     }
 }
