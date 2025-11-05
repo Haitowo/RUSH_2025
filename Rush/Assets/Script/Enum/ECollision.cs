@@ -13,6 +13,7 @@ namespace Com.IsartDigital.Rush.Cube
         GROUND = 7,
         OBSTACLE = 8,
         STOP = 9,
-        TELEPORTATION = 10,
+        TELEPORTER = 10,
+        TURNSTILE = 11
     }
 }

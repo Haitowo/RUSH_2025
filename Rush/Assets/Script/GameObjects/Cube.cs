@@ -38,8 +38,6 @@ namespace Com.IsartDigital.Rush.Cube
         private int _StopCubeTickCount = 0;
         private int _MaxTickCount = 2;
 
-        private bool _ShouldStopCube = false;
-
         private Quaternion _FromRotation, _ToRotation, _MovementRotation;
 
         public Action doAction {  get; private set; }
@@ -78,6 +76,7 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void SetStateMove()
         {
+            _Direction = Vector3.forward;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
             _ToPos = _FromPos + _Direction * _GridSize;
@@ -149,7 +148,10 @@ namespace Com.IsartDigital.Rush.Cube
                     case ECollision.STOP:
                         SetStateStopCube();
                         break;
-                    case ECollision.TELEPORTATION:
+                    case ECollision.TELEPORTER:
+                        break;
+                        break;
+                    case ECollision.TURNSTILE:
                         break;
                     default:
                         break;
