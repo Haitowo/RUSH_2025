@@ -23,7 +23,7 @@ namespace Com.IsartDigital.Rush.Cube
         [SerializeField] private float _Angle = 90f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
-        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint;
+        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
         private Vector3 _Direction = Vector3.forward;
 
         private Transform _SelfTransform;
@@ -31,11 +31,12 @@ namespace Com.IsartDigital.Rush.Cube
         private const float DISTANCE_RAYCAST = 1f;
 
         private float _ElapsedTime = 0f;
-        private float _ElapsedTimeStopCube = 0f;
         private float _DurationBetweenTicks = 1f;
-        private float _DurationStopCube = 2f;
         private float _Ratio = 0f;
         private float _GridSize = 1f;
+
+        private int _StopCubeTickCount = 0;
+        private int _MaxTickCount = 2;
 
         private Quaternion _FromRotation, _ToRotation, _MovementRotation;
 
@@ -46,6 +47,7 @@ namespace Com.IsartDigital.Rush.Cube
         {
             _SelfTransform = transform;
             _Direction = Vector3.forward;
+            _Axis = Vector3.right;
             doAction = DoActionVoid;
             _MovementRotation = Quaternion.AngleAxis(_Angle, transform.right);
         }
@@ -63,21 +65,18 @@ namespace Com.IsartDigital.Rush.Cube
             {
                 CheckCollision();
                 _ElapsedTime = 0f;
+
+                if (doAction == DoActionStopCube) IncreaseStopTickCube();
             }
 
             CalculateRatio();
-        }
-
-        private void SetState(Action pNewAction)
-        {
-            if (doAction == pNewAction) return;
-            doAction = pNewAction;
         }
 
         private void SetStateVoid() => doAction = DoActionVoid;
 
         private void SetStateMove()
         {
+            _Direction = Vector3.forward;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
             _ToPos = _FromPos + _Direction * _GridSize;
@@ -99,22 +98,12 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void SetStateStopCube()
         {
-            if (doAction == DoActionStopCube) return;
-            Debug.Log("Switching to StopCube state");
-            _ElapsedTimeStopCube = 0f;
             doAction = DoActionStopCube;
         }
 
         private void DoActionStopCube()
         {
-            _ElapsedTimeStopCube += Time.deltaTime * _Speed;
 
-            if (_ElapsedTimeStopCube >= _DurationStopCube)
-            {
-                SetDirection(Vector3.right);
-                SetStateMove();
-                _ElapsedTimeStopCube = 0f;
-            }
         }
 
         private void DoActionVoid(){}
@@ -156,6 +145,14 @@ namespace Com.IsartDigital.Rush.Cube
                     case ECollision.GROUND:
                         SetStateMove();
                         break;
+                    case ECollision.STOP:
+                        SetStateStopCube();
+                        break;
+                    case ECollision.TELEPORTER:
+                        break;
+                        break;
+                    case ECollision.TURNSTILE:
+                        break;
                     default:
                         break;
                 }
@@ -175,6 +172,17 @@ namespace Com.IsartDigital.Rush.Cube
         {
             _Direction = pDirection;
             _MovementRotation = Quaternion.AngleAxis(_Angle, Vector3.Cross(Vector3.up, pDirection));
+        }
+
+        private void IncreaseStopTickCube()
+        {
+            _StopCubeTickCount++;
+            if(_StopCubeTickCount >= _MaxTickCount)
+            {
+                SetDirection(Vector3.right);
+                SetStateMove();
+                _StopCubeTickCount = 0;
+            }
         }
     }
 }
