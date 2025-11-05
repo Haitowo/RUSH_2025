@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
-// DATE : 00/00/0000 - Beginning of the class
+// DATE : 05/11/2025 - Beginning of the class
 
 namespace Com.IsartDigital.Rush.Manager
 {
@@ -16,9 +14,10 @@ namespace Com.IsartDigital.Rush.Manager
 
         private float _DurationBetweenTicks = 1f;
         private float _ElapsedTime = 0f;
-        public float ratio { get; private set; } = 0f;
 
-        public Action tickAction;
+        public float ratioTimeTick { get; private set; } = 0f;
+
+        public Action tickAction { get; set; }
 
         public static GameManager Instance { get; private set; }
 
@@ -56,7 +55,7 @@ namespace Com.IsartDigital.Rush.Manager
         private void CalculateRatio()
         {
             _ElapsedTime += Time.deltaTime * _SpeedTime;
-            ratio = _ElapsedTime / _DurationBetweenTicks;
+            ratioTimeTick = _ElapsedTime / _DurationBetweenTicks;
         }
     }
 }

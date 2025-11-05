@@ -1,12 +1,8 @@
 using Com.IsartDigital.Rush.Utilities;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 // Author : Florian MAJCHER - Isart DIGITAL
-// DATE : 00/00/0000 - Beginning of the class
+// DATE : 04/11/2025 - Beginning of the class
 
 namespace Com.IsartDigital.Rush.Camera
 {
