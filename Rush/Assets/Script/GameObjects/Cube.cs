@@ -1,8 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -26,22 +23,20 @@ namespace Com.IsartDigital.Rush.Cube
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
         private Vector3 _Direction = Vector3.forward;
+        private Vector3 _LastDirectionBeforeFall;
 
         private Transform _SelfTransform;
 
         private const float DISTANCE_RAYCAST = 1f;
 
-        private float _ElapsedTime = 0f;
-        private float _DurationBetweenTicks = 1f;
-        private float _Ratio = 0f;
         private float _GridSize = 1f;
 
         private int _StopCubeTickCount = 0;
         private int _MaxTickCount = 2;
 
-        private Quaternion _FromRotation, _ToRotation, _MovementRotation;
+        private Quaternion _FromRotation, _ToRotation;
 
-        public Action doAction {  get; private set; }
+        public Action doAction { get; private set; }
 
         private GameManager _GameManager;
 
@@ -49,39 +44,20 @@ namespace Com.IsartDigital.Rush.Cube
         private void Start()
         {
             _GameManager = GameManager.Instance;
-            if (_GameManager == null)
-            {
-                Debug.LogError("GameManager.Instance is null in Cube!");
-                return;
-            }
-
             _GameManager.tickAction += ReceiveTick;
+
             _SelfTransform = transform;
 
             _Direction = Vector3.forward;
             _Axis = Vector3.right;
+
             doAction = DoActionVoid;
-            _MovementRotation = Quaternion.AngleAxis(_Angle, transform.right);
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            //Tick();
             doAction();
-        }
-
-        private void Tick()
-        {
-            if (_ElapsedTime >= _DurationBetweenTicks)
-            {
-                CheckCollision();
-                _ElapsedTime = 0f;
-
-                if (doAction == DoActionVoid) IncreaseStopTickCube();
-            }
-
-            CalculateRatio();
         }
 
         private void ReceiveTick()
@@ -94,6 +70,8 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void SetStateMove()
         {
+            if (_Direction == Vector3.down)
+                _Direction = _LastDirectionBeforeFall;
             _Direction = Vector3.forward;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
@@ -118,13 +96,13 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void DoActionMove()
         {
-            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _GameManager.ratio) + _PivotPoint;
-            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _GameManager.ratio);
+            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _GameManager.ratioTimeTick) + _PivotPoint;
+            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _GameManager.ratioTimeTick);
         }
 
         private void DoActionFall()
         {
-            transform.position = Vector3.Lerp(_FromPos, _ToPos, _GameManager.ratio);
+            transform.position = Vector3.Lerp(_FromPos, _ToPos, _GameManager.ratioTimeTick);
         }
 
         private void CheckCollision()
@@ -143,7 +121,6 @@ namespace Com.IsartDigital.Rush.Cube
             {
                 lCollided = lHit.collider.gameObject;
                 lCollisionLayer = (ECollision)lCollided.layer;
-                Debug.Log(lCollided.layer);
 
                 switch (lCollisionLayer)
                 {
@@ -172,16 +149,10 @@ namespace Com.IsartDigital.Rush.Cube
             if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateVoid();
         }
 
-        private void CalculateRatio()
-        {
-            _ElapsedTime += Time.deltaTime * _Speed;
-            _Ratio = _ElapsedTime / _DurationBetweenTicks;
-        }
-
         private void SetDirection(Vector3 pDirection)
         {
-            _Direction = pDirection;
-            _MovementRotation = Quaternion.AngleAxis(_Angle, Vector3.Cross(Vector3.up, pDirection));
+            _Direction = pDirection.normalized;
+            _LastDirectionBeforeFall = _Direction;
         }
 
         private void IncreaseStopTickCube()
