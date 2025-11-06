@@ -1,4 +1,6 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.Utilities;
 using System;
 using UnityEngine;
 
@@ -11,13 +13,7 @@ namespace Com.IsartDigital.Rush.Cube
     public class Cube : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [Range(0.1f, 5f)]
-        [SerializeField] private float _Speed = 1f;
-        [SerializeField] private float _RaycastOffset = .4f;
-
-        [SerializeField] private string _GroundTag = "Ground";
-        [SerializeField] private string _ArrowTag = "Arrow";
-
+        [Header(Utils.CUBE_MANAGEMENT)]
         [SerializeField] private float _Angle = 90f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
@@ -38,20 +34,23 @@ namespace Com.IsartDigital.Rush.Cube
 
         public Action doAction { get; private set; }
 
-        private GameManager _GameManager;
+        private ITickProvider _TickProvider;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Start()
+        private void Awake()
         {
-            _GameManager = GameManager.Instance;
-            _GameManager.tickAction += ReceiveTick;
-
             _SelfTransform = transform;
 
             _Direction = Vector3.forward;
             _Axis = Vector3.right;
 
             doAction = DoActionVoid;
+        }
+
+        private void Start()
+        {
+            _TickProvider = TickProviderLocator.Instance;
+            _TickProvider.TickEvent += ReceiveTick;
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -96,13 +95,13 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void DoActionMove()
         {
-            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _GameManager.ratioTimeTick) + _PivotPoint;
-            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _GameManager.ratioTimeTick);
+            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick) + _PivotPoint;
+            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _TickProvider.RatioTimeTick);
         }
 
         private void DoActionFall()
         {
-            transform.position = Vector3.Lerp(_FromPos, _ToPos, _GameManager.ratioTimeTick);
+            transform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
         }
 
         private void CheckCollision()
@@ -168,8 +167,8 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void OnDestroy()
         {
-            if (_GameManager != null)
-                _GameManager.tickAction -= ReceiveTick;
+            if (_TickProvider != null)
+                _TickProvider.TickEvent -= ReceiveTick;
         }
     }
 }
