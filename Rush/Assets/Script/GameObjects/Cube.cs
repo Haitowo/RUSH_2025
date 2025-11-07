@@ -36,6 +36,8 @@ namespace Com.IsartDigital.Rush.Cube
 
         private ITickProvider _TickProvider;
 
+        private bool _IsStop;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
@@ -62,8 +64,10 @@ namespace Com.IsartDigital.Rush.Cube
         private void ReceiveTick()
         {
             CheckCollision();
-            if (doAction == DoActionVoid) IncreaseStopTickCube();
+            if (doAction == DoActionVoid || doAction == DoActionStop) IncreaseStopTickCube();
         }
+
+        private void SetStateStop() => doAction = DoActionStop;
 
         private void SetStateVoid() => doAction = DoActionVoid;
 
@@ -71,7 +75,6 @@ namespace Com.IsartDigital.Rush.Cube
         {
             if (_Direction == Vector3.down)
                 _Direction = _LastDirectionBeforeFall;
-            _Direction = Vector3.forward;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
             _ToPos = _FromPos + _Direction * _GridSize;
@@ -85,13 +88,26 @@ namespace Com.IsartDigital.Rush.Cube
 
         private void SetStateFall()
         {
-            _FromPos = transform.position;
+            _FromPos = _SelfTransform.position;
             _Direction = Vector3.down;
             _ToPos = _FromPos + _Direction;
             doAction = DoActionFall;
         }
 
-        private void DoActionVoid(){}
+        private void SetStateSlide()
+        {
+            if (_Direction == Vector3.down)
+                _Direction = _LastDirectionBeforeFall;
+
+            _FromPos = _SelfTransform.position;
+            _ToPos = _FromPos + _Direction * _GridSize;
+
+            doAction = DoActionSlide;
+        }
+
+        private void DoActionVoid() => _IsStop = false;
+
+        private void DoActionStop() => _IsStop = true;
 
         private void DoActionMove()
         {
@@ -102,6 +118,11 @@ namespace Com.IsartDigital.Rush.Cube
         private void DoActionFall()
         {
             transform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
+        }
+
+        private void DoActionSlide()
+        {
+            _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
         }
 
         private void CheckCollision()
@@ -131,13 +152,15 @@ namespace Com.IsartDigital.Rush.Cube
                         SetStateMove();
                         break;
                     case ECollision.STOP:
-                        SetStateVoid();
+                        SetStateStop();
                         break;
                     case ECollision.TELEPORTER:
                         break;
                     case ECollision.TURNSTILE:
                         break;
                     case ECollision.CONVEYORS:
+                        SetDirection(lCollided.transform.forward);
+                        SetStateSlide();
                         break;
                     default:
                         break;
@@ -157,12 +180,17 @@ namespace Com.IsartDigital.Rush.Cube
         private void IncreaseStopTickCube()
         {
             _StopCubeTickCount++;
-            if(_StopCubeTickCount >= _MaxTickCount)
-            {
-                SetDirection(Vector3.right);
-                SetStateMove();
-                _StopCubeTickCount = 0;
-            }
+            if (_StopCubeTickCount >= _MaxTickCount && !_IsStop)
+                CanMoveToDirection(Vector3.right);
+            else if(_StopCubeTickCount >= _MaxTickCount && _IsStop) 
+                CanMoveToDirection(_Direction);
+        }
+
+        private void CanMoveToDirection(Vector3 pDirection)
+        {
+            SetDirection(pDirection);
+            SetStateMove();
+            _StopCubeTickCount = 0;
         }
 
         private void OnDestroy()

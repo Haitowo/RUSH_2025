@@ -11,6 +11,7 @@ namespace Com.IsartDigital.Rush.Cube
         STOP = 9,
         TELEPORTER = 10,
         TURNSTILE = 11,
-        CONVEYORS = 12
+        TARGET = 12,
+        CONVEYORS = 13
     }
 }
