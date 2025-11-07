@@ -1,6 +1,7 @@
+using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.Utilities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -12,70 +13,64 @@ namespace Com.IsartDigital.Rush.Cube
     public class Cube : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [Range(0.1f, 5f)]
-        [SerializeField] private float _Speed = 1f;
-        [SerializeField] private float _RaycastOffset = .4f;
-
-        [SerializeField] private string _GroundTag = "Ground";
-        [SerializeField] private string _ArrowTag = "Arrow";
-
-        [SerializeField] private float _TickSpeed = 2f;
+        [Header(Utils.CUBE_MANAGEMENT)]
         [SerializeField] private float _Angle = 90f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
         private Vector3 _Direction = Vector3.forward;
+        private Vector3 _LastDirectionBeforeFall;
 
         private Transform _SelfTransform;
 
         private const float DISTANCE_RAYCAST = 1f;
 
-        private float _ElapsedTime = 0f;
-        private float _DurationBetweenTicks = 1f;
-        private float _Ratio = 0f;
         private float _GridSize = 1f;
 
         private int _StopCubeTickCount = 0;
         private int _MaxTickCount = 2;
 
-        private Quaternion _FromRotation, _ToRotation, _MovementRotation;
+        private Quaternion _FromRotation, _ToRotation;
 
-        public Action doAction {  get; private set; }
+        public Action doAction { get; private set; }
+
+        private ITickProvider _TickProvider;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
             _SelfTransform = transform;
+
             _Direction = Vector3.forward;
             _Axis = Vector3.right;
+
             doAction = DoActionVoid;
-            _MovementRotation = Quaternion.AngleAxis(_Angle, transform.right);
+        }
+
+        private void Start()
+        {
+            _TickProvider = TickProviderLocator.Instance;
+            _TickProvider.TickEvent += ReceiveTick;
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            Tick();
             doAction();
         }
 
-        private void Tick()
+        private void ReceiveTick()
         {
-            if (_ElapsedTime >= _DurationBetweenTicks)
-            {
-                CheckCollision();
-                _ElapsedTime = 0f;
-
-                if (doAction == DoActionStopCube) IncreaseStopTickCube();
-            }
-
-            CalculateRatio();
+            CheckCollision();
+            if (doAction == DoActionVoid) IncreaseStopTickCube();
         }
 
         private void SetStateVoid() => doAction = DoActionVoid;
 
         private void SetStateMove()
         {
+            if (_Direction == Vector3.down)
+                _Direction = _LastDirectionBeforeFall;
             _Direction = Vector3.forward;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
@@ -96,27 +91,17 @@ namespace Com.IsartDigital.Rush.Cube
             doAction = DoActionFall;
         }
 
-        private void SetStateStopCube()
-        {
-            doAction = DoActionStopCube;
-        }
-
-        private void DoActionStopCube()
-        {
-
-        }
-
         private void DoActionVoid(){}
 
         private void DoActionMove()
         {
-            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _Ratio) + _PivotPoint;
-            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _Ratio);
+            _SelfTransform.position = Vector3.Slerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick) + _PivotPoint;
+            _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _TickProvider.RatioTimeTick);
         }
 
         private void DoActionFall()
         {
-            transform.position = Vector3.Lerp(_FromPos, _ToPos, _Ratio);
+            transform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
         }
 
         private void CheckCollision()
@@ -146,12 +131,13 @@ namespace Com.IsartDigital.Rush.Cube
                         SetStateMove();
                         break;
                     case ECollision.STOP:
-                        SetStateStopCube();
+                        SetStateVoid();
                         break;
                     case ECollision.TELEPORTER:
                         break;
-                        break;
                     case ECollision.TURNSTILE:
+                        break;
+                    case ECollision.CONVEYORS:
                         break;
                     default:
                         break;
@@ -159,19 +145,13 @@ namespace Com.IsartDigital.Rush.Cube
             }
             else SetStateFall();
 
-            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateStopCube();
-        }
-
-        private void CalculateRatio()
-        {
-            _ElapsedTime += Time.deltaTime * _Speed;
-            _Ratio = _ElapsedTime / _DurationBetweenTicks;
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateVoid();
         }
 
         private void SetDirection(Vector3 pDirection)
         {
-            _Direction = pDirection;
-            _MovementRotation = Quaternion.AngleAxis(_Angle, Vector3.Cross(Vector3.up, pDirection));
+            _Direction = pDirection.normalized;
+            _LastDirectionBeforeFall = _Direction;
         }
 
         private void IncreaseStopTickCube()
@@ -183,6 +163,12 @@ namespace Com.IsartDigital.Rush.Cube
                 SetStateMove();
                 _StopCubeTickCount = 0;
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (_TickProvider != null)
+                _TickProvider.TickEvent -= ReceiveTick;
         }
     }
 }

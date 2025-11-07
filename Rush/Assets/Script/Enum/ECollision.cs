@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 // Author : Florian MAJCHER - Isart DIGITAL
-// DATE : 00/00/0000 - Beginning of the class
+// DATE : 04/11/2025 - Beginning of the class
 
 namespace Com.IsartDigital.Rush.Cube
 {
@@ -14,6 +10,7 @@ namespace Com.IsartDigital.Rush.Cube
         OBSTACLE = 8,
         STOP = 9,
         TELEPORTER = 10,
-        TURNSTILE = 11
+        TURNSTILE = 11,
+        CONVEYORS = 12
     }
 }
