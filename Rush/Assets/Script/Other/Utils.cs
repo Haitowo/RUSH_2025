@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 // Author : Florian MAJCHER - Isart DIGITAL
-// DATE : 00/00/0000 - Beginning of the class
+// DATE : 03/11/2025 - Beginning of the class
 
 namespace Com.IsartDigital.Rush.Utilities
 {
@@ -17,5 +13,10 @@ namespace Com.IsartDigital.Rush.Utilities
 
         //HEADER
         public const string CAMERA_MANAGEMENT = "Camera Management";
+        public const string CUBE_MANAGEMENT = "Cube Management";
+        public const string GAME_SPEED = "Game Speed - Ticks";
+
+        //ERROR MESSAGE
+        public const string ERR_TICK_FOUND = "No ITickProvider found in project.";
     }
 }

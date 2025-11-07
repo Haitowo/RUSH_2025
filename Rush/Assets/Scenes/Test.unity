@@ -1201,7 +1201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd07aee84b57a34e81512f2b4e177a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SpeedTime: 1
 --- !u!1 &973105032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,7 +1230,7 @@ Transform:
   m_GameObject: {fileID: 973105032}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 1, z: 0}
+  m_LocalPosition: {x: -2, y: 1, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1249,10 +1248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d7c07f9eb3bc54b9bd5fe664c148ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Speed: 1
-  _RaycastOffset: 0.4
-  _GroundTag: Ground
-  _ArrowTag: Arrow
   _Angle: 90
   _ObstacleLayer:
     serializedVersion: 2
@@ -1522,7 +1517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1370870040992172082, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1370870040992172082, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1551,6 +1546,10 @@ PrefabInstance:
     - target: {fileID: 1370870040992172082, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114624930243371749, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 8393011106427648405, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
       propertyPath: m_Name
