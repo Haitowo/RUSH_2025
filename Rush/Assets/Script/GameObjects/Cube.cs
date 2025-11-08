@@ -1,5 +1,3 @@
-using Com.IsartDigital.Rush.GameObjects;
-using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
 using System;
@@ -27,10 +25,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Transform _SelfTransform;
 
         private const float DISTANCE_RAYCAST = 1f;
-        private const float TELEPORT_COOLDOWN = .1f;
+        private const float TELEPORT_DECAY = .5f;
 
         private float _GridSize = 1f;
-        private float _TeleportCooldownTimer = 0f;
 
         private int _StopCubeTickCount = 0;
         private int _TeleportationTickCount = 0;
@@ -68,11 +65,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            if (JustTeleported)
-            {
-                _TeleportCooldownTimer -= Time.deltaTime;
-                if (_TeleportCooldownTimer <= 0f) JustTeleported = false;
-            }
             doAction();
         }
 
@@ -128,14 +120,14 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _TeleportationTickCount = 0;
             _FromPosTP = _SelfTransform.position;
 
-            _TpFinalPos = pFinalPos + Vector3.up * .5f;
+            _TpFinalPos = pFinalPos + Vector3.up * TELEPORT_DECAY;
 
             doAction = DoActionTeleport;
         }
 
-        private void DoActionVoid() => _IsStop = false;
-
         private void DoActionStop() => _IsStop = true;
+
+        private void DoActionVoid() => _IsStop = false;
 
         private void DoActionMove()
         {
@@ -221,10 +213,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void EndTeleport()
         {
             _SelfTransform.position = _TpFinalPos;
-            _IsTeleporting = false;
-            JustTeleported = true;
-            _TeleportCooldownTimer = TELEPORT_COOLDOWN;
-            CheckCollision();
+
+            ResetAllValues();
+
+            if (_LastDirectionBeforeFall != Vector3.zero)
+                SetDirection(_LastDirectionBeforeFall);
+            else
+                SetDirection(Vector3.forward);
+
+            SetStateMove();
         }
 
         private void SetDirection(Vector3 pDirection)
@@ -254,6 +251,18 @@ namespace Com.IsartDigital.Rush.CubeManagement
             SetDirection(pDirection);
             SetStateMove();
             _StopCubeTickCount = 0;
+        }
+
+        private void ResetAllValues()
+        {
+            _IsTeleporting = false;
+            JustTeleported = true;
+            _PivotPoint = Vector3.zero;
+            _FromPos = _TpFinalPos;
+            _ToPos = _TpFinalPos;
+            _Direction = Vector3.forward;
+            _FromRotation = _SelfTransform.rotation;
+            _ToRotation = _SelfTransform.rotation;
         }
 
         private void OnDestroy()

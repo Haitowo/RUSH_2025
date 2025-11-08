@@ -1,3 +1,4 @@
+﻿using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.GameObjects;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Com.IsartDigital.Rush.Manager
         public static TeleporterManager Instance { get; private set; }
 
         private Dictionary<ETeleportColor, List<Teleporter>> _DicoTeleporter = new Dictionary<ETeleportColor, List<Teleporter>>();
+        private Dictionary<Cube, Teleporter> _LastTeleporterUsed = new();
 
         private int _NextIndex = 1;
 
@@ -49,6 +51,18 @@ namespace Com.IsartDigital.Rush.Manager
 
             int lNextIndex = (origin.Index + _NextIndex) % lList.Count;
             return lList[lNextIndex];
+        }
+
+        public bool CanTeleport(Cube pCube, Teleporter pTeleporter)
+        {
+            if (_LastTeleporterUsed.TryGetValue(pCube, out Teleporter pLast))
+            {
+                if (pLast == pTeleporter)
+                    return false;
+            }
+
+            _LastTeleporterUsed[pCube] = pTeleporter;
+            return true;
         }
     }
 }
