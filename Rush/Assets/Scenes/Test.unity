@@ -732,6 +732,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4484841111629431238, guid: 26b13e5564e101949ab6a4af4973df0f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4989258476497991974, guid: 26b13e5564e101949ab6a4af4973df0f, type: 3}
       propertyPath: m_Name
       value: Cascade
@@ -1003,7 +1007,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 32776
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 59065ec6f63144447b2950a3868a3a32, type: 2}
   m_TargetDisplay: 0
@@ -1904,7 +1908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4883939388305742, guid: 08ec617143c69154e8ee3a3c8a30f2a0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.915863
+      value: 47.01
       objectReference: {fileID: 0}
     - target: {fileID: 4883939388305742, guid: 08ec617143c69154e8ee3a3c8a30f2a0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2115,7 +2119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4883939388305742, guid: 08ec617143c69154e8ee3a3c8a30f2a0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 51.068
+      value: 52.028
       objectReference: {fileID: 0}
     - target: {fileID: 4883939388305742, guid: 08ec617143c69154e8ee3a3c8a30f2a0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2590,6 +2594,10 @@ PrefabInstance:
     - target: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

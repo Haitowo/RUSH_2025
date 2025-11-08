@@ -10,7 +10,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - CUBE
+  - 
   - Water
   - UI
   - ARROW
@@ -21,8 +21,8 @@ TagManager:
   - TURNSTILE
   - TARGET
   - CONVEYORS
-  - 
-  - 
+  - CUBE
+  - TERRAIN
   - 
   - 
   - 
