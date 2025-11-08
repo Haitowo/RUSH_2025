@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
@@ -7,7 +8,7 @@ using UnityEngine;
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 04/11/2025 - Beginning of the class
 
-namespace Com.IsartDigital.Rush.Cube
+namespace Com.IsartDigital.Rush.CubeManagement
 {
     
     public class Cube : MonoBehaviour
@@ -18,17 +19,23 @@ namespace Com.IsartDigital.Rush.Cube
         [SerializeField] private LayerMask _ObstacleLayer;
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
+        private Vector3 _FromPosTP, _TpFinalPos;
+        private Vector3 _PendingTeleportPos;
         private Vector3 _Direction = Vector3.forward;
         private Vector3 _LastDirectionBeforeFall;
 
         private Transform _SelfTransform;
 
         private const float DISTANCE_RAYCAST = 1f;
+        private const float TELEPORT_COOLDOWN = .1f;
 
         private float _GridSize = 1f;
+        private float _TeleportCooldownTimer = 0f;
 
         private int _StopCubeTickCount = 0;
-        private int _MaxTickCount = 2;
+        private int _TeleportationTickCount = 0;
+
+        private const int MAX_TICK_COUNT = 2;
 
         private Quaternion _FromRotation, _ToRotation;
 
@@ -36,7 +43,10 @@ namespace Com.IsartDigital.Rush.Cube
 
         private ITickProvider _TickProvider;
 
+        public bool JustTeleported {  get; private set; }
         private bool _IsStop;
+        private bool _IsTeleporting;
+        private bool _HasPendingTeleport;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -58,11 +68,18 @@ namespace Com.IsartDigital.Rush.Cube
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
+            if (JustTeleported)
+            {
+                _TeleportCooldownTimer -= Time.deltaTime;
+                if (_TeleportCooldownTimer <= 0f) JustTeleported = false;
+            }
             doAction();
         }
 
         private void ReceiveTick()
         {
+            CheckPendingTeleportation();
+            if (CheckCurrentTeleportation()) return;
             CheckCollision();
             if (doAction == DoActionVoid || doAction == DoActionStop) IncreaseStopTickCube();
         }
@@ -105,6 +122,17 @@ namespace Com.IsartDigital.Rush.Cube
             doAction = DoActionSlide;
         }
 
+        public void SetStateTeleport(Vector3 pFinalPos)
+        {
+            _IsTeleporting = true;
+            _TeleportationTickCount = 0;
+            _FromPosTP = _SelfTransform.position;
+
+            _TpFinalPos = pFinalPos + Vector3.up * .5f;
+
+            doAction = DoActionTeleport;
+        }
+
         private void DoActionVoid() => _IsStop = false;
 
         private void DoActionStop() => _IsStop = true;
@@ -115,16 +143,12 @@ namespace Com.IsartDigital.Rush.Cube
             _SelfTransform.rotation = Quaternion.Slerp(_FromRotation, _ToRotation, _TickProvider.RatioTimeTick);
         }
 
-        private void DoActionFall()
-        {
-            transform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
-        }
+        private void DoActionFall() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
+        
+        private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionSlide()
-        {
-            _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
-        }
-
+        private void DoActionTeleport() => _SelfTransform.position = Vector3.Lerp(_FromPosTP, _TpFinalPos, _TickProvider.RatioTimeTick);
+        
         private void CheckCollision()
         {
             int lCollisionLayerObstacle = 1 << (int)ECollision.OBSTACLE;
@@ -154,8 +178,6 @@ namespace Com.IsartDigital.Rush.Cube
                     case ECollision.STOP:
                         SetStateStop();
                         break;
-                    case ECollision.TELEPORTER:
-                        break;
                     case ECollision.TURNSTILE:
                         break;
                     case ECollision.CONVEYORS:
@@ -171,6 +193,40 @@ namespace Com.IsartDigital.Rush.Cube
             if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateVoid();
         }
 
+        private bool CheckCurrentTeleportation()
+        {
+            if (_IsTeleporting)
+            {
+                IncreaseTickTeleport();
+                return true;
+            }
+            else return false;
+        }
+
+        private void CheckPendingTeleportation()
+        {
+            if (_HasPendingTeleport)
+            {
+                _HasPendingTeleport = false;
+                SetStateTeleport(_PendingTeleportPos);
+            }
+        }
+
+        public void PrepareTeleport(Vector3 pFinalPos)
+        {
+            _PendingTeleportPos = pFinalPos;
+            _HasPendingTeleport = true;
+        }
+
+        private void EndTeleport()
+        {
+            _SelfTransform.position = _TpFinalPos;
+            _IsTeleporting = false;
+            JustTeleported = true;
+            _TeleportCooldownTimer = TELEPORT_COOLDOWN;
+            CheckCollision();
+        }
+
         private void SetDirection(Vector3 pDirection)
         {
             _Direction = pDirection.normalized;
@@ -180,10 +236,17 @@ namespace Com.IsartDigital.Rush.Cube
         private void IncreaseStopTickCube()
         {
             _StopCubeTickCount++;
-            if (_StopCubeTickCount >= _MaxTickCount && !_IsStop)
+            if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
                 CanMoveToDirection(Vector3.right);
-            else if(_StopCubeTickCount >= _MaxTickCount && _IsStop) 
+            else if(_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop) 
                 CanMoveToDirection(_Direction);
+        }
+
+        private void IncreaseTickTeleport()
+        {
+            _TeleportationTickCount++;
+            if (_TeleportationTickCount >= MAX_TICK_COUNT)
+                EndTeleport();
         }
 
         private void CanMoveToDirection(Vector3 pDirection)

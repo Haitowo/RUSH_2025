@@ -5,7 +5,7 @@ using UnityEngine;
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
 
-namespace Com.IsartDigital.ProjectName
+namespace Com.IsartDigital.Rush.Lighting
 {
     [ExecuteAlways]
     public class LightingManager : MonoBehaviour

@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.Camera
 {
-    
     public class Camera : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES

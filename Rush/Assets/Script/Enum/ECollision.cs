@@ -1,7 +1,7 @@
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 04/11/2025 - Beginning of the class
 
-namespace Com.IsartDigital.Rush.Cube
+namespace Com.IsartDigital.Rush.CubeManagement
 {
     public enum ECollision
     {
