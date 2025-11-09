@@ -50,7 +50,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _SelfTransform = transform;
 
-            _Direction = Vector3.forward;
             _Axis = Vector3.right;
 
             doAction = DoActionVoid;
@@ -60,6 +59,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.TickEvent += ReceiveTick;
+
+            SetDirection(_SelfTransform.forward);
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -260,7 +261,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _PivotPoint = Vector3.zero;
             _FromPos = _TpFinalPos;
             _ToPos = _TpFinalPos;
-            _Direction = Vector3.forward;
+            _Direction = _SelfTransform.forward.normalized;
             _FromRotation = _SelfTransform.rotation;
             _ToRotation = _SelfTransform.rotation;
         }

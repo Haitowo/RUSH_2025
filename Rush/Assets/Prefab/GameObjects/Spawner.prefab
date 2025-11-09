@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358187150086414}
   - component: {fileID: 65600886747357360}
+  - component: {fileID: 1473297084656719757}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -54,6 +55,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.05, z: 1}
   m_Center: {x: 0, y: 0.025, z: 0}
+--- !u!114 &1473297084656719757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038689754661890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6882968a937a24090d652afe150b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CubePrefab: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
+  _SpawnPoint: {fileID: 4358187150086414}
 --- !u!1 &1451354327250352
 GameObject:
   m_ObjectHideFlags: 0
