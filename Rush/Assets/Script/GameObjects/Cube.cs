@@ -19,7 +19,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
         private Vector3 _FromPosTP, _TpFinalPos;
-        private Vector3 _PendingTeleportPos;
+        private Vector3 _RightAngle;
         private Vector3 _Direction = Vector3.forward;
         private Vector3 _LastDirectionBeforeFall;
 
@@ -27,6 +27,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private const float DISTANCE_RAYCAST = 1f;
         private const float TELEPORT_DECAY = .5f;
+        private const float TELEPORT_TIME_SCALE = .2f;
 
         private float _GridSize = 1f;
 
@@ -45,7 +46,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public bool JustTeleported {  get; private set; }
         private bool _IsStop;
         private bool _IsTeleporting;
-        private bool _HasPendingTeleport;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -53,9 +53,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _SelfTransform = transform;
 
             _Axis = Vector3.right;
+            _RightAngle = Quaternion.AngleAxis(_Angle, Vector3.up) * _Direction;
             _Direction = _SelfTransform.forward;
 
-            doAction = DoActionVoid;
+            SetStateMove();
         }
 
         private void Start()
@@ -140,11 +141,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionTeleport()
-        {
-            //_SelfTransform.position = _TpFinalPos;
-            _SelfTransform.DOScale(Vector3.zero, .2f);
-        }
+        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TELEPORT_TIME_SCALE);
         
         private void CheckCollision()
         {
@@ -173,19 +170,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (_IsTeleporting)
             {
-                Debug.Log("IL SE TP");
                 IncreaseTickTeleport();
                 return true;
             }
             else return false;
-        }
-
-        public void PrepareTeleport(Vector3 pFinalPos)
-        {
-            Debug.Log("JE TE PREPARE");
-            _FromPosTP = _SelfTransform.position;
-            _PendingTeleportPos = pFinalPos;
-            _HasPendingTeleport = true;
         }
 
         private void EndTeleport()
@@ -213,7 +201,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _StopCubeTickCount++;
             if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
-                CanMoveToDirection(Vector3.right);
+                CanMoveToDirection(_RightAngle);
             else if(_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop) 
                 CanMoveToDirection(_Direction);
         }
