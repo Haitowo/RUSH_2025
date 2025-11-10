@@ -17,7 +17,7 @@ namespace Com.IsartDigital.Rush.Manager
         private Dictionary<ETeleportColor, List<Teleporter>> _DicoTeleporter = new Dictionary<ETeleportColor, List<Teleporter>>();
         private Dictionary<Cube, Teleporter> _LastTeleporterUsed = new();
 
-        private int _NextIndex = 1;
+        private const int NEXT_INDEX = 1;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -45,11 +45,11 @@ namespace Com.IsartDigital.Rush.Manager
             }
         }
 
-        public Teleporter GetNext(Teleporter origin)
+        public Teleporter GetNext(Teleporter pOrigin)
         {
-            List<Teleporter> lList = _DicoTeleporter[origin.CurrentColor];
+            List<Teleporter> lList = _DicoTeleporter[pOrigin.CurrentColor];
 
-            int lNextIndex = (origin.Index + _NextIndex) % lList.Count;
+            int lNextIndex = (pOrigin.Index + NEXT_INDEX) % lList.Count;
             return lList[lNextIndex];
         }
 

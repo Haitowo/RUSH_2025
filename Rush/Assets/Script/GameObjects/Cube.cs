@@ -37,6 +37,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Quaternion _FromRotation, _ToRotation;
 
         public Action doAction { get; private set; }
+        public Action<GameObject, ECollision> collisionSignal;
 
         private ITickProvider _TickProvider;
 
@@ -77,11 +78,11 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (doAction == DoActionVoid || doAction == DoActionStop) IncreaseStopTickCube();
         }
 
-        private void SetStateStop() => doAction = DoActionStop;
+        public void SetStateStop() => doAction = DoActionStop;
 
         private void SetStateVoid() => doAction = DoActionVoid;
 
-        private void SetStateMove()
+        public void SetStateMove()
         {
             if (_Direction == Vector3.down)
                 _Direction = _LastDirectionBeforeFall;
@@ -104,7 +105,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             doAction = DoActionFall;
         }
 
-        private void SetStateSlide()
+        public void SetStateSlide()
         {
             if (_Direction == Vector3.down)
                 _Direction = _LastDirectionBeforeFall;
@@ -158,28 +159,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             {
                 lCollided = lHit.collider.gameObject;
                 lCollisionLayer = (ECollision)lCollided.layer;
-
-                switch (lCollisionLayer)
-                {
-                    case ECollision.ARROW:
-                        SetDirection(lCollided.transform.forward);
-                        SetStateMove();
-                        break;
-                    case ECollision.GROUND:
-                        SetStateMove();
-                        break;
-                    case ECollision.STOP:
-                        SetStateStop();
-                        break;
-                    case ECollision.TURNSTILE:
-                        break;
-                    case ECollision.CONVEYORS:
-                        SetDirection(lCollided.transform.forward);
-                        SetStateSlide();
-                        break;
-                    default:
-                        break;
-                }
+                collisionSignal?.Invoke(lCollided, lCollisionLayer);
             }
             else SetStateFall();
 
@@ -225,7 +205,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             SetStateMove();
         }
 
-        private void SetDirection(Vector3 pDirection)
+        public void SetDirection(Vector3 pDirection)
         {
             _Direction = pDirection.normalized;
             _LastDirectionBeforeFall = _Direction;

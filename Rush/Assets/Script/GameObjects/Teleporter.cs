@@ -17,8 +17,6 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         public int Index { get; set; }
 
-        private bool _IsLocked;
-
         private Collider _Collider;
 
         private void Start()
@@ -29,7 +27,6 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private void OnTriggerEnter(Collider pOther)
         {
-            if (_IsLocked) return;
             Cube lCube = pOther.GetComponent<Cube>();
             if (lCube is null || lCube.JustTeleported) return;
 
