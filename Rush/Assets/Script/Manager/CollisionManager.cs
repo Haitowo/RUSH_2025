@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -15,35 +16,46 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Teleporter _Teleporter;
         private Teleporter _NextTeleporter;
 
+        private List<Cube> _Cubes = new List<Cube>();
+
+        public static CollisionManager Instance { get; private set; }
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            _Cube.collisionSignal += CheckCollision;
+            Instance = this;
         }
 
-        private void CheckCollision(GameObject pObject, ECollision pCollision)
+        public void RegisterCube(Cube pCube)
+        {
+            _Cube = pCube;
+            _Cubes.Add(pCube);
+            pCube.collisionSignal += CheckCollision;
+        }
+
+        private void CheckCollision(Cube pCube, GameObject pObject, ECollision pCollision)
         {
             switch (pCollision)
             {
                 case ECollision.ARROW:
-                    _Cube.SetDirection(pObject.transform.forward);
-                    _Cube.SetStateMove();
+                    pCube.SetDirection(pObject.transform.forward);
+                    pCube.SetStateMove();
                     break;
                 case ECollision.GROUND:
-                    _Cube.SetStateMove();
+                    pCube.SetStateMove();
                     break;
                 case ECollision.STOP:
-                    _Cube.SetStateStop();
+                    pCube.SetStateStop();
                     break;
                 case ECollision.TURNSTILE:
                     break;
                 case ECollision.CONVEYORS:
-                    _Cube.SetDirection(pObject.transform.forward);
-                    _Cube.SetStateSlide();
+                    pCube.SetDirection(pObject.transform.forward);
+                    pCube.SetStateSlide();
                     break;
                 case ECollision.TELEPORTER:
-                    TeleportCollisionManagement(_Cube, pObject.GetComponent<Teleporter>());
-                    _Cube.PrepareTeleport(_NextTeleporter.transform.position);
+                    TeleportCollisionManagement(pCube, pObject.GetComponent<Teleporter>());
+                    pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
                 default:
                     break;

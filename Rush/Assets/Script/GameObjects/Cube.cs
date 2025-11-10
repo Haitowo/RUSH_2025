@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Quaternion _FromRotation, _ToRotation;
 
         public Action doAction { get; private set; }
-        public Action<GameObject, ECollision> collisionSignal;
+        public Action<Cube, GameObject, ECollision> collisionSignal;
 
         private ITickProvider _TickProvider;
 
@@ -52,6 +53,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _SelfTransform = transform;
 
             _Axis = Vector3.right;
+            _Direction = _SelfTransform.forward;
 
             doAction = DoActionVoid;
         }
@@ -72,7 +74,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void ReceiveTick()
         {
-            CheckPendingTeleportation();
             if (CheckCurrentTeleportation()) return;
             CheckCollision();
             if (doAction == DoActionVoid || doAction == DoActionStop) IncreaseStopTickCube();
@@ -80,7 +81,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateStop() => doAction = DoActionStop;
 
-        private void SetStateVoid() => doAction = DoActionVoid;
+        public void SetStateVoid() => doAction = DoActionVoid;
 
         public void SetStateMove()
         {
@@ -120,10 +121,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _IsTeleporting = true;
             _TeleportationTickCount = 0;
-            _FromPosTP = _SelfTransform.position;
-
+            _FromPos = _SelfTransform.position;
             _TpFinalPos = pFinalPos + Vector3.up * TELEPORT_DECAY;
-
             doAction = DoActionTeleport;
         }
 
@@ -141,11 +140,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionTeleport() => _SelfTransform.position = Vector3.Lerp(_FromPosTP, _TpFinalPos, _TickProvider.RatioTimeTick);
+        private void DoActionTeleport()
+        {
+            //_SelfTransform.position = _TpFinalPos;
+            _SelfTransform.DOScale(Vector3.zero, .2f);
+        }
         
         private void CheckCollision()
         {
-            int lCollisionLayerObstacle = 1 << (int)ECollision.OBSTACLE;
+            int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
             
             Ray lRayDown = new Ray(transform.position, Vector3.down);
             Ray lRayFront = new Ray(transform.position, _Direction);
@@ -159,7 +162,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             {
                 lCollided = lHit.collider.gameObject;
                 lCollisionLayer = (ECollision)lCollided.layer;
-                collisionSignal?.Invoke(lCollided, lCollisionLayer);
+                collisionSignal?.Invoke(this, lCollided, lCollisionLayer);
             }
             else SetStateFall();
 
@@ -170,23 +173,17 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (_IsTeleporting)
             {
+                Debug.Log("IL SE TP");
                 IncreaseTickTeleport();
                 return true;
             }
             else return false;
         }
 
-        private void CheckPendingTeleportation()
-        {
-            if (_HasPendingTeleport)
-            {
-                _HasPendingTeleport = false;
-                SetStateTeleport(_PendingTeleportPos);
-            }
-        }
-
         public void PrepareTeleport(Vector3 pFinalPos)
         {
+            Debug.Log("JE TE PREPARE");
+            _FromPosTP = _SelfTransform.position;
             _PendingTeleportPos = pFinalPos;
             _HasPendingTeleport = true;
         }
@@ -194,6 +191,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void EndTeleport()
         {
             _SelfTransform.position = _TpFinalPos;
+            _SelfTransform.DOScale(Vector3.one, .2f * _TickProvider.TickSpeed);
 
             ResetAllValues();
 

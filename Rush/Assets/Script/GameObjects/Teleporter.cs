@@ -1,6 +1,4 @@
-using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Manager;
-using System.Collections;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -17,41 +15,9 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         public int Index { get; set; }
 
-        private Collider _Collider;
-
         private void Start()
         {
-            _Collider = GetComponent<Collider>();
             TeleporterManager.Instance.Register(this);
-        }
-
-        private void OnTriggerEnter(Collider pOther)
-        {
-            Cube lCube = pOther.GetComponent<Cube>();
-            if (lCube is null || lCube.JustTeleported) return;
-
-            if (!TeleporterManager.Instance.CanTeleport(lCube, this)) return;
-
-            Teleporter lNextTeleporter = TeleporterManager.Instance.GetNext(this);
-            if (lNextTeleporter == null) return;
-
-            lNextTeleporter.DisableColliderTemporarily(8f);
-
-            lCube.PrepareTeleport(lNextTeleporter.transform.position);
-        }
-
-        public void DisableColliderTemporarily(float pDuration)
-        {
-            StartCoroutine(DisableColliderCoroutine(pDuration));
-        }
-
-        private IEnumerator DisableColliderCoroutine(float pDuration)
-        {
-            if (_Collider == null) yield break;
-
-            _Collider.enabled = false;
-            yield return new WaitForSeconds(pDuration);
-            _Collider.enabled = true;
         }
     }
 }

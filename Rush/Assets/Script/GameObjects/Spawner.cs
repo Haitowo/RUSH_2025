@@ -1,5 +1,6 @@
 using UnityEngine;
 using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.CubeManagement;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 09/11/2025 - Beginning of the class
@@ -10,6 +11,7 @@ namespace Com.IsartDigital.Rush.GameObjects
     {
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
+        [SerializeField] private Transform _GameObjectContainer;
 
         private ITickProvider _TickProvider;
         private int _TickCount = 0;
@@ -26,6 +28,8 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickProvider.TickEvent += OnTick;
 
             _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
+
+            SpawnCube();
         }
 
         private void OnTick()
@@ -33,14 +37,16 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickCount++;
             if (_TickCount >= TICK_PER_SPAWN)
             {
-                SpawnCube();
+                //SpawnCube();
                 _TickCount = 0;
             }
         }
 
         private void SpawnCube()
         {
-            Instantiate(_CubePrefab, _SpawnPos, transform.rotation);
+            GameObject lPrefab = Instantiate(_CubePrefab, _SpawnPos, transform.rotation, _GameObjectContainer);
+            Cube lCube = lPrefab.GetComponent<Cube>();
+            if(lCube != null) CollisionManager.Instance.RegisterCube(lCube);
         }
 
         private void OnDestroy()
