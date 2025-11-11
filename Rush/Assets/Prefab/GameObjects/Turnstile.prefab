@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4858868011230972}
   - component: {fileID: 65362112007848178}
+  - component: {fileID: 3114962457884933482}
   m_Layer: 11
   m_Name: Turnstile
   m_TagString: Untagged
@@ -140,3 +141,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.05, z: 1}
   m_Center: {x: 0, y: 0.025, z: 0}
+--- !u!114 &3114962457884933482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324669775067448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6de8beb6a604747a53e99f2897880b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

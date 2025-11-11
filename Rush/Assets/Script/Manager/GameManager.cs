@@ -16,6 +16,7 @@ namespace Com.IsartDigital.Rush.Manager
         [HideInInspector] public float RatioTimeTick {  get; private set; }
 
         private float _DurationBetweenTicks = 1f;
+        private float _TeleportRatio = 0f;
         private float _ElapsedTime = 0f;
 
         public event Action TickEvent;
@@ -50,8 +51,8 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (_ElapsedTime >= _DurationBetweenTicks)
             {
-                _ElapsedTime = 0f;
                 TickEvent?.Invoke();
+                _ElapsedTime = 0f;
             }
 
             CalculateRatio();
