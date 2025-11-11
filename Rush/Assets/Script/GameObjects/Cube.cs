@@ -20,8 +20,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
         private Vector3 _FromPosTP, _TpFinalPos;
         private Vector3 _RightAngle;
-        private Vector3 _Direction = Vector3.forward;
         private Vector3 _LastDirectionBeforeFall;
+        public Vector3 _Direction = Vector3.forward;
 
         private Transform _SelfTransform;
 
@@ -142,7 +142,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
         private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TELEPORT_TIME_SCALE);
-        
+
         private void CheckCollision()
         {
             int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
@@ -194,6 +194,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public void SetDirection(Vector3 pDirection)
         {
             _Direction = pDirection.normalized;
+            _RightAngle = Quaternion.AngleAxis(_Angle, Vector3.up) * _Direction;
             _LastDirectionBeforeFall = _Direction;
         }
 

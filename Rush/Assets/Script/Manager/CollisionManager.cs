@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.CubeManagement
 {
-
     public class CollisionManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
@@ -48,6 +47,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateStop();
                     break;
                 case ECollision.TURNSTILE:
+                    TurnTileManagement(pCube, pObject.GetComponent<TurnsTile>());
                     break;
                 case ECollision.CONVEYORS:
                     pCube.SetDirection(pObject.transform.forward);
@@ -69,11 +69,18 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (!TeleporterManager.Instance.CanTeleport(pCube, _Teleporter)) return;
         }
 
+        private void TurnTileManagement(Cube pCube, TurnsTile pTurnTile)
+        {
+            if(pTurnTile is null) return;
+            Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube._Direction, pCube);
+            pCube.SetDirection(lNewDirection);
+            pCube.SetStateMove();
+        }
+
         private void SetTeleporter(Teleporter pTeleporter)
         {
             _Teleporter = pTeleporter;
             _NextTeleporter = TeleporterManager.Instance.GetNext(_Teleporter);
         }
-
     }
 }
