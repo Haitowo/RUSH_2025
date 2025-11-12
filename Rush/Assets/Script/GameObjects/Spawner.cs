@@ -30,6 +30,8 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickProvider.TickEvent += OnTick;
 
             _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
+
+            SpawnCube();
         }
 
         private void OnTick()
@@ -37,7 +39,7 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickCount++;
             if (_TickCount >= TICK_PER_SPAWN)
             {
-                SpawnCube();
+                //SpawnCube();
                 _TickCount = 0;
             }
         }

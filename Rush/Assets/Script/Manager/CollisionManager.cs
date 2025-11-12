@@ -57,6 +57,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     TeleportCollisionManagement(pCube, pObject.GetComponent<Teleporter>());
                     pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
+                case ECollision.TERRAIN:
+                    //TODO : Exclamation and call game manager to reset level
+                    break;
                 default:
                     break;
             }

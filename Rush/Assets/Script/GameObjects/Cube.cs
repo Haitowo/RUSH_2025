@@ -27,7 +27,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private const float DISTANCE_RAYCAST = 1f;
         private const float TELEPORT_DECAY = .5f;
-        private const float TELEPORT_TIME_SCALE = .2f;
+        private const float TWEEN_TIME_SCALE = .2f;
 
         private float _GridSize = 1f;
 
@@ -141,14 +141,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TELEPORT_TIME_SCALE);
+        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE);
 
         private void CheckCollision()
         {
+            Debug.Log(doAction.Method);
             int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
             
             Ray lRayDown = new Ray(transform.position, Vector3.down);
-            Ray lRayFront = new Ray(transform.position, _Direction);
+            Ray lRayFront = new Ray(transform.position, Vector3.forward );
             RaycastHit lHit;
 
             ECollision lCollisionLayer;
@@ -179,7 +180,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void EndTeleport()
         {
             _SelfTransform.position = _TpFinalPos;
-            _SelfTransform.DOScale(Vector3.one, .2f * _TickProvider.TickSpeed);
+            _SelfTransform.DOScale(Vector3.one, TWEEN_TIME_SCALE * _TickProvider.TickSpeed);
 
             ResetAllValues();
 
@@ -217,7 +218,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void CanMoveToDirection(Vector3 pDirection)
         {
             SetDirection(pDirection);
-            SetStateMove();
+            CheckCollision();
             _StopCubeTickCount = 0;
         }
 
