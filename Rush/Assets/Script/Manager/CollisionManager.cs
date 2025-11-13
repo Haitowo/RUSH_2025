@@ -47,7 +47,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateStop();
                     break;
                 case ECollision.TURNSTILE:
-                    TurnTileManagement(pCube, pObject.GetComponent<TurnsTile>());
+                    TurnTileManagement(pCube, pObject.GetComponent<TurnTile>());
                     break;
                 case ECollision.CONVEYORS:
                     pCube.SetDirection(pObject.transform.forward);
@@ -72,7 +72,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (!TeleporterManager.Instance.CanTeleport(pCube, _Teleporter)) return;
         }
 
-        private void TurnTileManagement(Cube pCube, TurnsTile pTurnTile)
+        private void TurnTileManagement(Cube pCube, TurnTile pTurnTile)
         {
             if(pTurnTile is null) return;
             Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube._Direction, pCube);

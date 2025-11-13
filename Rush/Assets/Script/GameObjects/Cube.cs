@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [Header(Utils.CUBE_MANAGEMENT)]
         [SerializeField] private float _Angle = 90f;
+        [SerializeField] private float _UturnAngle = 180f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
@@ -70,6 +71,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
+            Debug.DrawRay(_SelfTransform.position, _LastDirectionBeforeFall, Color.red);
             doAction();
         }
 
@@ -145,11 +147,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void CheckCollision()
         {
-            Debug.Log(doAction.Method);
             int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
             
-            Ray lRayDown = new Ray(transform.position, Vector3.down);
-            Ray lRayFront = new Ray(transform.position, Vector3.forward );
+            Ray lRayDown = new Ray(_SelfTransform.position, Vector3.down);
+            Ray lRayFront = new Ray(_SelfTransform.position, _LastDirectionBeforeFall);
             RaycastHit lHit;
 
             ECollision lCollisionLayer;
@@ -164,7 +165,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             }
             else SetStateFall();
 
-            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle)) SetStateVoid();
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && doAction != DoActionSlide) SetStateVoid();
         }
 
         private bool CheckCurrentTeleportation()
@@ -194,8 +195,12 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetDirection(Vector3 pDirection)
         {
+            bool lIsObstacleOnTheRight = HasObstacle(_LastDirectionBeforeFall);
+            float lAngleToUse = lIsObstacleOnTheRight ? _UturnAngle : _Angle;
+    
+            Vector3 lNewDirection = Quaternion.AngleAxis(lAngleToUse, Vector3.up) * _Direction;
             _Direction = pDirection.normalized;
-            _RightAngle = Quaternion.AngleAxis(_Angle, Vector3.up) * _Direction;
+            _RightAngle = Quaternion.AngleAxis(lAngleToUse, Vector3.up) * _Direction;
             _LastDirectionBeforeFall = _Direction;
         }
 
@@ -220,6 +225,12 @@ namespace Com.IsartDigital.Rush.CubeManagement
             SetDirection(pDirection);
             CheckCollision();
             _StopCubeTickCount = 0;
+        }
+
+        private bool HasObstacle(Vector3 pDirection) 
+        { 
+            Ray lRay = new Ray(_SelfTransform.position, pDirection); 
+            return Physics.Raycast(lRay, DISTANCE_RAYCAST, _ObstacleLayer); 
         }
 
         private void ResetAllValues()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3815956530264984755}
   - component: {fileID: 8738030055616797484}
   - component: {fileID: 95090559556526993}
-  m_Layer: 3
+  m_Layer: 15
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
