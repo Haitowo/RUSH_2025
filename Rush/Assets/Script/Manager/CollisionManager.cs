@@ -50,8 +50,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     TurnTileManagement(pCube, pObject.GetComponent<TurnTile>());
                     break;
                 case ECollision.CONVEYORS:
-                    pCube.SetDirection(pObject.transform.forward);
-                    pCube.SetStateSlide();
+                    pCube.SetStateSlide(pObject.transform.forward);
                     break;
                 case ECollision.TELEPORTER:
                     TeleportCollisionManagement(pCube, pObject.GetComponent<Teleporter>());

@@ -3,6 +3,7 @@ using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 04/11/2025 - Beginning of the class
@@ -18,9 +19,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         [SerializeField] private float _UturnAngle = 180f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
-        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis;
-        private Vector3 _FromPosTP, _TpFinalPos;
-        private Vector3 _RightAngle;
+        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis, _SlideDirection;
+        private Vector3 _TpFinalPos;
         private Vector3 _LastDirectionBeforeFall;
         public Vector3 _Direction = Vector3.forward;
 
@@ -55,7 +55,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _SelfTransform = transform;
 
             _Axis = Vector3.right;
-            _RightAngle = Quaternion.AngleAxis(_Angle, Vector3.up) * _Direction;
             _Direction = _SelfTransform.forward;
 
             SetStateMove();
@@ -72,7 +71,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            Debug.DrawRay(_SelfTransform.position, _LastDirectionBeforeFall, Color.red);
             doAction();
         }
 
@@ -112,13 +110,14 @@ namespace Com.IsartDigital.Rush.CubeManagement
             doAction = DoActionFall;
         }
 
-        public void SetStateSlide()
+        public void SetStateSlide(Vector3 pSlideDirection)
         {
-            if (_Direction == Vector3.down)
-                _Direction = _LastDirectionBeforeFall;
+            _SlideDirection = pSlideDirection.normalized;
 
             _FromPos = _SelfTransform.position;
-            _ToPos = _FromPos + _Direction * _GridSize;
+            _ToPos = _FromPos + _SlideDirection * _GridSize;
+
+            doAction = DoActionSlide;
 
             doAction = DoActionSlide;
         }
@@ -172,6 +171,13 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 SetStateVoid();
         }
 
+        private void IncreaseTickTeleport()
+        {
+            _TeleportationTickCount++;
+            if (_TeleportationTickCount >= MAX_TICK_COUNT)
+                EndTeleport();
+        }
+
         private bool CheckCurrentTeleportation()
         {
             if (_IsTeleporting)
@@ -199,35 +205,20 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetDirection(Vector3 pDirection)
         {
-            bool lIsObstacleOnTheRight = HasObstacle(_LastDirectionBeforeFall);
-            float lAngleToUse = lIsObstacleOnTheRight ? _UturnAngle : _Angle;
-    
-            Vector3 lNewDirection = Quaternion.AngleAxis(lAngleToUse, Vector3.up) * _Direction;
             _Direction = pDirection.normalized;
-            _RightAngle = Quaternion.AngleAxis(lAngleToUse, Vector3.up) * _Direction;
             _LastDirectionBeforeFall = _Direction;
-        }
-
-        private void IncreaseStopTickCube()
-        {
-            _StopCubeTickCount++;
-            if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
-                CanMoveToDirection(_RightAngle);
-            else if(_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop) 
-                CanMoveToDirection(_Direction);
-        }
-
-        private void IncreaseTickTeleport()
-        {
-            _TeleportationTickCount++;
-            if (_TeleportationTickCount >= MAX_TICK_COUNT)
-                EndTeleport();
         }
 
         private void CanMoveToDirection(Vector3 pDirection)
         {
-            SetDirection(pDirection);
-            CheckCollision();
+            Vector3 lDirectionToCheck = Quaternion.AngleAxis(_Angle, Vector3.up) * pDirection;
+            bool lIsObstacleOnTheRight = HasObstacle(lDirectionToCheck);
+            float lAngleToUse = lIsObstacleOnTheRight ? _UturnAngle : _Angle;
+            Vector3 lNewDirection = Quaternion.AngleAxis(lAngleToUse, Vector3.up) * pDirection;
+
+            SetDirection(lNewDirection);
+            SetStateMove();
+
             _StopCubeTickCount = 0;
         }
 
@@ -235,6 +226,21 @@ namespace Com.IsartDigital.Rush.CubeManagement
         { 
             Ray lRay = new Ray(_SelfTransform.position, pDirection); 
             return Physics.Raycast(lRay, DISTANCE_RAYCAST, _ObstacleLayer); 
+        }
+
+        private void IncreaseStopTickCube()
+        {
+            _StopCubeTickCount++;
+            if (_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop)
+                MoveInFront();
+            else if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
+                CanMoveToDirection(_Direction);
+        }
+
+        private void MoveInFront()
+        {
+            SetDirection(_Direction);
+            SetStateMove();
         }
 
         private void ResetAllValues()

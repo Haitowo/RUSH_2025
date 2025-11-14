@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Angle: 90
+  _UturnAngle: 180
   _ObstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  _Direction: {x: 0, y: 0, z: 1}
