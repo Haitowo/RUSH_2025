@@ -44,9 +44,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private ITickProvider _TickProvider;
 
-        public bool JustTeleported {  get; private set; }
+        public bool JustTeleported { get; private set; }
         private bool _IsStop;
         private bool _IsTeleporting;
+        private bool _IsFalling;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -90,6 +91,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (_Direction == Vector3.down)
                 _Direction = _LastDirectionBeforeFall;
+            _IsFalling = false;
             _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
             _ToPos = _FromPos + _Direction * _GridSize;
@@ -103,6 +105,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void SetStateFall()
         {
+            _IsFalling = true;
             _FromPos = _SelfTransform.position;
             _Direction = Vector3.down;
             _ToPos = _FromPos + _Direction;
@@ -165,7 +168,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
             }
             else SetStateFall();
 
-            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && doAction != DoActionSlide) SetStateVoid();
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && doAction != DoActionSlide && !_IsFalling)
+                SetStateVoid();
         }
 
         private bool CheckCurrentTeleportation()
