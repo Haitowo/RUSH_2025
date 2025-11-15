@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
 using System;
@@ -62,5 +63,11 @@ namespace Com.IsartDigital.Rush.Manager
             _ElapsedTime += Time.deltaTime * TickSpeed;
             RatioTimeTick = _ElapsedTime / _DurationBetweenTicks;
         }
+
+        public void CubeReachTarget(Cube pCube)
+        {
+            //TODO : Level Complete Management
+        }
+
     }
 }

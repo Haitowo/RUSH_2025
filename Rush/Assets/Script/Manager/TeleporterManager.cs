@@ -14,7 +14,7 @@ namespace Com.IsartDigital.Rush.Manager
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         public static TeleporterManager Instance { get; private set; }
 
-        private Dictionary<ETeleportColor, List<Teleporter>> _DicoTeleporter = new Dictionary<ETeleportColor, List<Teleporter>>();
+        private Dictionary<EColorSetter, List<Teleporter>> _DicoTeleporter = new Dictionary<EColorSetter, List<Teleporter>>();
         private Dictionary<Cube, Teleporter> _LastTeleporterUsed = new();
 
         private const int NEXT_INDEX = 1;
@@ -35,7 +35,7 @@ namespace Com.IsartDigital.Rush.Manager
             AutoAssignIndexes(pTeleporter.CurrentColor);
         }
 
-        private void AutoAssignIndexes(ETeleportColor pColor)
+        private void AutoAssignIndexes(EColorSetter pColor)
         {
             List<Teleporter> lListTeleporter = _DicoTeleporter[pColor];
 

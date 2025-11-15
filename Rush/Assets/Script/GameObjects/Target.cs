@@ -1,0 +1,29 @@
+using Com.IsartDigital.Rush.CubeManagement;
+using DG.Tweening;
+using UnityEngine;
+
+// Author : Florian MAJCHER - Isart DIGITAL
+// DATE : 00/00/0000 - Beginning of the class
+
+namespace Com.IsartDigital.Rush.GameObjects
+{
+    
+    public class Target : MonoBehaviour
+    {
+        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [SerializeField] private EColorSetter _TargetColor;
+        public EColorSetter CurrentColor => _TargetColor;
+
+        private const float TWEEN_TIME_SCALE = .2f;
+
+        public void DetectCubeColor(Cube pCurrentCube)
+        {
+            if (pCurrentCube.cubeColor == _TargetColor)
+                pCurrentCube.transform.DOScale(Vector3.zero, TWEEN_TIME_SCALE).SetEase(Ease.Linear).OnComplete(() => DestroyCube(pCurrentCube));
+            else return;
+        }
+
+        private void DestroyCube(Cube pCurrentCube) => Destroy(pCurrentCube.gameObject);    
+        
+    }
+}

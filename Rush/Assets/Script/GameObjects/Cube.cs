@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
@@ -19,10 +20,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
         [SerializeField] private float _UturnAngle = 180f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
-        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _Axis, _SlideDirection;
+        private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _SlideDirection;
         private Vector3 _TpFinalPos;
         private Vector3 _LastDirectionBeforeFall;
-        public Vector3 _Direction = Vector3.forward;
+        public Vector3 direction = Vector3.forward;
 
         private Transform _SelfTransform;
 
@@ -42,9 +43,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public Action doAction { get; private set; }
         public Action<Cube, GameObject, ECollision> collisionSignal;
 
+        public EColorSetter cubeColor;
         private ITickProvider _TickProvider;
 
-        public bool JustTeleported { get; private set; }
         private bool _IsStop;
         private bool _IsTeleporting;
         private bool _IsFalling;
@@ -54,8 +55,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _SelfTransform = transform;
 
-            _Axis = Vector3.right;
-            _Direction = _SelfTransform.forward;
+            direction = _SelfTransform.forward;
 
             SetStateMove();
         }
@@ -87,14 +87,14 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateMove()
         {
-            if (_Direction == Vector3.down)
-                _Direction = _LastDirectionBeforeFall;
+            if (direction == Vector3.down)
+                direction = _LastDirectionBeforeFall;
             _IsFalling = false;
-            _PivotPoint = (_Direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
+            _PivotPoint = (direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
-            _ToPos = _FromPos + _Direction * _GridSize;
+            _ToPos = _FromPos + direction * _GridSize;
 
-            _CrossProduct = Vector3.Cross(Vector3.up, _Direction);
+            _CrossProduct = Vector3.Cross(Vector3.up, direction);
             _FromRotation = _SelfTransform.rotation;
             _ToRotation = Quaternion.AngleAxis(_Angle, _CrossProduct) * _FromRotation;
 
@@ -105,8 +105,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             _IsFalling = true;
             _FromPos = _SelfTransform.position;
-            _Direction = Vector3.down;
-            _ToPos = _FromPos + _Direction;
+            direction = Vector3.down;
+            _ToPos = _FromPos + direction;
             doAction = DoActionFall;
         }
 
@@ -205,8 +205,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetDirection(Vector3 pDirection)
         {
-            _Direction = pDirection.normalized;
-            _LastDirectionBeforeFall = _Direction;
+            direction = pDirection.normalized;
+            _LastDirectionBeforeFall = direction;
         }
 
         private void CanMoveToDirection(Vector3 pDirection)
@@ -234,23 +234,22 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop)
                 MoveInFront();
             else if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
-                CanMoveToDirection(_Direction);
+                CanMoveToDirection(direction);
         }
 
         private void MoveInFront()
         {
-            SetDirection(_Direction);
+            SetDirection(direction);
             SetStateMove();
         }
 
         private void ResetAllValues()
         {
             _IsTeleporting = false;
-            JustTeleported = true;
             _PivotPoint = Vector3.zero;
             _FromPos = _TpFinalPos;
             _ToPos = _TpFinalPos;
-            _Direction = _SelfTransform.forward.normalized;
+            direction = _SelfTransform.forward.normalized;
             _FromRotation = _SelfTransform.rotation;
             _ToRotation = _SelfTransform.rotation;
         }
