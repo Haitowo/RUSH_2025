@@ -10,8 +10,8 @@ namespace Com.IsartDigital.Rush.GameObjects
     public class Teleporter : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [SerializeField] private ETeleportColor _TeleportColor;
-        public ETeleportColor CurrentColor => _TeleportColor;
+        [SerializeField] private EColorSetter _TeleportColor;
+        public EColorSetter CurrentColor => _TeleportColor;
 
         public int Index { get; set; }
 

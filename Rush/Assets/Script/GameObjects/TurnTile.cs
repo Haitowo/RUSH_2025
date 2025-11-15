@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.GameObjects
 {
-    public class TurnsTile : MonoBehaviour
+    public class TurnTile : MonoBehaviour
     {
-        private bool _TurnRight = false;
+        private bool _TurnRight;
         private float _Angle = 90f;
 
         public Vector3 GetNextDirection(Vector3 pCurrentDirection, Cube pCube)

@@ -12,6 +12,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         TELEPORTER = 10,
         TURNSTILE = 11,
         TARGET = 12,
-        CONVEYORS = 13
+        CONVEYORS = 13,
+        TERRAIN = 15
     }
 }

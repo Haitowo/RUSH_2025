@@ -13,10 +13,12 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
+        [SerializeField] private EColorSetter _ColorSpawnerAndCube;
 
+        public EColorSetter ColorSpawnerAndCube => _ColorSpawnerAndCube;
         private ITickProvider _TickProvider;
-        private int _TickCount = 0;
 
+        private int _TickCount = 0;
         private const int TICK_PER_SPAWN = 2;
 
         private const float SPAWN_DECAY = .5f;
@@ -30,6 +32,8 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickProvider.TickEvent += OnTick;
 
             _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
+
+            SpawnCube();
         }
 
         private void OnTick()
@@ -37,7 +41,7 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickCount++;
             if (_TickCount >= TICK_PER_SPAWN)
             {
-                SpawnCube();
+                //SpawnCube();
                 _TickCount = 0;
             }
         }
@@ -48,7 +52,8 @@ namespace Com.IsartDigital.Rush.GameObjects
             lPrefab.transform.localScale = Vector3.zero;
             lPrefab.transform.DOScale(Vector3.one, SPAWN_CUBE_TIME);
             Cube lCube = lPrefab.GetComponent<Cube>();
-            if(lCube != null) CollisionManager.Instance.RegisterCube(lCube);
+            lCube.cubeColor = _ColorSpawnerAndCube;
+            if (lCube != null) CollisionManager.Instance.RegisterCube(lCube);
         }
 
         private void OnDestroy()

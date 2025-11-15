@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.GameObjects
 {
-    public enum ETeleportColor
+    public enum EColorSetter
     {
         RED,
         BLUE,
