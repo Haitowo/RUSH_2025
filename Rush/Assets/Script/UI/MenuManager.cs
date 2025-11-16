@@ -55,7 +55,15 @@ namespace Com.IsartDigital.Rush.UI
 
         public void ShowMenu(EMenuType pType)
         {
-            if (pType == EMenuType.QUIT) Application.Quit();
+            if (pType == EMenuType.QUIT)
+            {
+                #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+                #else
+               Application.Quit();
+                #endif
+                return;
+            }
 
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);

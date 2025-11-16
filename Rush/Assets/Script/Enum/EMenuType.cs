@@ -11,6 +11,7 @@ namespace Com.IsartDigital.Rush.UI
     public enum EMenuType
     {
         MAIN,
+        LEVEL_SELECT,
         PLAY,
         OPTIONS,
         CREDITS,
