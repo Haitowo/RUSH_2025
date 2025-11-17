@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2a56ff066ced842b8f5046d8524190, type: 3}
   m_Name: UI LevelSelect Preset
   m_EditorClassIdentifier: 
-  tilesToPlaceForLevel: []
+  tilesToPlaceForLevel:
+  - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
+    amountToPlace: 0
+  - tilesToPlace: {fileID: 1107203473147756, guid: 7c58f80a63e8a7141b5b7377395135cc, type: 3}
+    amountToPlace: 0
+  - tilesToPlace: {fileID: 1324669775067448, guid: c6a4f00d8e6ee94408e741323199cb71, type: 3}
+    amountToPlace: 0

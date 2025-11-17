@@ -21,5 +21,9 @@ MonoBehaviour:
   maxHistoryNumber: 30
   GUIDList:
   - 9ca5dea2adfa3df4789e230db6d39e0a
+  - 6329940d45e34e849b3d7d043bd716c6
+  - c6a4f00d8e6ee94408e741323199cb71
+  - 7c58f80a63e8a7141b5b7377395135cc
+  - 16957ef68a439ee4fb120ba2ffa2519e
   currentObject: 
   selectColor: {r: 0, g: 1, b: 0, a: 1}
