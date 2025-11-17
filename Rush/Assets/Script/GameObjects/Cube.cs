@@ -145,7 +145,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE);
+        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
 
         private void CheckCollision()
         {
@@ -191,7 +191,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void EndTeleport()
         {
             _SelfTransform.position = _TpFinalPos;
-            _SelfTransform.DOScale(Vector3.one, TWEEN_TIME_SCALE * _TickProvider.TickSpeed);
+            _SelfTransform.DOScale(Vector3.one, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
 
             ResetAllValues();
 
