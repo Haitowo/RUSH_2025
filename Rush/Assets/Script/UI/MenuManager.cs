@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -57,16 +58,17 @@ namespace Com.IsartDigital.Rush.UI
         {
             if (pType == EMenuType.QUIT)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
-                #else
+#else
                Application.Quit();
-                #endif
+#endif
                 return;
             }
+            else if (pType == EMenuType.LEVEL_SELECT) GameManager.Instance.SwitchToGame?.Invoke();
 
-            foreach (GameObject lMenu in _Menus.Values)
-                lMenu.SetActive(false);
+                foreach (GameObject lMenu in _Menus.Values)
+                    lMenu.SetActive(false);
 
             _Menus[pType].SetActive(true);
         }

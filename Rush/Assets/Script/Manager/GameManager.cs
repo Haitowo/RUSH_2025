@@ -20,6 +20,7 @@ namespace Com.IsartDigital.Rush.Manager
         private float _ElapsedTime = 0f;
 
         public event Action TickEvent;
+        public Action SwitchToGame;
 
         public static GameManager Instance { get; private set; }
 
