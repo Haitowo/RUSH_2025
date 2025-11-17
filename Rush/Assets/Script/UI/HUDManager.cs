@@ -66,7 +66,7 @@ namespace Com.IsartDigital.Rush.UI
                 {
                     lTransform.anchoredPosition = lOffset;
                     lTransform.DOAnchorPos(lBasePos, TWEEN_DURATION)
-                        .SetEase(Ease.OutElastic);
+                        .SetEase(Ease.OutBack);
                 }
                 else
                 {
