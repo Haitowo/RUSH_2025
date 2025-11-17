@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -10,8 +11,6 @@ namespace Com.IsartDigital.Rush.UI
     public class SOLevelPrefabTilesHUD : ScriptableObject
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [SerializeField] public float numberOfArrowsToGet;
-        [SerializeField] public float numberOfConveyorsToGet;
-        [SerializeField] public float numberOfTurnTilesToGet;
+        [SerializeField] public List<TileEntry> tilesToPlaceForLevel = new List<TileEntry>();
     }
 }
