@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.UI
 {
     
-    public enum EHudElementPos
+    public enum EHUDElementPos
     {
         TOP,
         BOTTOM,

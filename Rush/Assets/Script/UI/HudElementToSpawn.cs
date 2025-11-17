@@ -8,9 +8,10 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.UI
 {
-    public class HudElementToSpawn : MonoBehaviour
+    public class HUDElementToSpawn : MonoBehaviour
     {
         public RectTransform objectToTransform;
-        public EHudElementPos pos;
+        public EHUDElementPos pos;
+        public bool ignoreHide;
     }
 }

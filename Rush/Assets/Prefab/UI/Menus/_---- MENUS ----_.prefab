@@ -1343,6 +1343,7 @@ GameObject:
   - component: {fileID: 1064593799720296020}
   - component: {fileID: 7513929489546728898}
   - component: {fileID: 6100661962757539972}
+  - component: {fileID: 4530607908003351496}
   m_Layer: 5
   m_Name: ENGLISH_BTN
   m_TagString: Untagged
@@ -1452,6 +1453,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4530607908003351496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611488798204951221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b165e9439b744469d8461c6d4c35bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ScaleMultiplier: 1.05
+  _Duration: 0.5
 --- !u!1 &2733662591117942195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,6 +3549,7 @@ GameObject:
   - component: {fileID: 2287012247035935190}
   - component: {fileID: 1424129887303160674}
   - component: {fileID: 4160932438700527913}
+  - component: {fileID: 580966179012746}
   m_Layer: 5
   m_Name: FRENCH_BTN
   m_TagString: Untagged
@@ -3643,6 +3659,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &580966179012746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980657355368663035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b165e9439b744469d8461c6d4c35bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ScaleMultiplier: 1.05
+  _Duration: 0.5
 --- !u!1 &6234091846167192160
 GameObject:
   m_ObjectHideFlags: 0
