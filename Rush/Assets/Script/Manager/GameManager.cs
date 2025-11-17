@@ -20,6 +20,8 @@ namespace Com.IsartDigital.Rush.Manager
         private float _ElapsedTime = 0f;
 
         public event Action TickEvent;
+        public Action ActivatePlayPhase;
+        public Action<bool> SwitchToGame;
 
         public static GameManager Instance { get; private set; }
 
@@ -27,6 +29,8 @@ namespace Com.IsartDigital.Rush.Manager
         private void Awake()
         {
             TickProviderLocator.Register(this);
+            ActivatePlayPhase += ActivateLevel;
+            enabled = false;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -69,5 +73,7 @@ namespace Com.IsartDigital.Rush.Manager
             //TODO : Level Complete Management
         }
 
+        private void ActivateLevel() => enabled = true;
+        
     }
 }

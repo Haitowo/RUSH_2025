@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using UnityEngine;
 
@@ -31,12 +32,17 @@ namespace Com.IsartDigital.Rush.Camera
 
         private Vector3 _BasePoint;
         private Vector3 _Angles;
+        private Vector3 _MainMenuInitialPos;
 
         private Transform _SelfTransform;
+        private GameManager _GameManager;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Awake()
+        private void Start()
         {
+            _MainMenuInitialPos = transform.position;
+            enabled = false;
+            _GameManager = GameManager.Instance;
             _SelfTransform = transform;
             _BasePoint = _MiddlePoint.transform.position;
             _Angles = _SelfTransform.eulerAngles;
@@ -44,6 +50,7 @@ namespace Com.IsartDigital.Rush.Camera
             _YAngles = _Angles.y;
 
             _SelfTransform.rotation = Quaternion.identity;
+            _GameManager.SwitchToGame += EnableCameraForGame;
         }
 
         //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -85,6 +92,11 @@ namespace Com.IsartDigital.Rush.Camera
                 _DistanceCamera -= lScroll * _ZoomSpeed;
                 _DistanceCamera = Mathf.Clamp(_DistanceCamera, _ZoomMin, _ZoomMax);
             }
+        }
+
+        private void EnableCameraForGame(bool pEnableCamera)
+        {
+            enabled = pEnableCamera;
         }
     }
 }
