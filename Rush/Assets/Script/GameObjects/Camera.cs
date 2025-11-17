@@ -32,6 +32,7 @@ namespace Com.IsartDigital.Rush.Camera
 
         private Vector3 _BasePoint;
         private Vector3 _Angles;
+        private Vector3 _MainMenuInitialPos;
 
         private Transform _SelfTransform;
         private GameManager _GameManager;
@@ -39,6 +40,7 @@ namespace Com.IsartDigital.Rush.Camera
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
+            _MainMenuInitialPos = transform.position;
             enabled = false;
             _GameManager = GameManager.Instance;
             _SelfTransform = transform;
@@ -92,9 +94,9 @@ namespace Com.IsartDigital.Rush.Camera
             }
         }
 
-        private void EnableCameraForGame()
+        private void EnableCameraForGame(bool pEnableCamera)
         {
-            enabled = true;
+            enabled = pEnableCamera;
         }
     }
 }

@@ -1,7 +1,8 @@
-using UnityEngine;
-using DG.Tweening;
-using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.CubeManagement;
+using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Ticks;
+using DG.Tweening;
+using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 09/11/2025 - Beginning of the class
@@ -33,7 +34,7 @@ namespace Com.IsartDigital.Rush.GameObjects
 
             _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
 
-            SpawnCube();
+            GameManager.Instance.ActivatePlayPhase += SpawnCube;
         }
 
         private void OnTick()

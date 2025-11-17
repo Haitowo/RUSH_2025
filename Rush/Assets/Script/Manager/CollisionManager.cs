@@ -19,7 +19,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public static CollisionManager Instance { get; private set; }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Start()
+        private void Awake()
         {
             Instance = this;
         }
