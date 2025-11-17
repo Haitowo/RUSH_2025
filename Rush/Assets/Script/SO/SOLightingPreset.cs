@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,8 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.Lighting
 {
     [System.Serializable]
-    [CreateAssetMenu(fileName = "Lighting Preset", menuName = "Scriptables/Lighting Preset")]
-    public class LightingPreset : ScriptableObject
+    [CreateAssetMenu(fileName = Utils.LIGHTING_PRESET, menuName = Utils.LIGHTING_MENU)]
+    public class SOLightingPreset : ScriptableObject
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] public Gradient _AmbientColor;

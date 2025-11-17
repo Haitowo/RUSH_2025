@@ -65,7 +65,7 @@ namespace Com.IsartDigital.Rush.UI
 #endif
                 return;
             }
-            else if (pType == EMenuType.LEVEL_SELECT) GameManager.Instance.SwitchToGame?.Invoke();
+            else if (pType == EMenuType.LEVEL_SELECT) GameManager.Instance.SwitchToGame?.Invoke(true);
 
                 foreach (GameObject lMenu in _Menus.Values)
                     lMenu.SetActive(false);
