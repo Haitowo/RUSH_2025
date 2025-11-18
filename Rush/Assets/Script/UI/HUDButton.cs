@@ -11,7 +11,7 @@ namespace Com.IsartDigital.Rush.UI
     public class HUDButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [SerializeField] private float _ScaleMultiplier = 1.05f;
+        [SerializeField] private float _ScaleMultiplier = 1.1f;
         [SerializeField] private float _Duration = .5f;
 
         private Tween _CurrentTween;

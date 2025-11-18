@@ -10,19 +10,5 @@ namespace Com.IsartDigital.Rush.GameObjects
     
     public class Conveyor : PlaceableTiles
     {
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-
-
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Awake()
-        {
-
-        }
-
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
-        {
-
-        }
     }
 }
