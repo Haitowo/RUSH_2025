@@ -12,7 +12,7 @@ namespace Com.IsartDigital.Rush.UI
     public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [SerializeField] private float _ScaleMultiplier = 1.05f;
+        [SerializeField] private float _ScaleMultiplier = 1.1f;
         [SerializeField] private float _Duration = .5f;
         [SerializeField] private EMenuType _TargetMenu;
 
