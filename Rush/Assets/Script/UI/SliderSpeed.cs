@@ -22,12 +22,6 @@ namespace Com.IsartDigital.Rush.UI
             _CurrentSlider.onValueChanged.AddListener(ChangeSpeed);
         }
 
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
-        {
-
-        }
-
         private void ChangeSpeed(float pValue)
         {
             GameManager.Instance.TickSpeed = pValue;

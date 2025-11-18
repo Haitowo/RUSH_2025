@@ -27,5 +27,6 @@ namespace Com.IsartDigital.Rush.Utilities
 
         //ERROR MESSAGE
         public const string ERR_TICK_FOUND = "No ITickProvider found in project.";
+        public const string ERR_CAMERA_MENU = "Next menu not found, switch camera position didn't work.";
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Com.IsartDigital.Rush.Camera
 {
-    public class Camera : MonoBehaviour
+    public class CameraGame : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
 
@@ -19,12 +19,11 @@ namespace Com.IsartDigital.Rush.Camera
         [SerializeField] private float _ZoomMin = 2f;
         [SerializeField] private float _ZoomMax = 20f;
 
-        [SerializeField] private Transform _MiddlePoint;
+        [SerializeField] public Transform middlePoint;
 
-        private float _DistanceCamera = 10f;
+        public float distanceCamera = 10f;
         private float _XAngles = 0f;
         private float _YAngles = 20f;
-
         private float _RotationSpeed = 5f;
 
         private const float MAX_ZOOM = .01f;
@@ -33,7 +32,6 @@ namespace Com.IsartDigital.Rush.Camera
 
         private Vector3 _BasePoint;
         private Vector3 _Angles;
-        private Vector3 _MainMenuInitialPos;
 
         private Transform _SelfTransform;
         private GameManager _GameManager;
@@ -41,16 +39,10 @@ namespace Com.IsartDigital.Rush.Camera
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            _MainMenuInitialPos = transform.position;
             enabled = false;
-            _GameManager = GameManager.Instance;
             _SelfTransform = transform;
-            _BasePoint = _MiddlePoint.transform.position;
-            _Angles = _SelfTransform.eulerAngles;
-            _XAngles = _Angles.x;
-            _YAngles = _Angles.y;
+            _GameManager = GameManager.Instance;
 
-            _SelfTransform.rotation = Quaternion.identity;
             _GameManager.SwitchToGame += EnableCameraForGame;
         }
 
@@ -86,7 +78,7 @@ namespace Com.IsartDigital.Rush.Camera
             if (Input.GetMouseButton(MOUSE_BUTTON_LEFT)) GetAxisMouseAndTouch();
 
             lRotation = Quaternion.Euler(_YAngles, _XAngles, 0f);
-            lDistance = new Vector3(0f, 0f, -_DistanceCamera);
+            lDistance = new Vector3(0f, 0f, -distanceCamera);
             lPosition = lRotation * lDistance + _BasePoint;
 
             transform.rotation = lRotation;
@@ -106,16 +98,24 @@ namespace Com.IsartDigital.Rush.Camera
 
             if(Mathf.Abs(lScroll) > MAX_ZOOM)
             {
-                _DistanceCamera -= lScroll * _ZoomSpeed;
-                _DistanceCamera = Mathf.Clamp(_DistanceCamera, _ZoomMin, _ZoomMax);
+                distanceCamera -= lScroll * _ZoomSpeed;
+                distanceCamera = Mathf.Clamp(distanceCamera, _ZoomMin, _ZoomMax);
             }
         }
 
-        private void EnableCameraForGame(bool pEnableCamera)
+        private void EnableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
+
+        public void SetStartTransform(Vector3 pPosition, Quaternion pRotation, float pDistance, Vector3 pBasePoint)
         {
-            enabled = pEnableCamera;
+            _SelfTransform.position = pPosition;
+            _SelfTransform.rotation = pRotation;
+
+            Vector3 pEuler = pRotation.eulerAngles;
+            _XAngles = pEuler.y;
+            _YAngles = pEuler.x;
+
+            _BasePoint = pBasePoint;
+            distanceCamera = pDistance;
         }
-
-
     }
 }

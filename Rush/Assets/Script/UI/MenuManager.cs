@@ -1,4 +1,7 @@
+using Com.IsartDigital.Rush.Camera;
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Utilities;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -16,6 +19,8 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
 
+        [SerializeField] private Transform _CurrentCameraGame;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
@@ -23,12 +28,6 @@ namespace Com.IsartDigital.Rush.UI
             RegisterButtons();
 
             ShowMenu(EMenuType.MAIN);
-        }
-
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
-        {
-
         }
 
         private void RegisterMenus()
@@ -50,27 +49,59 @@ namespace Com.IsartDigital.Rush.UI
                 Button lUIButton = lButton.GetComponent<Button>();
                 EMenuType lTarget = lButton.TargetMenu;
 
-                lUIButton.onClick.AddListener(() => ShowMenu(lTarget));
+                lUIButton.onClick.AddListener(() => SwitchCameraPos(lTarget));
             }
+        }
+
+        private void SwitchCameraPos(EMenuType pType)
+        {
+            CheckTypeOfQuit(pType);
+
+            MenuType lNextMenuToShow;
+            foreach (GameObject lMenu in _Menus.Values)
+                lMenu.SetActive(false);
+
+            if (_Menus.TryGetValue(pType, out GameObject lNextMenu))
+            {
+                lNextMenuToShow = lNextMenu.GetComponent<MenuType>();
+                _CurrentCameraGame.DOMove(lNextMenuToShow.CameraPos.position, .5f).From(_CurrentCameraGame.position).SetEase(Ease.OutCubic);
+                _CurrentCameraGame.DORotateQuaternion(lNextMenuToShow.CameraPos.rotation, .5f).From(_CurrentCameraGame.rotation).SetEase(Ease.OutCubic).OnComplete(() => ShowMenu(pType));
+            }
+            else Debug.LogWarning(Utils.ERR_CAMERA_MENU);
         }
 
         public void ShowMenu(EMenuType pType)
         {
-            if (pType == EMenuType.QUIT)
-            {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-               Application.Quit();
-#endif
-                return;
-            }
-            else if (pType == EMenuType.LEVEL_SELECT) GameManager.Instance.SwitchToGame?.Invoke(true);
-
-                foreach (GameObject lMenu in _Menus.Values)
-                    lMenu.SetActive(false);
+            foreach (GameObject lMenu in _Menus.Values)
+                lMenu.SetActive(false);
+            if (pType == EMenuType.PLAY) SetGameCamera();
 
             _Menus[pType].SetActive(true);
         }
+
+        private void CheckTypeOfQuit(EMenuType pType)
+        {
+            if (pType == EMenuType.QUIT)
+            {
+                #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                Application.Quit();
+                #endif
+                return;
+            }
+        }
+
+        private void SetGameCamera()
+        {
+            CameraGame lCam = _CurrentCameraGame.GetComponent<CameraGame>();
+            Vector3 lBasePoint = _CurrentCameraGame.position + (_CurrentCameraGame.rotation * Vector3.forward * lCam.distanceCamera);
+
+            if (lCam != null)
+                lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
+            
+            GameManager.Instance.SwitchToGame?.Invoke(true);
+        }
+
     }
 }

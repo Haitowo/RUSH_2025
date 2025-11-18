@@ -9,5 +9,6 @@ namespace Com.IsartDigital.Rush.UI
     public class MenuType : MonoBehaviour
     {
         public EMenuType Type;
+        public Transform CameraPos;
     }
 }
