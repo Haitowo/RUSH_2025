@@ -1,6 +1,7 @@
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 04/11/2025 - Beginning of the class
@@ -32,6 +33,7 @@ namespace Com.IsartDigital.Rush.Camera
 
         private Vector3 _BasePoint;
         private Vector3 _Angles;
+        private Vector3 _MainMenuInitialPos;
 
         private Transform _SelfTransform;
         private GameManager _GameManager;
@@ -39,6 +41,7 @@ namespace Com.IsartDigital.Rush.Camera
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
+            _MainMenuInitialPos = transform.position;
             enabled = false;
             _GameManager = GameManager.Instance;
             _SelfTransform = transform;
@@ -54,8 +57,24 @@ namespace Com.IsartDigital.Rush.Camera
         //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
+            if (PointerOverUI()) return;
+
             MoveCamera();
             ZoomMouse();
+        }
+
+        private bool PointerOverUI()
+        {
+            #if UNITY_EDITOR || UNITY_STANDALONE
+                        return EventSystem.current.IsPointerOverGameObject();
+            #elif UNITY_ANDROID || UNITY_IOS
+                if (Input.touchCount > 0)
+                    return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+            
+                return false;
+            #else
+                return false;
+            #endif
         }
 
         private void MoveCamera()
@@ -92,9 +111,11 @@ namespace Com.IsartDigital.Rush.Camera
             }
         }
 
-        private void EnableCameraForGame()
+        private void EnableCameraForGame(bool pEnableCamera)
         {
-            enabled = true;
+            enabled = pEnableCamera;
         }
+
+
     }
 }

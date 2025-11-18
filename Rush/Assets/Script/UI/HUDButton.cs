@@ -1,7 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
@@ -9,14 +8,11 @@ using UnityEngine.UI;
 namespace Com.IsartDigital.Rush.UI
 {
     
-    public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class HUDButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private float _ScaleMultiplier = 1.1f;
         [SerializeField] private float _Duration = .5f;
-        [SerializeField] private EMenuType _TargetMenu;
-
-        public EMenuType TargetMenu => _TargetMenu;
 
         private Tween _CurrentTween;
 

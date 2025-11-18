@@ -12,7 +12,7 @@ namespace Com.IsartDigital.Rush.Lighting
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private Light _DirectionalLight;
-        [SerializeField] private LightingPreset _PresetLight;
+        [SerializeField] private SOLightingPreset _PresetLight;
 
         [SerializeField, Range(0, 24)] private float _TimeOfDay;
 

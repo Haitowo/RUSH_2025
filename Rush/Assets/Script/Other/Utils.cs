@@ -6,6 +6,15 @@ namespace Com.IsartDigital.Rush.Utilities
     
     public struct Utils
     {
+
+        //SO - FILE NAME
+        public const string LIGHTING_PRESET = "Lighting Preset";
+        public const string UI_LEVELSELECT_PRESET = "UI LevelSelect Preset";
+
+        //SO - MENU NAME
+        public const string LIGHTING_MENU = "Scriptables/Lighting Preset";
+        public const string UI_LEVELSELECT_MENU = "Scriptables/UI";
+
         //INPUTS
         public const string MOUSE_BUTTON_X = "Mouse X";
         public const string MOUSE_BUTTON_Y = "Mouse Y";
