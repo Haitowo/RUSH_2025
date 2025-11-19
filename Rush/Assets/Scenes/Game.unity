@@ -341,7 +341,8 @@ MonoBehaviour:
   _ZoomSpeed: 10
   _ZoomMin: 2
   _ZoomMax: 50
-  _MiddlePoint: {fileID: 257429627}
+  middlePoint: {fileID: 0}
+  distanceCamera: 10
 --- !u!4 &371861100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3828421243238534356, guid: b33d3895a7675674bbaf7ddfe4db5838, type: 3}
@@ -728,8 +729,7 @@ PrefabInstance:
       value: Cascade
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1244564097872744, guid: 26b13e5564e101949ab6a4af4973df0f, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26b13e5564e101949ab6a4af4973df0f, type: 3}

@@ -48,6 +48,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private bool _IsStop;
         private bool _IsTeleporting;
+        private bool _JustTeleported;
+        private bool _StopCheckTeleport;
         private bool _IsFalling;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -90,6 +92,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (direction == Vector3.down)
                 direction = _LastDirectionBeforeFall;
             _IsFalling = false;
+            _JustTeleported = false;
             _PivotPoint = (direction + Vector3.down) / 2f + _SelfTransform.position; //Pivot point on the under + right of the cube
             _FromPos = _SelfTransform.position - _PivotPoint;
             _ToPos = _FromPos + direction * _GridSize;
@@ -145,10 +148,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         private void DoActionSlide() => _SelfTransform.position = Vector3.Lerp(_FromPos, _ToPos, _TickProvider.RatioTimeTick);
 
-        private void DoActionTeleport() => _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
+        private void DoActionTeleport()
+        {
+            _SelfTransform.position = Vector3.Lerp(_FromPos, _TpFinalPos, _TickProvider.RatioTimeTick);
+            _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
+        }
 
         private void CheckCollision()
         {
+            if (_JustTeleported) return;
             int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
             
             Ray lRayDown = new Ray(_SelfTransform.position, Vector3.down);
@@ -159,7 +167,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
             GameObject lCollided;
 
-            if (Physics.Raycast(lRayDown, out lHit, DISTANCE_RAYCAST))
+            if (Physics.Raycast(lRayDown, out lHit, DISTANCE_RAYCAST) && !_JustTeleported)
             {
                 lCollided = lHit.collider.gameObject;
                 lCollisionLayer = (ECollision)lCollided.layer;
@@ -167,7 +175,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             }
             else SetStateFall();
 
-            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && doAction != DoActionSlide && !_IsFalling)
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && doAction != DoActionSlide && !_IsFalling && !_IsTeleporting)
                 SetStateVoid();
         }
 
@@ -190,7 +198,11 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void EndTeleport()
         {
-            _SelfTransform.position = _TpFinalPos;
+            int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
+            Ray lRayFront = new Ray(_SelfTransform.position, _LastDirectionBeforeFall);
+            RaycastHit lHit;
+            _JustTeleported = true;
+
             _SelfTransform.DOScale(Vector3.one, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
 
             ResetAllValues();
@@ -200,7 +212,12 @@ namespace Com.IsartDigital.Rush.CubeManagement
             else
                 SetDirection(Vector3.forward);
 
-            SetStateMove();
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, lCollisionLayerObstacle) && _JustTeleported) SetStateVoid();
+            else
+            {
+                _JustTeleported = false;
+                SetStateMove();
+            }
         }
 
         public void SetDirection(Vector3 pDirection)
@@ -246,7 +263,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void ResetAllValues()
         {
             _IsTeleporting = false;
-            _PivotPoint = Vector3.zero;
+            _PivotPoint = _SelfTransform.position;
             _FromPos = _TpFinalPos;
             _ToPos = _TpFinalPos;
             direction = _SelfTransform.forward.normalized;
