@@ -1,3 +1,4 @@
+using Com.IsartDigital.ProjectName;
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
@@ -22,6 +23,8 @@ namespace Com.IsartDigital.Rush.Manager
         public event Action TickEvent;
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
+
+        private GameObject _TileSelected;
 
         public static GameManager Instance { get; private set; }
 
@@ -74,6 +77,12 @@ namespace Com.IsartDigital.Rush.Manager
         }
 
         private void ActivateLevel() => enabled = true;
-        
+
+        public void SelectTileToPlace(GameObject pTile)
+        {
+            _TileSelected = pTile;
+            Debug.Log("Tuile sélectionnée : " + pTile.name);
+        }
+
     }
 }
