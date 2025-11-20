@@ -1,4 +1,4 @@
-using Com.IsartDigital.Rush.Camera;
+using Com.IsartDigital.Rush.CameraManagement;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
