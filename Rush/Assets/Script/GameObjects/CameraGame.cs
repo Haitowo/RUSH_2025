@@ -44,6 +44,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _GameManager = GameManager.Instance;
 
             _GameManager.SwitchToGame += EnableCameraForGame;
+            _GameManager.BackToMenu += DisableCameraForGame;
         }
 
         //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -104,6 +105,8 @@ namespace Com.IsartDigital.Rush.CameraManagement
         }
 
         private void EnableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
+
+        private void DisableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
 
         public void SetStartTransform(Vector3 pPosition, Quaternion pRotation, float pDistance, Vector3 pBasePoint)
         {

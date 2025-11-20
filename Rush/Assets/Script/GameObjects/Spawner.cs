@@ -32,8 +32,6 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.TickEvent += OnTick;
 
-            _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
-
             GameManager.Instance.ActivatePlayPhase += SpawnCube;
         }
 
@@ -49,11 +47,15 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private void SpawnCube()
         {
+            _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
+
             GameObject lPrefab = Instantiate(_CubePrefab, _SpawnPos, transform.rotation, _GameObjectContainer);
+            Cube lCube = lPrefab.GetComponent<Cube>();
+
             lPrefab.transform.localScale = Vector3.zero;
             lPrefab.transform.DOScale(Vector3.one, SPAWN_CUBE_TIME);
-            Cube lCube = lPrefab.GetComponent<Cube>();
             lCube.cubeColor = _ColorSpawnerAndCube;
+
             if (lCube != null) CollisionManager.Instance.RegisterCube(lCube);
         }
 

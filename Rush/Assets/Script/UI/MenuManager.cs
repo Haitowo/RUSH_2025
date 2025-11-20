@@ -20,14 +20,19 @@ namespace Com.IsartDigital.Rush.UI
         private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
 
         [SerializeField] private Transform _CurrentCameraGame;
+        [SerializeField] private Button _BackMenuGame;
+
+        private const float TRANSITION_TIME = .75f;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Awake()
+        private void Start()
         {
             RegisterMenus();
             RegisterButtons();
 
             ShowMenu(EMenuType.MAIN);
+
+            _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
         }
 
         private void RegisterMenus()
@@ -64,8 +69,8 @@ namespace Com.IsartDigital.Rush.UI
             if (_Menus.TryGetValue(pType, out GameObject lNextMenu))
             {
                 lNextMenuToShow = lNextMenu.GetComponent<MenuType>();
-                _CurrentCameraGame.DOMove(lNextMenuToShow.CameraPos.position, .5f).From(_CurrentCameraGame.position).SetEase(Ease.OutCubic);
-                _CurrentCameraGame.DORotateQuaternion(lNextMenuToShow.CameraPos.rotation, .5f).From(_CurrentCameraGame.rotation).SetEase(Ease.OutCubic).OnComplete(() => ShowMenu(pType));
+                _CurrentCameraGame.DOMove(lNextMenuToShow.CameraPos.position, TRANSITION_TIME).From(_CurrentCameraGame.position).SetEase(Ease.OutCubic);
+                _CurrentCameraGame.DORotateQuaternion(lNextMenuToShow.CameraPos.rotation, TRANSITION_TIME).From(_CurrentCameraGame.rotation).SetEase(Ease.OutCubic).OnComplete(() => ShowMenu(pType));
             }
             else Debug.LogWarning(Utils.ERR_CAMERA_MENU);
         }
@@ -76,7 +81,7 @@ namespace Com.IsartDigital.Rush.UI
                 lMenu.SetActive(false);
             if (pType == EMenuType.PLAY) SetGameCamera();
 
-            _Menus[pType].SetActive(true);
+                _Menus[pType].SetActive(true);
         }
 
         private void CheckTypeOfQuit(EMenuType pType)
@@ -101,6 +106,12 @@ namespace Com.IsartDigital.Rush.UI
                 lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
             
             GameManager.Instance.SwitchToGame?.Invoke(true);
+        }
+
+        private void SetMenuCamera(bool pBool)
+        {
+            GameManager.Instance.BackToMenu?.Invoke(pBool);
+            SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
 
     }

@@ -16,6 +16,8 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Transform _Container;
         [SerializeField] private SOLevelPrefabTilesHUD _SpawnHUDPrefab;
 
+        private const int HUD_DECAY = 75;
+
         private List<TileEntryRuntime> _AllElementsToSpawn = new List<TileEntryRuntime>();
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -51,7 +53,7 @@ namespace Com.IsartDigital.Rush.UI
                 lEntry = _AllElementsToSpawn[i];
 
                 lSlot = Instantiate(_PrefabTileSlot, _Container);
-                lOffset = i * 75f;
+                lOffset = i * HUD_DECAY;
                 lSlot.localPosition = new Vector3(0f, -lOffset, 0f);
 
                 lSlot.GetComponent<UITileSlot>().Init(lEntry);
