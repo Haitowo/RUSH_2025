@@ -17,7 +17,7 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Button _Button;
         [SerializeField] private Transform _PrefabHolder;
         [SerializeField] private Camera _PreviewCamera;
-        [SerializeField] private RenderTexture _RenderTexture;
+        [SerializeField] private RawImage _CurrentImage;
 
         private TileEntryRuntime _RuntimeEntry;
 
@@ -27,6 +27,7 @@ namespace Com.IsartDigital.Rush.UI
         {
             _RuntimeEntry = pEntry;
 
+            SetRenderTexture();
             ShowPrefab();
             UpdateUI();
 
@@ -52,6 +53,13 @@ namespace Com.IsartDigital.Rush.UI
         {
             _SpawnPrefab = Instantiate(_RuntimeEntry.prefab, _PrefabHolder);
             Canvas lCanvas = _SpawnPrefab.GetComponentInChildren<Canvas>();
+        }
+
+        private void SetRenderTexture()
+        {
+            RenderTexture lRenderTexture = new RenderTexture(100, 100, 10);
+            _PreviewCamera.targetTexture = lRenderTexture;
+            _CurrentImage.texture = lRenderTexture;
         }
     }
 }
