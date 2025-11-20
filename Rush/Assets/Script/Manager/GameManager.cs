@@ -23,6 +23,7 @@ namespace Com.IsartDigital.Rush.Manager
         public event Action TickEvent;
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
+        public Action<bool> BackToMenu;
 
         private GameObject _TileSelected;
 

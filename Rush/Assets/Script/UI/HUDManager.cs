@@ -25,6 +25,7 @@ namespace Com.IsartDigital.Rush.UI
         private void Start()
         {
             GameManager.Instance.SwitchToGame += ToggleHUD;
+            GameManager.Instance.BackToMenu += RemoveHUD;
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
@@ -76,6 +77,11 @@ namespace Com.IsartDigital.Rush.UI
             }
 
             if(!pShow) DOVirtual.DelayedCall(TWEEN_DURATION * TWEEN_DELAY, () => StartGame());
+        }
+
+        private void RemoveHUD(bool pHide)
+        {
+            transform.gameObject.SetActive(false);
         }
 
         private void OnClick() => ToggleHUD(false);
