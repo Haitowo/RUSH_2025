@@ -1,6 +1,7 @@
 using Com.IsartDigital.Rush.Manager;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private GameObject _TargetPrefabToLoad;
         [SerializeField] private GameObject _GameObjectsParents;
+        [SerializeField] private TextMeshProUGUI _TextUILevel;
         [SerializeField] private Button _LoadLevel;
 
         private List<GameObject> _InstantiatedLevel = new List<GameObject>();
@@ -32,6 +34,7 @@ namespace Com.IsartDigital.Rush.UI
             lInstanciatedLevel.transform.SetParent(_GameObjectsParents.transform);
             lInstanciatedLevel.transform.localPosition = Vector3.zero;
             _InstantiatedLevel.Add(lInstanciatedLevel);
+            _TextUILevel.text = _TargetPrefabToLoad.name;
         }
 
         private void OnBackToMenu(bool pBool)
@@ -40,6 +43,7 @@ namespace Com.IsartDigital.Rush.UI
             {
                 level.SetActive(false);
             }
+
             _InstantiatedLevel.Clear();
         }
 
