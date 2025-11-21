@@ -23,6 +23,9 @@ namespace Com.IsartDigital.Rush.UI
 
         private GameObject _SpawnPrefab;
 
+        private const int RENDER_TEXTURE_SIZE = 100;
+        private const int RENDER_TEXTURE_DEPTH = 10;
+
         public void Init(TileEntryRuntime pEntry)
         {
             _RuntimeEntry = pEntry;
@@ -36,12 +39,17 @@ namespace Com.IsartDigital.Rush.UI
 
         private void OnClick()
         {
+            GameObject lPreviewTile;
             if (_RuntimeEntry.remaining > 0)
             {
-                GameManager.Instance.SelectTileToPlace(_RuntimeEntry.prefab);
+                lPreviewTile = Instantiate(_RuntimeEntry.prefab);
+                lPreviewTile.SetActive(true);
+                SetGhostPreview(lPreviewTile);
+                TilePreviewManager.Instance.SetStateSelectTile(lPreviewTile);
                 _RuntimeEntry.UseOne();
                 UpdateUI();
             }
+            else return;
         }
 
         private void UpdateUI()
@@ -57,9 +65,17 @@ namespace Com.IsartDigital.Rush.UI
 
         private void SetRenderTexture()
         {
-            RenderTexture lRenderTexture = new RenderTexture(100, 100, 10);
+            RenderTexture lRenderTexture = new RenderTexture(RENDER_TEXTURE_SIZE, RENDER_TEXTURE_SIZE, RENDER_TEXTURE_DEPTH);
             _PreviewCamera.targetTexture = lRenderTexture;
             _CurrentImage.texture = lRenderTexture;
+        }
+
+        private void SetGhostPreview(GameObject pTile)
+        {
+            Renderer lRend = pTile.GetComponentInChildren<Renderer>();
+            Color lColor = lRend.material.color;
+            lColor.a = .5f;
+            lRend.material.color = lColor;
         }
     }
 }
