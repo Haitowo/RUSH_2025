@@ -102,8 +102,20 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void ValidateTilePlacement()
         {
-            _TileSelected = null;
-            SetStateVoid();
+            TileSelectionManager.Instance.UseOne();
+
+            GameObject lNextPrefab = TileSelectionManager.Instance.GetCurrentPrefab();
+
+            if (lNextPrefab != null)
+            {
+                _TileSelected = Instantiate(lNextPrefab);
+                SetStateSelectTile(_TileSelected);
+            }
+            else
+            {
+                SetStateVoid();
+                _TileSelected = null;
+            }
         }
 
         private void Activate(bool pEnable) => enabled = pEnable;

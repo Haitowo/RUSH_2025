@@ -26,6 +26,8 @@ namespace Com.IsartDigital.Rush.UI
         private const int RENDER_TEXTURE_SIZE = 100;
         private const int RENDER_TEXTURE_DEPTH = 10;
 
+        private bool _IsTileAlreadySelected;
+
         public void Init(TileEntryRuntime pEntry)
         {
             _RuntimeEntry = pEntry;
@@ -40,13 +42,20 @@ namespace Com.IsartDigital.Rush.UI
         private void OnClick()
         {
             GameObject lPreviewTile;
-            if (_RuntimeEntry.remaining > 0)
+            if (_RuntimeEntry.remaining > 0 && !_IsTileAlreadySelected)
             {
+                _IsTileAlreadySelected = true;
                 lPreviewTile = Instantiate(_RuntimeEntry.prefab);
                 lPreviewTile.SetActive(true);
                 SetGhostPreview(lPreviewTile);
                 TilePreviewManager.Instance.SetStateSelectTile(lPreviewTile);
                 _RuntimeEntry.UseOne();
+                UpdateUI();
+            }
+            else if(_IsTileAlreadySelected)
+            {
+                TilePreviewManager.Instance.SetStateVoid();
+                _RuntimeEntry.ResetOne();
                 UpdateUI();
             }
             else return;

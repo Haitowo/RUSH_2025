@@ -24,5 +24,10 @@ namespace Com.IsartDigital.Rush.UI
         {
             remaining = Mathf.Max(remaining - 1, 0);
         }
+
+        public void ResetOne()
+        {
+            remaining = Mathf.Max(remaining++, 0);
+        }
     }
 }

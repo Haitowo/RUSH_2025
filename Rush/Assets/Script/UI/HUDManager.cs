@@ -79,10 +79,7 @@ namespace Com.IsartDigital.Rush.UI
             if(!pShow) DOVirtual.DelayedCall(TWEEN_DURATION * TWEEN_DELAY, () => StartGame());
         }
 
-        private void RemoveHUD(bool pHide)
-        {
-            transform.gameObject.SetActive(false);
-        }
+        private void RemoveHUD(bool pHide) => transform.gameObject.SetActive(false);
 
         private void OnClick() => ToggleHUD(false);
 

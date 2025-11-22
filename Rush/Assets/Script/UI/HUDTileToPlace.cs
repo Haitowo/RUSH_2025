@@ -25,6 +25,7 @@ namespace Com.IsartDigital.Rush.UI
         {
             GameManager.Instance.SwitchToGame += SetPrefabOnSpawn;
             LinkSOWithHUD();
+            TileSelectionManager.Instance.Init(_AllElementsToSpawn);
         }
 
         private void SetPrefabOnSpawn(bool pBool)

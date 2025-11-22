@@ -30,12 +30,6 @@ namespace Com.IsartDigital.Rush.LevelDesign
             GameManager.Instance.SwitchToGame += SpawnLevel;
         }
 
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
-        {
-
-        }
-
         private void GetLevel()
         {
             foreach (Transform tile in _LevelContainer)
