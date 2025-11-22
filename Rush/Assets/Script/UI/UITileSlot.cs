@@ -36,6 +36,8 @@ namespace Com.IsartDigital.Rush.UI
             ShowPrefab();
             UpdateUI();
 
+            TileSelectionManager.Instance.OnAmountChanged += UpdateUI;
+
             _Button.onClick.AddListener(OnClick);
         }
 
@@ -49,14 +51,11 @@ namespace Com.IsartDigital.Rush.UI
                 lPreviewTile.SetActive(true);
                 SetGhostPreview(lPreviewTile);
                 TilePreviewManager.Instance.SetStateSelectTile(lPreviewTile);
-                _RuntimeEntry.UseOne();
-                UpdateUI();
             }
             else if(_IsTileAlreadySelected)
             {
                 TilePreviewManager.Instance.SetStateVoid();
                 _RuntimeEntry.ResetOne();
-                UpdateUI();
             }
             else return;
         }

@@ -2,9 +2,7 @@ using Com.IsartDigital.Rush.CameraManagement;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 

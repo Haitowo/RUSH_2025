@@ -27,6 +27,7 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
             GameManager.Instance.SwitchToGame += Activate;
             GameManager.Instance.BackToMenu += Disable;
+            TileSelectionManager.Instance.OnInventoryEmpty += HandleInventoryEmpty;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -116,6 +117,17 @@ namespace Com.IsartDigital.Rush.Manager
                 SetStateVoid();
                 _TileSelected = null;
             }
+        }
+
+        private void HandleInventoryEmpty()
+        {
+            if (_TileSelected != null)
+            {
+                Destroy(_TileSelected);
+                _TileSelected = null;
+            }
+
+            SetStateVoid();
         }
 
         private void Activate(bool pEnable) => enabled = pEnable;

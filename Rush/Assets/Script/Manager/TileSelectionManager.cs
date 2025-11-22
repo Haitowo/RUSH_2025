@@ -21,6 +21,7 @@ namespace Com.IsartDigital.Rush.Manager
         //TODO : Change UI when selection or amount changes
         public event Action OnSelectionChanged;
         public event Action OnAmountChanged;
+        public event Action OnInventoryEmpty;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -60,6 +61,12 @@ namespace Com.IsartDigital.Rush.Manager
 
             CurrentEntry.UseOne();
             SkipIfEmpty();
+            NotifyAmountChanged();
+
+            if (!HasAnyTilesAvailable())
+            {
+                OnInventoryEmpty?.Invoke();
+            }
         }
 
         private void SkipIfEmpty()
