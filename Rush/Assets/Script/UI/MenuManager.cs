@@ -22,6 +22,8 @@ namespace Com.IsartDigital.Rush.UI
 
         private const float TRANSITION_TIME = .75f;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
@@ -102,13 +104,13 @@ namespace Com.IsartDigital.Rush.UI
 
             if (lCam != null)
                 lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
-            
-            GameManager.Instance.SwitchToGame?.Invoke(true);
+
+            _GameManager.SwitchToGame?.Invoke(true);
         }
 
         private void SetMenuCamera(bool pBool)
         {
-            GameManager.Instance.BackToMenu?.Invoke(pBool);
+            _GameManager.BackToMenu?.Invoke(pBool);
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
 

@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2a56ff066ced842b8f5046d8524190, type: 3}
   m_Name: All_Over_The_Place_Presets
   m_EditorClassIdentifier: 
-  tilesToPlaceForLevel: []
+  tilesToPlaceForLevel:
+  - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
+    amountToPlace: 2
+    angle: 90
+  - tilesToPlace: {fileID: 1324669775067448, guid: c6a4f00d8e6ee94408e741323199cb71, type: 3}
+    amountToPlace: 2
+    angle: 0

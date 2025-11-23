@@ -21,11 +21,13 @@ namespace Com.IsartDigital.Rush.UI
         private const float TWEEN_DURATION = 1.2f;
         private const float TWEEN_DELAY = .75f;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            GameManager.Instance.SwitchToGame += ToggleHUD;
-            GameManager.Instance.BackToMenu += RemoveHUD;
+            _GameManager.SwitchToGame += ToggleHUD;
+            _GameManager.BackToMenu += RemoveHUD;
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
@@ -83,6 +85,6 @@ namespace Com.IsartDigital.Rush.UI
 
         private void OnClick() => ToggleHUD(false);
 
-        private void StartGame() => GameManager.Instance.ActivatePlayPhase?.Invoke();
+        private void StartGame() => _GameManager.ActivatePlayPhase?.Invoke();
     }
 }

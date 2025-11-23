@@ -49,7 +49,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private bool _IsStop;
         private bool _IsTeleporting;
         private bool _JustTeleported;
-        private bool _StopCheckTeleport;
         private bool _IsFalling;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -119,8 +118,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
             _FromPos = _SelfTransform.position;
             _ToPos = _FromPos + _SlideDirection * _GridSize;
-
-            doAction = DoActionSlide;
 
             doAction = DoActionSlide;
         }

@@ -22,12 +22,14 @@ namespace Com.IsartDigital.Rush.LevelDesign
 
         private const int DECAY_DOWN = 10;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
             GetLevel();
             _LevelContainer.gameObject.SetActive(false);
-            GameManager.Instance.SwitchToGame += SpawnLevel;
+            _GameManager.SwitchToGame += SpawnLevel;
         }
 
         private void GetLevel()

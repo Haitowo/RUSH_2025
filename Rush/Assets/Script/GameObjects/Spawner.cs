@@ -27,12 +27,14 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private Vector3 _SpawnPos;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         private void Start()
         {
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.TickEvent += OnTick;
 
-            GameManager.Instance.ActivatePlayPhase += SpawnCube;
+            _GameManager.ActivatePlayPhase += SpawnCube;
         }
 
         private void OnTick()

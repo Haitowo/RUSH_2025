@@ -13,11 +13,15 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         public GameObject prefab;
         public int remaining;
+        public int angleToTurn;
+        private int _InitialAmount;
 
         public TileEntryRuntime(TileDefinition pDef)
         {
             prefab = pDef.tilesToPlace;
             remaining = pDef.amountToPlace;
+            angleToTurn = pDef.angle;
+            _InitialAmount = pDef.amountToPlace;
         }
 
         public void UseOne()
@@ -25,9 +29,9 @@ namespace Com.IsartDigital.Rush.UI
             remaining = Mathf.Max(remaining - 1, 0);
         }
 
-        public void ResetOne()
+        public void ResetAmount()
         {
-            remaining = Mathf.Max(remaining++, 0);
+            remaining = _InitialAmount;
         }
     }
 }

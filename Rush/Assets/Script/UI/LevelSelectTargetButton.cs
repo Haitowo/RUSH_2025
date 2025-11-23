@@ -21,11 +21,13 @@ namespace Com.IsartDigital.Rush.UI
 
         private List<GameObject> _InstantiatedLevel = new List<GameObject>();
 
+        private GameManager _GameManager => GameManager.Instance;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
             _LoadLevel.onClick.AddListener(LoadLevel);
-            GameManager.Instance.BackToMenu += OnBackToMenu;
+            _GameManager.BackToMenu += OnBackToMenu;
         }
 
         private void LoadLevel()

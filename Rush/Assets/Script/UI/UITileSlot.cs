@@ -26,37 +26,44 @@ namespace Com.IsartDigital.Rush.UI
         private const int RENDER_TEXTURE_SIZE = 100;
         private const int RENDER_TEXTURE_DEPTH = 10;
 
+        private int _Index;
+
         private bool _IsTileAlreadySelected;
 
-        public void Init(TileEntryRuntime pEntry)
+        private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
+        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
+
+        public void Init(TileEntryRuntime pEntry, int pIndex)
         {
             _RuntimeEntry = pEntry;
+
+            _Index = pIndex;
 
             SetRenderTexture();
             ShowPrefab();
             UpdateUI();
 
-            TileSelectionManager.Instance.OnAmountChanged += UpdateUI;
-
             _Button.onClick.AddListener(OnClick);
         }
+
+        private void OnEnable() => _TileSelectionManager.OnAmountChanged += UpdateUI;
+
+        private void OnDisable() => _TileSelectionManager.OnAmountChanged -= UpdateUI;
 
         private void OnClick()
         {
             GameObject lPreviewTile;
+
             if (_RuntimeEntry.remaining > 0 && !_IsTileAlreadySelected)
             {
+                _TileSelectionManager.SetIndex(_Index);
                 _IsTileAlreadySelected = true;
                 lPreviewTile = Instantiate(_RuntimeEntry.prefab);
                 lPreviewTile.SetActive(true);
-                SetGhostPreview(lPreviewTile);
-                TilePreviewManager.Instance.SetStateSelectTile(lPreviewTile);
+                _TilePreviewManager.SetStateSelectTile(lPreviewTile);
             }
             else if(_IsTileAlreadySelected)
-            {
-                TilePreviewManager.Instance.SetStateVoid();
-                _RuntimeEntry.ResetOne();
-            }
+                _TilePreviewManager.SetStateVoid();
             else return;
         }
 
@@ -68,6 +75,7 @@ namespace Com.IsartDigital.Rush.UI
         private void ShowPrefab()
         {
             _SpawnPrefab = Instantiate(_RuntimeEntry.prefab, _PrefabHolder);
+            _SpawnPrefab.transform.localRotation = Quaternion.Euler(0f, _RuntimeEntry.angleToTurn, 0f);
             Canvas lCanvas = _SpawnPrefab.GetComponentInChildren<Canvas>();
         }
 
@@ -78,12 +86,25 @@ namespace Com.IsartDigital.Rush.UI
             _CurrentImage.texture = lRenderTexture;
         }
 
-        private void SetGhostPreview(GameObject pTile)
+        public void SetRotation(int angle)
         {
-            Renderer lRend = pTile.GetComponentInChildren<Renderer>();
-            Color lColor = lRend.material.color;
-            lColor.a = .5f;
-            lRend.material.color = lColor;
+            if (_SpawnPrefab != null)
+                _SpawnPrefab.transform.localRotation = Quaternion.Euler(0f, angle, 0f);
         }
+
+
+        public void ResetSlot(TileEntryRuntime newEntry, int index)
+        {
+            _TileSelectionManager.OnAmountChanged -= UpdateUI;
+
+            _RuntimeEntry = newEntry;
+            _Index = index;
+            _IsTileAlreadySelected = false;
+
+            UpdateUI();
+
+            _TileSelectionManager.OnAmountChanged += UpdateUI;
+        }
+
     }
 }

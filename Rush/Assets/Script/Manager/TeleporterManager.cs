@@ -22,7 +22,16 @@ namespace Com.IsartDigital.Rush.Manager
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
+            #region Singleton Management
+            if (Instance != this && Instance != null)
+            {
+                Destroy(this);
+                Debug.LogError(nameof(TeleporterManager) + "Instance already exists. Destroying the current instance.");
+                return;
+            }
+
             Instance = this;
+            #endregion
         }
 
         public void Register(Teleporter pTeleporter)

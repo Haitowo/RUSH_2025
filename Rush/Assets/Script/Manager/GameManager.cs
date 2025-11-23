@@ -1,11 +1,9 @@
-using Com.IsartDigital.ProjectName;
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
-using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 05/11/2025 - Beginning of the class
 
@@ -26,9 +24,6 @@ namespace Com.IsartDigital.Rush.Manager
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
         public Action<bool> BackToMenu;
-        private Action<GameObject> _DoActionUI;
-
-        private GameObject _TileSelected;
 
         public static GameManager Instance { get; private set; }
 
@@ -48,7 +43,6 @@ namespace Com.IsartDigital.Rush.Manager
             }
 
             Instance = this;
-            //DontDestroyOnLoad(this);
             #endregion
         }
 
@@ -56,7 +50,6 @@ namespace Com.IsartDigital.Rush.Manager
         private void Update()
         {
             TickManager();
-            _DoActionUI(_TileSelected);
         }
 
         private void TickManager()
