@@ -79,9 +79,10 @@ namespace Com.IsartDigital.Rush.UI
         {
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
-            if (pType == EMenuType.PLAY) SetGameCamera();
 
-                _Menus[pType].SetActive(true);
+           _Menus[pType].SetActive(true);
+            if (pType == EMenuType.PLAY) 
+                SetGameCamera();
         }
 
         private void CheckTypeOfQuit(EMenuType pType)
@@ -111,8 +112,14 @@ namespace Com.IsartDigital.Rush.UI
         private void SetMenuCamera(bool pBool)
         {
             _GameManager.BackToMenu?.Invoke(pBool);
+
+            HUDTileToPlace lHud = HUDManager.Instance.hudTileToPlace;
+            if (lHud != null)
+                lHud.ClearAllSlots(pBool);
+
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
+
 
     }
 }

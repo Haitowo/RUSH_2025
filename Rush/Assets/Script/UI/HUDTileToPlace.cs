@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,6 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Transform _PrefabTileSlot;
         [SerializeField] private Transform _Container;
         [SerializeField] private List<SOLevelPrefabTilesHUD> _AllHUD;
-        [SerializeField] private ELevelHUDToload _SelectHUD;
 
         private SOLevelPrefabTilesHUD _SpawnHUDPrefab;
 
@@ -28,22 +28,28 @@ namespace Com.IsartDigital.Rush.UI
         private GameManager _GameManager => GameManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Start()
+        public event Action <ELevelHUDToload> OnHUDGenerated;
+
+        private void OnEnable()
         {
-            LinkSOWithHUD();
             _GameManager.SwitchToGame += SetPrefabOnSpawn;
-            _TileSelectionManager.Init(_AllElementsToSpawn);
+        }
+
+        private void OnDisable()
+        {
+            _GameManager.SwitchToGame -= SetPrefabOnSpawn;
         }
 
         private void SetPrefabOnSpawn(bool pBool)
         {
+            ELevelHUDToload lLevelHUDToload = _GameManager.SelectedHUDLevel;
+            LinkSOWithHUD(lLevelHUDToload);
             GenerateHUD();
         }
 
-        private void LinkSOWithHUD()
+        public void LinkSOWithHUD(ELevelHUDToload pLevel)
         {
-            int lIndexSOLevel = (int)_SelectHUD;
+            int lIndexSOLevel = (int)pLevel;
             if(lIndexSOLevel >= 0 && lIndexSOLevel < _AllHUD.Count)
                 _SpawnHUDPrefab = _AllHUD[lIndexSOLevel];
             else Debug.LogWarning(Utils.ERR_HUD_SPAWN);
@@ -54,6 +60,8 @@ namespace Com.IsartDigital.Rush.UI
             {
                 _AllElementsToSpawn.Add(new TileEntryRuntime(def));
             }
+
+            _TileSelectionManager.Init(_AllElementsToSpawn);
         }
 
         private void GenerateHUD()
@@ -90,5 +98,19 @@ namespace Com.IsartDigital.Rush.UI
             
             _TileSelectionManager.ResetAll();
         }
+
+        public void ClearAllSlots(bool pBool)
+        {
+            foreach (UITileSlot slot in _UISlots)
+            {
+                if (slot != null)
+                    slot.gameObject.SetActive(false);
+            }
+
+            _UISlots.Clear();
+            _AllElementsToSpawn.Clear();
+        }
+
+
     }
 }

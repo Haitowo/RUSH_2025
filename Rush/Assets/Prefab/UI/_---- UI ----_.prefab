@@ -840,6 +840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CurrentResetButton: {fileID: 6029024058598102864}
+  _HUDTileToPlace: {fileID: 0}
 --- !u!114 &3978188496317870205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,7 +865,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3570442676729433889}
   - component: {fileID: 7061495573192959376}
-  - component: {fileID: 6996028512032433390}
   m_Layer: 0
   m_Name: _---- UI ----_
   m_TagString: Untagged
@@ -906,23 +906,9 @@ MonoBehaviour:
   - {fileID: 8060211145404003809}
   - {fileID: 5368638548305850158}
   - {fileID: 3909289883579342481}
+  _HUDTileToPlace: {fileID: 0}
   _PlayButton: {fileID: 445485827251183671}
   _Offset: 300
---- !u!114 &6996028512032433390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5275051803380334752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 191e5c7a9ab533842b7e0f4b421bf539, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _PrefabTileSlot: {fileID: 4295082978018136405, guid: ed30305a44ff660449dab4e9db7e4768, type: 3}
-  _Container: {fileID: 526489321954229859}
-  _SpawnHUDPrefab: {fileID: 11400000, guid: 727f51cbefb32b54c92d8fb5885885c5, type: 2}
 --- !u!1 &5379988570209652204
 GameObject:
   m_ObjectHideFlags: 0

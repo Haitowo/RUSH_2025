@@ -103,14 +103,5 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _BasePoint = pBasePoint;
             distanceCamera = pDistance;
         }
-
-        private void CheckCameraForUI()
-        {
-            if (_IsCameraForUI)
-            {
-                distanceCamera = 10f;
-                return;
-            }
-        }
     }
 }

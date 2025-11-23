@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2a56ff066ced842b8f5046d8524190, type: 3}
   m_Name: Stadium_Presets
   m_EditorClassIdentifier: 
-  tilesToPlaceForLevel: []
+  tilesToPlaceForLevel:
+  - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
+    amountToPlace: 1
+    angle: 90
+  - tilesToPlace: {fileID: 1107203473147756, guid: 7c58f80a63e8a7141b5b7377395135cc, type: 3}
+    amountToPlace: 5
+    angle: 180
+  - tilesToPlace: {fileID: 1086838927579222, guid: e8eecaadcecd62c4abc686a94f5a59dd, type: 3}
+    amountToPlace: 6
+    angle: 0

@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.UI
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private HUDElementToSpawn[] _HudElementsToSpawn;
+        [SerializeField] public HUDTileToPlace hudTileToPlace;
         [SerializeField] private Button _PlayButton;
         [SerializeField] private float _Offset = 100f;
 
@@ -22,6 +23,8 @@ namespace Com.IsartDigital.Rush.UI
         private const float TWEEN_DELAY = .75f;
 
         private GameManager _GameManager => GameManager.Instance;
+
+        public static HUDManager Instance { get; private set; }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -31,6 +34,17 @@ namespace Com.IsartDigital.Rush.UI
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
+
+            #region Singleton Management
+            if (Instance != this && Instance != null)
+            {
+                Destroy(this);
+                Debug.LogError(nameof(HUDManager) + "Instance already exists. Destroying the current instance.");
+                return;
+            }
+
+            Instance = this;
+            #endregion
         }
 
         private void ToggleHUD(bool pShow)
@@ -86,5 +100,6 @@ namespace Com.IsartDigital.Rush.UI
         private void OnClick() => ToggleHUD(false);
 
         private void StartGame() => _GameManager.ActivatePlayPhase?.Invoke();
+        
     }
 }

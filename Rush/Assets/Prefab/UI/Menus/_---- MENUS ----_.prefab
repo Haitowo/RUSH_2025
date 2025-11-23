@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 3948862871625230867}
   - component: {fileID: 1867555187165065127}
   - component: {fileID: 1591187505497263032}
+  - component: {fileID: 4377899425655465993}
   - component: {fileID: 6524656142790587536}
   m_Layer: 5
   m_Name: STADIUM_BTN
@@ -421,6 +422,21 @@ MonoBehaviour:
   _ScaleMultiplier: 1.05
   _Duration: 0.5
   _TargetMenu: 2
+--- !u!114 &4377899425655465993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762183745646728734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9d36781dfc3604a8e1a7f603fa58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _LevelSelectCurrentButton: {fileID: 1867555187165065127}
+  _SOLinkedToLevel: 2
+  _TileToPlace: {fileID: 0}
 --- !u!114 &6524656142790587536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TargetPrefabToLoad: {fileID: 2848787488028765935, guid: 66d60c18bcbdb4443b140c3370c43163, type: 3}
   _GameObjectsParents: {fileID: 0}
+  _TextUILevel: {fileID: 0}
   _LoadLevel: {fileID: 1867555187165065127}
 --- !u!1 &802719481842446046
 GameObject:
@@ -450,6 +467,7 @@ GameObject:
   - component: {fileID: 4765424586136394461}
   - component: {fileID: 6441744950487165754}
   - component: {fileID: 3011191986911826450}
+  - component: {fileID: 3116897518488581341}
   m_Layer: 5
   m_Name: CASCADE_BTN
   m_TagString: Untagged
@@ -588,7 +606,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TargetPrefabToLoad: {fileID: 4989258476497991974, guid: 26b13e5564e101949ab6a4af4973df0f, type: 3}
   _GameObjectsParents: {fileID: 0}
+  _TextUILevel: {fileID: 0}
   _LoadLevel: {fileID: 4765424586136394461}
+--- !u!114 &3116897518488581341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802719481842446046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9d36781dfc3604a8e1a7f603fa58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _LevelSelectCurrentButton: {fileID: 4765424586136394461}
+  _SOLinkedToLevel: 0
+  _TileToPlace: {fileID: 0}
 --- !u!1 &904943647780612987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,6 +2231,7 @@ GameObject:
   - component: {fileID: 8352994299386661221}
   - component: {fileID: 6624923797022422552}
   - component: {fileID: 8983436137623664707}
+  - component: {fileID: 34668241994014299}
   - component: {fileID: 9040880833912040951}
   m_Layer: 5
   m_Name: ALL_OVER_THE_PLACE_BTN
@@ -2322,6 +2357,21 @@ MonoBehaviour:
   _ScaleMultiplier: 1.05
   _Duration: 0.5
   _TargetMenu: 2
+--- !u!114 &34668241994014299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102284052551241209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9d36781dfc3604a8e1a7f603fa58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _LevelSelectCurrentButton: {fileID: 6624923797022422552}
+  _SOLinkedToLevel: 1
+  _TileToPlace: {fileID: 0}
 --- !u!114 &9040880833912040951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2336,6 +2386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TargetPrefabToLoad: {fileID: 8393011106427648405, guid: 80bcdbb19cabc7547a86d66fc25bd91d, type: 3}
   _GameObjectsParents: {fileID: 2061865080657908212}
+  _TextUILevel: {fileID: 0}
   _LoadLevel: {fileID: 6624923797022422552}
 --- !u!1 &3551184011756120977
 GameObject:
@@ -3370,6 +3421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CurrentCameraGame: {fileID: 0}
+  _BackMenuGame: {fileID: 0}
 --- !u!1 &4649667846479728378
 GameObject:
   m_ObjectHideFlags: 0
@@ -3516,6 +3568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8550174060032382313}
   - component: {fileID: 9146790422293980964}
+  - component: {fileID: 3323158356764335041}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -3556,6 +3609,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   CameraPos: {fileID: 0}
+--- !u!114 &3323158356764335041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679876115140887418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191e5c7a9ab533842b7e0f4b421bf539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PrefabTileSlot: {fileID: 4295082978018136405, guid: ed30305a44ff660449dab4e9db7e4768, type: 3}
+  _Container: {fileID: 0}
+  _AllHUD:
+  - {fileID: 11400000, guid: b336fde4eedc3624e8ec675f3cedc37e, type: 2}
+  - {fileID: 11400000, guid: 0ee43f09e1e710f4eab746bebba5940e, type: 2}
+  - {fileID: 11400000, guid: 7b1e2ac2890efba4fbff2972539ba633, type: 2}
 --- !u!1 &4720736814846984572
 GameObject:
   m_ObjectHideFlags: 0

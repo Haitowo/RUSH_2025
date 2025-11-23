@@ -207,7 +207,17 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void Activate(bool pEnable) => enabled = pEnable;
 
-        private void Disable(bool pEnable) => enabled = pEnable;
+        private void Disable(bool pEnable)
+        {
+            enabled = pEnable;
+
+            foreach (GameObject tile in _PlacedTiles)
+            {
+                if(tile != null)
+                    Destroy(tile);  
+            }
+            _PlacedTiles.Clear();
+        }
         
     }
 }

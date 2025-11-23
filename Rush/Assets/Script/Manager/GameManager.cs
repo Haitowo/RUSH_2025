@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
 using System;
 using UnityEngine;
@@ -24,6 +25,8 @@ namespace Com.IsartDigital.Rush.Manager
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
         public Action<bool> BackToMenu;
+
+        public ELevelHUDToload SelectedHUDLevel { get; private set; }
 
         public static GameManager Instance { get; private set; }
 
@@ -74,6 +77,8 @@ namespace Com.IsartDigital.Rush.Manager
             //TODO : Level Complete Management
         }
 
+        public void SetSelectedHUD(ELevelHUDToload pLevel) => SelectedHUDLevel = pLevel;
+        
         private void ActivateLevel() => enabled = true;
 
     }

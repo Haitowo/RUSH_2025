@@ -1,6 +1,7 @@
 using Com.IsartDigital.Rush.UI;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -21,11 +22,17 @@ namespace Com.IsartDigital.Rush.Manager
         public event Action OnAmountChanged;
         public event Action OnInventoryEmpty;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         public bool IsInventoryEmpty => !HasAnyTilesAvailable();
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
+            enabled = false;
+            _GameManager.SwitchToGame += Activate;
+            _GameManager.BackToMenu += Disable;
+
             #region Singleton Management
             if (Instance != this && Instance != null)
             {
@@ -128,5 +135,9 @@ namespace Com.IsartDigital.Rush.Manager
         }
 
         private void NotifyAmountChanged() => OnAmountChanged?.Invoke();
+
+        private void Activate(bool pEnable) => enabled = pEnable;
+
+        private void Disable(bool pEnable) => enabled = pEnable;
     }
 }
