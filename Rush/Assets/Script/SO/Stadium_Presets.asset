@@ -21,4 +21,4 @@ MonoBehaviour:
     angle: 180
   - tilesToPlace: {fileID: 1086838927579222, guid: e8eecaadcecd62c4abc686a94f5a59dd, type: 3}
     amountToPlace: 6
-    angle: 0
+    angle: 180

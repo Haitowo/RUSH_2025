@@ -52,15 +52,14 @@ namespace Com.IsartDigital.Rush.UI
             int lIndexSOLevel = (int)pLevel;
             if(lIndexSOLevel >= 0 && lIndexSOLevel < _AllHUD.Count)
                 _SpawnHUDPrefab = _AllHUD[lIndexSOLevel];
-            else Debug.LogWarning(Utils.ERR_HUD_SPAWN);
+            else 
+                Debug.LogWarning(Utils.ERR_HUD_SPAWN);
 
             _AllElementsToSpawn.Clear();
 
             foreach(TileDefinition def in _SpawnHUDPrefab.tilesToPlaceForLevel)
-            {
                 _AllElementsToSpawn.Add(new TileEntryRuntime(def));
-            }
-
+            
             _TileSelectionManager.Init(_AllElementsToSpawn);
         }
 
@@ -111,6 +110,14 @@ namespace Com.IsartDigital.Rush.UI
             _AllElementsToSpawn.Clear();
         }
 
+        public void UpdateSlot(TileEntryRuntime pEntry)
+        {
+            int lCurrentIndex = _AllElementsToSpawn.IndexOf(pEntry);
+            if (lCurrentIndex >= 0 && lCurrentIndex < _UISlots.Count)
+            {
+                _UISlots[lCurrentIndex].ResetSlot(pEntry, lCurrentIndex);
+            }
+        }
 
     }
 }

@@ -7606,7 +7606,7 @@ PrefabInstance:
     - target: {fileID: 4339223630813177224, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _HUDTileToPlace
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1572922468}
     - target: {fileID: 4971687279841953525, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: m_Camera
       value: 
@@ -7663,6 +7663,10 @@ PrefabInstance:
       propertyPath: '_AllHUD.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 7b1e2ac2890efba4fbff2972539ba633, type: 2}
+    - target: {fileID: 7061495573192959376, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
+      propertyPath: hudTileToPlace
+      value: 
+      objectReference: {fileID: 1572922468}
     - target: {fileID: 7061495573192959376, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _HUDTileToPlace
       value: 

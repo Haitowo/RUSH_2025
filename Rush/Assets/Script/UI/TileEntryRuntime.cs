@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,11 @@ namespace Com.IsartDigital.Rush.UI
         public void ResetAmount()
         {
             remaining = _InitialAmount;
+        }
+
+        public void AddOne()
+        {
+            remaining++;
         }
     }
 }

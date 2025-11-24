@@ -71,7 +71,16 @@ namespace Com.IsartDigital.Rush.Manager
 
             if (!HasAnyTilesAvailable())
                 OnInventoryEmpty?.Invoke();
-            
+        }
+
+        public void AddOne(TileEntryRuntime pEntry)
+        {
+            if (pEntry == null)
+                return;
+
+            pEntry.AddOne();
+            SkipIfEmpty();
+            NotifyAmountChanged();
         }
 
         private void SkipIfEmpty()

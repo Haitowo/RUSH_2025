@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.UI;
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,16 @@ namespace Com.IsartDigital.Rush.Manager
     public class TilePreviewManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [SerializeField] private HUDTileToPlace _HUDTileToPlace;
+
         private GameObject _GhostTile;
         private Action<GameObject> _DoActionUI;
 
         private const int ERR_VALUE = -1;
         private const float DECAY_TILE = .5f;
+        private const float TWEEN_TIME = .5f;
+        private const float PAUSE_TIME = .05f;
+        private const float FULL_TURN = 360f;
         private List<GameObject> _PlacedTiles = new List<GameObject>();
 
         public static TilePreviewManager Instance { get; private set; }
@@ -54,7 +60,7 @@ namespace Com.IsartDigital.Rush.Manager
             _DoActionUI(_GhostTile);
             CheckValidation();
             HandleMouseWheel();
-            CheckRightClick();
+            CheckClickInputs();
         }
 
         public void SetStateVoid()
@@ -104,25 +110,32 @@ namespace Com.IsartDigital.Rush.Manager
         private void CheckValidation()
         {
             if (_GhostTile != null && Mouse.current.leftButton.wasPressedThisFrame)
-            {
                 ValidateTilePlacement();
-            }
+            else if (_GhostTile == null && Mouse.current.leftButton.wasPressedThisFrame)
+                TryRemoveTile();
         }
 
         private void ValidateTilePlacement()
         {
             if (_GhostTile == null) return;
+            TileRuntimeIdentifier lIdentifier;
             GameObject lPlacedTile = Instantiate(_GhostTile);
             Vector3 lPos = _GhostTile.transform.position;
             lPlacedTile.transform.position = lPos;
-
-            _TileSelectionManager.UseOne();
-            GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
-
+            lIdentifier = lPlacedTile.AddComponent<TileRuntimeIdentifier>();
+            lIdentifier.tileEntry = _TileSelectionManager.CurrentEntry;
             Destroy(_GhostTile);
-            _PlacedTiles.Add(lPlacedTile);
+            _GhostTile = null;
+            lPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true).OnComplete(() => PlaceTile(lPlacedTile));
 
+            GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
             CheckNextPrefab(lNextPrefab);
+            _TileSelectionManager.UseOne();
+        }
+
+        private void PlaceTile(GameObject pTile)
+        {
+            _PlacedTiles.Add(pTile);
         }
 
         private void HandleInventoryEmpty()
@@ -168,13 +181,13 @@ namespace Com.IsartDigital.Rush.Manager
             }
         }
 
-        private void CheckRightClick()
+        private void CheckClickInputs()
         {
             if (_GhostTile != null && Mouse.current.rightButton.wasPressedThisFrame)
             {
                 _GhostTile.SetActive(false);
                 SetStateVoid();
-            }
+            } 
         }
 
         private void NextTile()
@@ -198,11 +211,31 @@ namespace Com.IsartDigital.Rush.Manager
             }
 
             foreach (GameObject lTile in _PlacedTiles)
-            {
                 Destroy(lTile);
-            }
-
+            
             SetStateVoid();
+        }
+
+        private void TryRemoveTile()
+        {
+            Vector3 lMousePos = Mouse.current.position.ReadValue();
+            Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
+
+            if (Physics.Raycast(lRay, out RaycastHit hit, Mathf.Infinity))
+            {
+                GameObject lTargetTile = hit.collider.gameObject;
+
+                if(lTargetTile.layer == (int)ECollision.GROUND)
+                    return;
+
+                TileRuntimeIdentifier lIdentifier = lTargetTile.GetComponent<TileRuntimeIdentifier>();
+
+                if (lIdentifier != null && _PlacedTiles.Contains(lTargetTile))
+                {
+                    _PlacedTiles.Remove(lTargetTile);
+                    AnimateTileRemoval(lTargetTile, lIdentifier);
+                }
+            }
         }
 
         private void Activate(bool pEnable) => enabled = pEnable;
@@ -218,6 +251,17 @@ namespace Com.IsartDigital.Rush.Manager
             }
             _PlacedTiles.Clear();
         }
-        
+
+        private void AnimateTileRemoval(GameObject pTile, TileRuntimeIdentifier pIdentifier)
+        {
+            _TileSelectionManager.AddOne(pIdentifier.tileEntry);
+
+            Sequence lSequence = DOTween.Sequence();
+
+            lSequence.Append(pTile.transform.DOMoveY(pTile.transform.position.y + DECAY_TILE, TWEEN_TIME / 2f).SetEase(Ease.OutQuad));
+            lSequence.Join(pTile.transform.DORotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true));
+            lSequence.AppendInterval(PAUSE_TIME);
+            lSequence.OnComplete(() => Destroy(pTile));
+        }
     }
 }

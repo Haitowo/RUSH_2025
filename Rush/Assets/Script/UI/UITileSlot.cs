@@ -105,6 +105,5 @@ namespace Com.IsartDigital.Rush.UI
 
             _TileSelectionManager.OnAmountChanged += UpdateUI;
         }
-
     }
 }
