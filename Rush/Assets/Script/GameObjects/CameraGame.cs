@@ -15,9 +15,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
         [Header(Utils.CAMERA_MANAGEMENT)]
         [SerializeField] private float _YMinAngle = -20f;
         [SerializeField] private float _YMaxAngle = 80f;
-        [SerializeField] private float _ZoomSpeed = 3f;
-        [SerializeField] private float _ZoomMin = 2f;
-        [SerializeField] private float _ZoomMax = 20f;
+        [SerializeField] private bool _IsCameraForUI;
 
         [SerializeField] public Transform middlePoint;
 
@@ -26,12 +24,9 @@ namespace Com.IsartDigital.Rush.CameraManagement
         private float _YAngles = 20f;
         private float _RotationSpeed = 5f;
 
-        private const float MAX_ZOOM = .01f;
-
-        private const int MOUSE_BUTTON_LEFT = 0;
+        private const int MOUSE_BUTTON_RIGHT = 1;
 
         private Vector3 _BasePoint;
-        private Vector3 _Angles;
 
         private Transform _SelfTransform;
         private GameManager _GameManager;
@@ -39,7 +34,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            enabled = false;
+            enabled = _IsCameraForUI ? true : false;
             _SelfTransform = transform;
             _GameManager = GameManager.Instance;
 
@@ -53,7 +48,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
             if (PointerOverUI()) return;
 
             MoveCamera();
-            ZoomMouse();
         }
 
         private bool PointerOverUI()
@@ -76,11 +70,11 @@ namespace Com.IsartDigital.Rush.CameraManagement
             Vector3 lDistance;
             Vector3 lPosition;
 
-            if (Input.GetMouseButton(MOUSE_BUTTON_LEFT)) GetAxisMouseAndTouch();
+            if (Input.GetMouseButton(MOUSE_BUTTON_RIGHT)) GetAxisMouseAndTouch();
 
             lRotation = Quaternion.Euler(_YAngles, _XAngles, 0f);
             lDistance = new Vector3(0f, 0f, -distanceCamera);
-            lPosition = lRotation * lDistance + _BasePoint;
+            lPosition = lRotation * lDistance + middlePoint.position;
 
             transform.rotation = lRotation;
             transform.position = lPosition;
@@ -91,17 +85,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _XAngles += Input.GetAxis(Utils.MOUSE_BUTTON_X) * _RotationSpeed;
             _YAngles += Input.GetAxis(Utils.MOUSE_BUTTON_Y) * _RotationSpeed;
             _YAngles = Mathf.Clamp(_YAngles, _YMinAngle, _YMaxAngle);
-        }
-
-        private void ZoomMouse()
-        {
-            float lScroll = Input.GetAxis(Utils.MOUSE_WHEEL);
-
-            if(Mathf.Abs(lScroll) > MAX_ZOOM)
-            {
-                distanceCamera -= lScroll * _ZoomSpeed;
-                distanceCamera = Mathf.Clamp(distanceCamera, _ZoomMin, _ZoomMax);
-            }
         }
 
         private void EnableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;

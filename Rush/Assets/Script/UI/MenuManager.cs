@@ -2,9 +2,7 @@ using Com.IsartDigital.Rush.CameraManagement;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +21,8 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Button _BackMenuGame;
 
         private const float TRANSITION_TIME = .75f;
+
+        private GameManager _GameManager => GameManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -79,9 +79,10 @@ namespace Com.IsartDigital.Rush.UI
         {
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
-            if (pType == EMenuType.PLAY) SetGameCamera();
 
-                _Menus[pType].SetActive(true);
+           _Menus[pType].SetActive(true);
+            if (pType == EMenuType.PLAY) 
+                SetGameCamera();
         }
 
         private void CheckTypeOfQuit(EMenuType pType)
@@ -104,15 +105,21 @@ namespace Com.IsartDigital.Rush.UI
 
             if (lCam != null)
                 lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
-            
-            GameManager.Instance.SwitchToGame?.Invoke(true);
+
+            _GameManager.SwitchToGame?.Invoke(true);
         }
 
         private void SetMenuCamera(bool pBool)
         {
-            GameManager.Instance.BackToMenu?.Invoke(pBool);
+            _GameManager.BackToMenu?.Invoke(pBool);
+
+            HUDTileToPlace lHud = HUDManager.Instance.hudTileToPlace;
+            if (lHud != null)
+                lHud.ClearAllSlots(pBool);
+
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
+
 
     }
 }

@@ -14,5 +14,6 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         public GameObject tilesToPlace;
         public int amountToPlace;
+        public int angle;
     }
 }

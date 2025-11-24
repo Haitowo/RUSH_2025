@@ -15,16 +15,18 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private Slider _CurrentSlider;
 
+        private GameManager _GameManager => GameManager.Instance;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            _CurrentSlider.SetValueWithoutNotify(GameManager.Instance.TickSpeed);
+            _CurrentSlider.SetValueWithoutNotify(_GameManager.TickSpeed);
             _CurrentSlider.onValueChanged.AddListener(ChangeSpeed);
         }
 
         private void ChangeSpeed(float pValue)
         {
-            GameManager.Instance.TickSpeed = pValue;
+            _GameManager.TickSpeed = pValue;
         }
     }
 }
