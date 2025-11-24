@@ -61,6 +61,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 case ECollision.TARGET:
                     TargetManagement(pCube, pObject.GetComponent<Target>());
                     break;
+                case ECollision.SPAWNER:
+                    pCube.SetStateMove();
+                    break;
                 default:
                     break;
             }
