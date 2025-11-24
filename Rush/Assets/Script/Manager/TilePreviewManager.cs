@@ -128,14 +128,15 @@ namespace Com.IsartDigital.Rush.Manager
             _GhostTile = null;
             lPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true).OnComplete(() => PlaceTile(lPlacedTile));
 
+            _TileSelectionManager.UseOne();
             GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
             CheckNextPrefab(lNextPrefab);
-            _TileSelectionManager.UseOne();
         }
 
         private void PlaceTile(GameObject pTile)
         {
             _PlacedTiles.Add(pTile);
+            
         }
 
         private void HandleInventoryEmpty()

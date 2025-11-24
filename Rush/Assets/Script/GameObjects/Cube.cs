@@ -257,6 +257,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             SetDirection(direction);
             SetStateMove();
+
+            _StopCubeTickCount = 0;
         }
 
         private void ResetAllValues()
