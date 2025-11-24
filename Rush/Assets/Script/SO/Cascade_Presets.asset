@@ -15,10 +15,10 @@ MonoBehaviour:
   tilesToPlaceForLevel:
   - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
     amountToPlace: 1
-    angle: 180
+    angle: 90
   - tilesToPlace: {fileID: 1107203473147756, guid: 7c58f80a63e8a7141b5b7377395135cc, type: 3}
     amountToPlace: 3
-    angle: 0
+    angle: 270
   - tilesToPlace: {fileID: 1107203473147756, guid: 7c58f80a63e8a7141b5b7377395135cc, type: 3}
     amountToPlace: 1
-    angle: 270
+    angle: 180

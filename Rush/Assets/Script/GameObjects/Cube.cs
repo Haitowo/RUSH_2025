@@ -33,10 +33,12 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private float _GridSize = 1f;
 
+        private int _CheckTickCount = 0;
         private int _StopCubeTickCount = 0;
         private int _TeleportationTickCount = 0;
 
-        private const int MAX_TICK_COUNT = 2;
+        private const int STOP_TICK_COUNT = 2;
+        private const int WALL_HIT_STOP_TICK_COUNT = 3;
 
         private Quaternion _FromRotation, _ToRotation;
 
@@ -47,6 +49,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private ITickProvider _TickProvider;
 
         private bool _IsStop;
+        private bool _IsWallAfterStop;
         private bool _IsTeleporting;
         private bool _JustTeleported;
         private bool _IsFalling;
@@ -82,7 +85,13 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (doAction == DoActionVoid || doAction == DoActionStop) IncreaseStopTickCube();
         }
 
-        public void SetStateStop() => doAction = DoActionStop;
+        public void SetStateStop()
+        {
+            _IsWallAfterStop = CheckFrontAfterStop();
+            _CheckTickCount = _IsWallAfterStop ? WALL_HIT_STOP_TICK_COUNT : STOP_TICK_COUNT;
+            _IsStop = true;
+            doAction = DoActionStop;
+        }
 
         public void SetStateVoid() => doAction = DoActionVoid;
 
@@ -119,7 +128,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
             _FromPos = _SelfTransform.position;
             _ToPos = _FromPos + _SlideDirection * _GridSize;
-            lastDirectionBeforeFall = _SlideDirection;
 
             doAction = DoActionSlide;
         }
@@ -181,7 +189,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void IncreaseTickTeleport()
         {
             _TeleportationTickCount++;
-            if (_TeleportationTickCount >= MAX_TICK_COUNT)
+            if (_TeleportationTickCount >= STOP_TICK_COUNT)
                 EndTeleport();
         }
 
@@ -246,19 +254,27 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void IncreaseStopTickCube()
         {
-            _StopCubeTickCount++;
-            if (_StopCubeTickCount >= MAX_TICK_COUNT && _IsStop)
+            if (_StopCubeTickCount >= _CheckTickCount && _IsStop)
                 MoveInFront();
-            else if (_StopCubeTickCount >= MAX_TICK_COUNT && !_IsStop)
+            else if (_StopCubeTickCount >= STOP_TICK_COUNT && !_IsStop)
                 CanMoveToDirection(direction);
+            else 
+                _StopCubeTickCount++;
         }
 
         private void MoveInFront()
         {
-            SetDirection(direction);
-            SetStateMove();
-
+            bool lWasWallAndStop = _IsWallAfterStop;
             _StopCubeTickCount = 0;
+            _IsWallAfterStop = false;
+            _IsStop = false;
+            if(lWasWallAndStop)
+            {
+                CanMoveToDirection(direction);
+                return;
+            }
+            SetStateMove();
+            SetDirection(direction);
         }
 
         private void ResetAllValues()
@@ -270,6 +286,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
             direction = _SelfTransform.forward.normalized;
             _FromRotation = _SelfTransform.rotation;
             _ToRotation = _SelfTransform.rotation;
+        }
+
+        private bool CheckFrontAfterStop()
+        {
+            Ray lRayFront = new Ray(_SelfTransform.position, direction);
+            RaycastHit lHit;
+
+            if (Physics.Raycast(lRayFront, out lHit, DISTANCE_RAYCAST, _ObstacleLayer)) return true;
+            else return false;
         }
 
         private void OnDestroy()

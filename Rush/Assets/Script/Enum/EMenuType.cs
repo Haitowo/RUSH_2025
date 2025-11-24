@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.UI
         PLAY,
         OPTIONS,
         CREDITS,
-        QUIT
+        QUIT,
+        WIN_SCREEN
     }
 }

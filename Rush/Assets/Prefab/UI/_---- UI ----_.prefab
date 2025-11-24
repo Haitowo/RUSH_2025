@@ -906,7 +906,7 @@ MonoBehaviour:
   - {fileID: 8060211145404003809}
   - {fileID: 5368638548305850158}
   - {fileID: 3909289883579342481}
-  _HUDTileToPlace: {fileID: 0}
+  hudTileToPlace: {fileID: 0}
   _PlayButton: {fileID: 445485827251183671}
   _Offset: 300
 --- !u!1 &5379988570209652204
@@ -1454,10 +1454,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 3702968199554440591}
   m_HandleRect: {fileID: 3394096708895541979}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

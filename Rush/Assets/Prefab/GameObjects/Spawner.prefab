@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4358187150086414}
   - component: {fileID: 65600886747357360}
   - component: {fileID: 1473297084656719757}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,6 +69,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CubePrefab: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
   _SpawnPoint: {fileID: 4358187150086414}
+  _GameObjectContainer: {fileID: 0}
+  _ColorSpawnerAndCube: 0
 --- !u!1 &1451354327250352
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +82,7 @@ GameObject:
   - component: {fileID: 4997781578967948}
   - component: {fileID: 33384601887706480}
   - component: {fileID: 23577666094423652}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

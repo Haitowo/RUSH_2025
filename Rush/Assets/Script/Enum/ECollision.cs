@@ -13,6 +13,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         TURNSTILE = 11,
         TARGET = 12,
         CONVEYORS = 13,
-        TERRAIN = 15
+        TERRAIN = 15,
+        SPAWNER = 17
     }
 }

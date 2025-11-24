@@ -28,6 +28,7 @@ namespace Com.IsartDigital.Rush.GameObjects
         private Vector3 _SpawnPos;
 
         private GameManager _GameManager => GameManager.Instance;
+        private CollisionManager _CollisionManager => CollisionManager.Instance;
 
         private void Start()
         {
@@ -58,7 +59,7 @@ namespace Com.IsartDigital.Rush.GameObjects
             lPrefab.transform.DOScale(Vector3.one, SPAWN_CUBE_TIME);
             lCube.cubeColor = _ColorSpawnerAndCube;
 
-            if (lCube != null) CollisionManager.Instance.RegisterCube(lCube);
+            if (lCube != null) _CollisionManager.RegisterCube(lCube);
         }
 
         private void OnDestroy()

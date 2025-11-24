@@ -29,6 +29,12 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
+            foreach (HUDElementToSpawn lElement in _HudElementsToSpawn)
+            {
+                if (lElement.objectToTransform != null)
+                    lElement.currentPos = lElement.objectToTransform.anchoredPosition;
+            }
+             
             _GameManager.SwitchToGame += ToggleHUD;
             _GameManager.BackToMenu += RemoveHUD;
             transform.gameObject.SetActive(false);
@@ -54,6 +60,7 @@ namespace Com.IsartDigital.Rush.UI
 
             foreach (HUDElementToSpawn lElements in _HudElementsToSpawn)
             {
+                lElements.currentPos = lElements.objectToTransform.anchoredPosition;
                 if (!pShow && lElements.ignoreHide)
                     continue;
 
@@ -95,7 +102,15 @@ namespace Com.IsartDigital.Rush.UI
             if(!pShow) DOVirtual.DelayedCall(TWEEN_DURATION * TWEEN_DELAY, () => StartGame());
         }
 
-        private void RemoveHUD(bool pHide) => transform.gameObject.SetActive(false);
+        private void RemoveHUD(bool pHide)
+        {
+            foreach (HUDElementToSpawn lElement in _HudElementsToSpawn)
+            {
+                if (lElement.objectToTransform != null)
+                    lElement.objectToTransform.anchoredPosition = lElement.currentPos;
+            }
+            transform.gameObject.SetActive(false);
+        }
 
         private void OnClick() => ToggleHUD(false);
 
