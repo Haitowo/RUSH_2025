@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,6 +40,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _GameManager = GameManager.Instance;
 
             _GameManager.SwitchToGame += EnableCameraForGame;
+            _GameManager.GameFinished += OnWinScreen;
             _GameManager.BackToMenu += DisableCameraForGame;
         }
 
@@ -90,6 +92,8 @@ namespace Com.IsartDigital.Rush.CameraManagement
         private void EnableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
 
         private void DisableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
+
+        private void OnWinScreen(EMenuType pType) => enabled = false;
 
         public void SetStartTransform(Vector3 pPosition, Quaternion pRotation, float pDistance, Vector3 pBasePoint)
         {

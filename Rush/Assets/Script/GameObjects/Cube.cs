@@ -37,8 +37,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private int _StopCubeTickCount = 0;
         private int _TeleportationTickCount = 0;
 
-        private const int STOP_TICK_COUNT = 3;
-        private const int WALL_HIT_STOP_TICK_COUNT = 4;
+        private const int STOP_TICK_COUNT = 2;
+        private const int WALL_HIT_STOP_TICK_COUNT = 3;
 
         private Quaternion _FromRotation, _ToRotation;
 
@@ -254,11 +254,12 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void IncreaseStopTickCube()
         {
-            _StopCubeTickCount++;
             if (_StopCubeTickCount >= _CheckTickCount && _IsStop)
                 MoveInFront();
             else if (_StopCubeTickCount >= STOP_TICK_COUNT && !_IsStop)
                 CanMoveToDirection(direction);
+            else 
+                _StopCubeTickCount++;
         }
 
         private void MoveInFront()

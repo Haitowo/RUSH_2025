@@ -17,6 +17,7 @@ namespace Com.IsartDigital.Rush.Manager
         [Header(Utils.GAME_SPEED)]
         [SerializeField] public float TickSpeed { get; set; } = 1f;
         [HideInInspector] public float RatioTimeTick {  get; private set; }
+        [SerializeField] private EMenuType _WinScreenToShow;
 
         private float _DurationBetweenTicks = 1f;
         private float _ElapsedTime = 0f;
@@ -25,6 +26,7 @@ namespace Com.IsartDigital.Rush.Manager
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
         public Action<bool> BackToMenu;
+        public Action<EMenuType> GameFinished;
 
         public ELevelHUDToload SelectedHUDLevel { get; private set; }
 
@@ -72,9 +74,10 @@ namespace Com.IsartDigital.Rush.Manager
             RatioTimeTick = _ElapsedTime / _DurationBetweenTicks;
         }
 
-        public void CubeReachTarget(Cube pCube)
+        public void LevelComplete()
         {
-            //TODO : Level Complete Management
+            GameFinished?.Invoke(_WinScreenToShow);
+            enabled = false;
         }
 
         public void SetSelectedHUD(ELevelHUDToload pLevel) => SelectedHUDLevel = pLevel;

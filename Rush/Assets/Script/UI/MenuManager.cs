@@ -19,6 +19,7 @@ namespace Com.IsartDigital.Rush.UI
 
         [SerializeField] private Transform _CurrentCameraGame;
         [SerializeField] private Button _BackMenuGame;
+        [SerializeField] private Button _BackLevelSelectButton;
 
         private const float TRANSITION_TIME = .75f;
 
@@ -31,8 +32,10 @@ namespace Com.IsartDigital.Rush.UI
             RegisterButtons();
 
             ShowMenu(EMenuType.MAIN);
+            _GameManager.GameFinished += ShowMenu;
 
             _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
+            _BackLevelSelectButton.onClick.AddListener(() => SetMenuCamera(false));
         }
 
         private void RegisterMenus()
@@ -119,7 +122,5 @@ namespace Com.IsartDigital.Rush.UI
 
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
-
-
     }
 }

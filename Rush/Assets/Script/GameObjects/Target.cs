@@ -23,7 +23,11 @@ namespace Com.IsartDigital.Rush.GameObjects
             else return;
         }
 
-        private void DestroyCube(Cube pCurrentCube) => Destroy(pCurrentCube.gameObject);    
+        private void DestroyCube(Cube pCurrentCube)
+        {
+            CollisionManager.Instance.RemoveCube(pCurrentCube);
+            Destroy(pCurrentCube.gameObject);
+        }
         
     }
 }

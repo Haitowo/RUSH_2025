@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private Teleporter _NextTeleporter;
 
         private List<Cube> _Cubes = new List<Cube>();
+
+        private GameManager _GameManager => GameManager.Instance;
 
         public static CollisionManager Instance { get; private set; }
 
@@ -96,7 +99,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
             CheckTarget(pCube, pCurrentTarget);
             CheckDisconnectCurrentCube(pCube, pCurrentTarget);
             pCurrentTarget.DetectCubeColor(pCube);
-            GameManager.Instance.CubeReachTarget(pCube);
         }
 
         private void CheckTarget(Cube pCube, Target pCurrentTarget)
@@ -105,7 +107,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 pCube.SetStateMove();
             else
                 pCube.SetStateStop();
+        }
 
+        private void CheckAllCubesGone()
+        {
+            _Cubes.RemoveAll(c => c == null);
+
+            if (_Cubes.Count == 0)
+                _GameManager.LevelComplete();
+            
         }
 
         private void CheckDisconnectCurrentCube(Cube pCube, Target pCurrentTarget)
@@ -116,11 +126,19 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         public void DiconnectCube()
         {
-            for (int i = _Cubes.Count; i > 0; i--)
+            for (int i = _Cubes.Count - 1; i > 0; i--)
             {
                 if (_Cubes[i] != null)
                     _Cubes[i].collisionSignal -= CheckCollision;
             }
+        }
+
+        public void RemoveCube(Cube pCube)
+        {
+            if (_Cubes.Contains(pCube))
+                _Cubes.Remove(pCube);
+
+            CheckAllCubesGone();
         }
 
         private void OnDestroy()

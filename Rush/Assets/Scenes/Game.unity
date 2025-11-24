@@ -6151,6 +6151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd07aee84b57a34e81512f2b4e177a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _WinScreenToShow: 6
 --- !u!114 &947713495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6414,6 +6415,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
+--- !u!1 &1066861850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1066861851}
+  m_Layer: 0
+  m_Name: Pos_WinScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1066861851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066861850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.121000275, y: -0.69667715, z: 0.1210003, w: 0.6966771}
+  m_LocalPosition: {x: 84.7, y: 31.91, z: 44.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1297489606}
+  m_LocalEulerAnglesHint: {x: 19.706, y: -90, z: 0}
 --- !u!1 &1131111273 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2888415190375425345, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
@@ -6544,6 +6576,7 @@ Transform:
   - {fileID: 1979864720}
   - {fileID: 2111911787}
   - {fileID: 2023303}
+  - {fileID: 1066861851}
   m_Father: {fileID: 1587249482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1352144179 stripped
@@ -7741,6 +7774,10 @@ PrefabInstance:
       propertyPath: _TileToPlace
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 178083493393992028, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: CameraPos
+      value: 
+      objectReference: {fileID: 1066861851}
     - target: {fileID: 384697903182194475, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -7793,6 +7830,10 @@ PrefabInstance:
       propertyPath: CameraPos
       value: 
       objectReference: {fileID: 1716978224}
+    - target: {fileID: 1232853535754192354, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: m_Name
+      value: BACK_TO_LVL_SELEC_BTN
+      objectReference: {fileID: 0}
     - target: {fileID: 1501831488431282447, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

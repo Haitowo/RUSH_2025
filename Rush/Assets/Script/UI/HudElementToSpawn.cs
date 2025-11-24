@@ -12,6 +12,7 @@ namespace Com.IsartDigital.Rush.UI
     {
         public RectTransform objectToTransform;
         public EHUDElementPos pos;
+        public Vector3 currentPos;
         public bool ignoreHide;
     }
 }
