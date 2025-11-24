@@ -43,6 +43,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     break;
                 case ECollision.STOP:
                     pCube.SetStateStop();
+                    pCube.lastDirectionBeforeFall = pCube.direction;
                     break;
                 case ECollision.TURNSTILE:
                     TurnTileManagement(pCube, pObject.GetComponent<TurnTile>());
@@ -77,6 +78,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if(pTurnTile is null) return;
             Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube.direction, pCube);
             pCube.SetDirection(lNewDirection);
+            pCube.lastDirectionBeforeFall = lNewDirection;
             pCube.SetStateMove();
         }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Arrow
+  - IGNORE_CAMERA_CHECK
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - CONVEYORS
   - CUBE
   - TERRAIN
-  - 
+  - UI PREVIEW PREFAB
   - 
   - 
   - 

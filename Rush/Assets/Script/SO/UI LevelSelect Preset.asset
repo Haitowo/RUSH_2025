@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesToPlaceForLevel:
   - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
-    amountToPlace: 0
+    amountToPlace: 1
+    angle: 90
   - tilesToPlace: {fileID: 1107203473147756, guid: 7c58f80a63e8a7141b5b7377395135cc, type: 3}
-    amountToPlace: 0
+    amountToPlace: 1
+    angle: 0
   - tilesToPlace: {fileID: 1324669775067448, guid: c6a4f00d8e6ee94408e741323199cb71, type: 3}
-    amountToPlace: 0
+    amountToPlace: 1
+    angle: 0

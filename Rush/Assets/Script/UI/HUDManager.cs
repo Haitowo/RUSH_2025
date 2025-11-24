@@ -15,19 +15,36 @@ namespace Com.IsartDigital.Rush.UI
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private HUDElementToSpawn[] _HudElementsToSpawn;
+        [SerializeField] public HUDTileToPlace hudTileToPlace;
         [SerializeField] private Button _PlayButton;
         [SerializeField] private float _Offset = 100f;
 
         private const float TWEEN_DURATION = 1.2f;
         private const float TWEEN_DELAY = .75f;
 
+        private GameManager _GameManager => GameManager.Instance;
+
+        public static HUDManager Instance { get; private set; }
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            GameManager.Instance.SwitchToGame += ToggleHUD;
+            _GameManager.SwitchToGame += ToggleHUD;
+            _GameManager.BackToMenu += RemoveHUD;
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
+
+            #region Singleton Management
+            if (Instance != this && Instance != null)
+            {
+                Destroy(this);
+                Debug.LogError(nameof(HUDManager) + "Instance already exists. Destroying the current instance.");
+                return;
+            }
+
+            Instance = this;
+            #endregion
         }
 
         private void ToggleHUD(bool pShow)
@@ -78,8 +95,11 @@ namespace Com.IsartDigital.Rush.UI
             if(!pShow) DOVirtual.DelayedCall(TWEEN_DURATION * TWEEN_DELAY, () => StartGame());
         }
 
+        private void RemoveHUD(bool pHide) => transform.gameObject.SetActive(false);
+
         private void OnClick() => ToggleHUD(false);
 
-        private void StartGame() => GameManager.Instance.ActivatePlayPhase?.Invoke();
+        private void StartGame() => _GameManager.ActivatePlayPhase?.Invoke();
+        
     }
 }

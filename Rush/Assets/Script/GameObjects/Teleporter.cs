@@ -15,9 +15,11 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         public int Index { get; set; }
 
+        private TeleporterManager _TeleporterManager => TeleporterManager.Instance;
+
         private void Start()
         {
-            TeleporterManager.Instance.Register(this);
+            _TeleporterManager.Register(this);
         }
     }
 }

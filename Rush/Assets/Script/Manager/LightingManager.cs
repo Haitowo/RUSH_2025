@@ -22,12 +22,6 @@ namespace Com.IsartDigital.Rush.Lighting
         private float _Height = 170f;
         private float _DayTimeSpeed = .25f;
 
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Awake()
-        {
-
-        }
-
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {

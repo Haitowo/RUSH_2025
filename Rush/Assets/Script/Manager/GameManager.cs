@@ -1,8 +1,10 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
 using System;
 using UnityEngine;
+
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 05/11/2025 - Beginning of the class
 
@@ -22,6 +24,9 @@ namespace Com.IsartDigital.Rush.Manager
         public event Action TickEvent;
         public Action ActivatePlayPhase;
         public Action<bool> SwitchToGame;
+        public Action<bool> BackToMenu;
+
+        public ELevelHUDToload SelectedHUDLevel { get; private set; }
 
         public static GameManager Instance { get; private set; }
 
@@ -36,12 +41,11 @@ namespace Com.IsartDigital.Rush.Manager
             if (Instance != this && Instance != null)
             {
                 Destroy(this);
-                Debug.LogError(nameof(Instance) + "Instance already exists. Destroying the current instance.");
+                Debug.LogError(nameof(GameManager) + "Instance already exists. Destroying the current instance.");
                 return;
             }
 
             Instance = this;
-            //DontDestroyOnLoad(this);
             #endregion
         }
 
@@ -73,7 +77,9 @@ namespace Com.IsartDigital.Rush.Manager
             //TODO : Level Complete Management
         }
 
-        private void ActivateLevel() => enabled = true;
+        public void SetSelectedHUD(ELevelHUDToload pLevel) => SelectedHUDLevel = pLevel;
         
+        private void ActivateLevel() => enabled = true;
+
     }
 }

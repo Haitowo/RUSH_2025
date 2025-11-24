@@ -9,11 +9,11 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.UI
 {
     [System.Serializable]
-    public class TileEntry
+    public class TileDefinition
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         public GameObject tilesToPlace;
         public int amountToPlace;
-
+        public int angle;
     }
 }

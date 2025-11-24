@@ -11,6 +11,6 @@ namespace Com.IsartDigital.Rush.UI
     public class SOLevelPrefabTilesHUD : ScriptableObject
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        [SerializeField] public List<TileEntry> tilesToPlaceForLevel = new List<TileEntry>();
+        [SerializeField] public List<TileDefinition> tilesToPlaceForLevel = new List<TileDefinition>();
     }
 }
