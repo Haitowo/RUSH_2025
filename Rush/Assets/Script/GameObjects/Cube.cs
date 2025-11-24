@@ -156,7 +156,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void CheckCollision()
         {
             if (_JustTeleported) return;
-            Debug.Log("aaaa");
             int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
             
             Ray lRayDown = new Ray(_SelfTransform.position, Vector3.down);
