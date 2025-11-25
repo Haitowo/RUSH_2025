@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.UI
 {
     
-    public enum ELevelHUDToload
+    public enum ELevelToload
     {
         CASCADE = 0,
         ALL_OVER_THE_PLACE = 1,

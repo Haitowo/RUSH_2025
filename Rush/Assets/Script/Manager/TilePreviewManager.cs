@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.InputSystem.Controls;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
@@ -87,7 +87,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private Vector3 SnapOnGrid()
         {
-            Vector3 lMousePos = Mouse.current.position.ReadValue();
+            Vector3 lMousePos = GetPointerPosition();
             Vector3 lGlobalIndexToIndex;
             Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
 
@@ -109,9 +109,9 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void CheckValidation()
         {
-            if (_GhostTile != null && Mouse.current.leftButton.wasPressedThisFrame)
+            if (_GhostTile != null && GetPrimaryDown())
                 ValidateTilePlacement();
-            else if (_GhostTile == null && Mouse.current.leftButton.wasPressedThisFrame)
+            else if (_GhostTile == null && GetPrimaryDown())
                 TryRemoveTile();
         }
 
@@ -136,7 +136,6 @@ namespace Com.IsartDigital.Rush.Manager
         private void PlaceTile(GameObject pTile)
         {
             _PlacedTiles.Add(pTile);
-            
         }
 
         private void HandleInventoryEmpty()
@@ -184,7 +183,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void CheckClickInputs()
         {
-            if (_GhostTile != null && Mouse.current.rightButton.wasPressedThisFrame)
+            if (_GhostTile != null && Input.GetMouseButton(1))
             {
                 _GhostTile.SetActive(false);
                 SetStateVoid();
@@ -219,7 +218,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void TryRemoveTile()
         {
-            Vector3 lMousePos = Mouse.current.position.ReadValue();
+            Vector3 lMousePos = GetPointerPosition();
             Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
 
             if (Physics.Raycast(lRay, out RaycastHit hit, Mathf.Infinity))
@@ -263,6 +262,26 @@ namespace Com.IsartDigital.Rush.Manager
             lSequence.Join(pTile.transform.DORotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true));
             lSequence.AppendInterval(PAUSE_TIME);
             lSequence.OnComplete(() => Destroy(pTile));
+        }
+
+        private bool GetPrimaryDown()
+        {
+#if UNITY_EDITOR || UNITY_STANDALONE
+            return Input.GetMouseButtonDown(0);
+#else
+    return Touchscreen.current?.primaryTouch.press.wasPressedThisFrame ?? false;
+#endif
+        }
+
+        private Vector2 GetPointerPosition()
+        {
+#if UNITY_EDITOR || UNITY_STANDALONE
+            return Mouse.current.position.ReadValue();
+#else
+     if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+        return Touchscreen.current.primaryTouch.position.ReadValue();
+    return Vector2.zero;
+#endif
         }
     }
 }

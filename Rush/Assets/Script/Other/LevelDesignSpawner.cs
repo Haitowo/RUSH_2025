@@ -48,5 +48,10 @@ namespace Com.IsartDigital.Rush.LevelDesign
                 tile.transform.DOMove(tile.transform.position, Random.Range(SPAWN_TILE_TIME_MIN, SPAWN_TILE_TIME_MAX)).From(tile.transform.position + (Vector3.down * DECAY_DOWN)).SetEase(Ease.OutBack);
             }   
         }
+
+        private void OnDestroy()
+        {
+            _GameManager.SwitchToGame -= SpawnLevel;
+        }   
     }
 }

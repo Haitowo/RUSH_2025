@@ -24,6 +24,7 @@ namespace Com.IsartDigital.Rush.UI
         private const float TRANSITION_TIME = .75f;
 
         private GameManager _GameManager => GameManager.Instance;
+        private HUDManager _HUDManager => HUDManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -116,7 +117,7 @@ namespace Com.IsartDigital.Rush.UI
         {
             _GameManager.BackToMenu?.Invoke(pBool);
 
-            HUDTileToPlace lHud = HUDManager.Instance.hudTileToPlace;
+            HUDTileToPlace lHud = _HUDManager.hudTileToPlace;
             if (lHud != null)
                 lHud.ClearAllSlots(pBool);
 
