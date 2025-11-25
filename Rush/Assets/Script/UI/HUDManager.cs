@@ -37,6 +37,7 @@ namespace Com.IsartDigital.Rush.UI
              
             _GameManager.SwitchToGame += ToggleHUD;
             _GameManager.BackToMenu += RemoveHUD;
+            _GameManager.ResetLevel += ToggleHUD;
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
@@ -60,13 +61,13 @@ namespace Com.IsartDigital.Rush.UI
 
             foreach (HUDElementToSpawn lElements in _HudElementsToSpawn)
             {
-                lElements.currentPos = lElements.objectToTransform.anchoredPosition;
                 if (!pShow && lElements.ignoreHide)
                     continue;
 
                 RectTransform lTransform = lElements.objectToTransform;
-                Vector2 lBasePos = lTransform.anchoredPosition;
+                Vector2 lBasePos = lElements.currentPos;
                 Vector2 lOffset = lBasePos;
+                lTransform.anchoredPosition = lBasePos;
 
                 switch (lElements.pos)
                 {
@@ -102,14 +103,14 @@ namespace Com.IsartDigital.Rush.UI
             if(!pShow) DOVirtual.DelayedCall(TWEEN_DURATION * TWEEN_DELAY, () => StartGame());
         }
 
-        private void RemoveHUD(bool pHide)
+        private void RemoveHUD(bool pShow)
         {
             foreach (HUDElementToSpawn lElement in _HudElementsToSpawn)
             {
                 if (lElement.objectToTransform != null)
                     lElement.objectToTransform.anchoredPosition = lElement.currentPos;
             }
-            transform.gameObject.SetActive(false);
+            transform.gameObject.SetActive(pShow);
         }
 
         private void OnClick() => ToggleHUD(false);

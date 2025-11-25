@@ -2,7 +2,9 @@ using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
+using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -21,14 +23,19 @@ namespace Com.IsartDigital.Rush.Manager
 
         private float _DurationBetweenTicks = 1f;
         private float _ElapsedTime = 0f;
+        private float _TimeToWaitOnGameEnd = 2f;
 
         public event Action TickEvent;
+        public Action OnGameLost;
         public Action ActivatePlayPhase;
+        public Action<bool> ResetLevel;
         public Action<bool> SwitchToGame;
         public Action<bool> BackToMenu;
         public Action<EMenuType> GameFinished;
 
-        public ELevelHUDToload SelectedHUDLevel { get; private set; }
+        public ELevelToload selectHUDLevel { get; private set; }
+
+        private CollisionManager _CollisionManager => CollisionManager.Instance;
 
         public static GameManager Instance { get; private set; }
 
@@ -37,6 +44,8 @@ namespace Com.IsartDigital.Rush.Manager
         {
             TickProviderLocator.Register(this);
             ActivatePlayPhase += ActivateLevel;
+            OnGameLost += DisactivateLevel;
+            ResetLevel += ResetCube;
             enabled = false;
 
             #region Singleton Management
@@ -80,9 +89,32 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
         }
 
-        public void SetSelectedHUD(ELevelHUDToload pLevel) => SelectedHUDLevel = pLevel;
+        public void SetSelectedHUD(ELevelToload pLevel) => selectHUDLevel = pLevel;
         
         private void ActivateLevel() => enabled = true;
+
+        private void DisactivateLevel()
+        {
+            enabled = false;
+            StartCoroutine(WaitForLevelToReset(true));
+        }
+
+        private IEnumerator WaitForLevelToReset(bool pShow)
+        {
+            yield return new WaitForSeconds(_TimeToWaitOnGameEnd);
+            ResetLevel?.Invoke(pShow);
+        }
+
+        private void ResetCube(bool pShow)
+        {
+            foreach (Cube pCubes in _CollisionManager.cubes)
+                pCubes.transform.DOScale(Vector3.zero, .5f).SetEase(Ease.Linear).OnComplete(() => DestroyCurrentCubes(pCubes));
+
+            _CollisionManager.cubes.Clear();
+
+        }
+
+        private void DestroyCurrentCubes(Cube pCube) => Destroy(pCube.gameObject);
 
     }
 }

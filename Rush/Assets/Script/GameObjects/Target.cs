@@ -16,6 +16,8 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private const float TWEEN_TIME_SCALE = .2f;
 
+        private CollisionManager _CollisionManager => CollisionManager.Instance;
+
         public void DetectCubeColor(Cube pCurrentCube)
         {
             if (pCurrentCube.cubeColor == _TargetColor)
@@ -25,7 +27,7 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private void DestroyCube(Cube pCurrentCube)
         {
-            CollisionManager.Instance.RemoveCube(pCurrentCube);
+            _CollisionManager.RemoveCube(pCurrentCube);
             Destroy(pCurrentCube.gameObject);
         }
         

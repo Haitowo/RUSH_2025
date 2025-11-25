@@ -1,6 +1,5 @@
 using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
-using Com.IsartDigital.Rush.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,25 +11,36 @@ namespace Com.IsartDigital.Rush.CubeManagement
     public class CollisionManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        private Teleporter _Teleporter;
+        [HideInInspector] public List<Cube> cubes = new List<Cube>();
+
+        private Teleporter _CurrentTeleporter;
         private Teleporter _NextTeleporter;
 
-        private List<Cube> _Cubes = new List<Cube>();
-
         private GameManager _GameManager => GameManager.Instance;
+        private TeleporterManager _TeleporterManager => TeleporterManager.Instance;
 
         public static CollisionManager Instance { get; private set; }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
+            #region Singleton Management
+            if (Instance != this && Instance != null)
+            {
+                Destroy(this);
+                Debug.LogError(nameof(CollisionManager) + "Instance already exists. Destroying the current instance.");
+                return;
+            }
+
             Instance = this;
+            #endregion
         }
 
         public void RegisterCube(Cube pCube)
         {
-            _Cubes.Add(pCube);
+            cubes.Add(pCube);
             pCube.collisionSignal += CheckCollision;
+            pCube.onCubeColliding += OnCubeDeath;
         }
 
         private void CheckCollision(Cube pCube, GameObject pObject, ECollision pCollision)
@@ -59,7 +69,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
                 case ECollision.TERRAIN:
-                    //TODO : Exclamation and call game manager to reset level
+                    _GameManager.OnGameLost?.Invoke();
                     break;
                 case ECollision.TARGET:
                     TargetManagement(pCube, pObject.GetComponent<Target>());
@@ -76,7 +86,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (pCube is null) return;
             SetTeleporter(pTeleporter);
-            if (!TeleporterManager.Instance.CanTeleport(pCube, _Teleporter)) return;
+            if (!_TeleporterManager.CanTeleport(pCube, _CurrentTeleporter)) return;
         }
 
         private void TurnTileManagement(Cube pCube, TurnTile pTurnTile)
@@ -90,8 +100,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void SetTeleporter(Teleporter pTeleporter)
         {
-            _Teleporter = pTeleporter;
-            _NextTeleporter = TeleporterManager.Instance.GetNext(_Teleporter);
+            _CurrentTeleporter = pTeleporter;
+            _NextTeleporter = TeleporterManager.Instance.GetNext(_CurrentTeleporter);
         }
 
         private void TargetManagement(Cube pCube, Target pCurrentTarget)
@@ -111,11 +121,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void CheckAllCubesGone()
         {
-            _Cubes.RemoveAll(c => c == null);
+            cubes.RemoveAll(c => c == null);
 
-            if (_Cubes.Count == 0)
+            if (cubes.Count == 0)
                 _GameManager.LevelComplete();
-            
         }
 
         private void CheckDisconnectCurrentCube(Cube pCube, Target pCurrentTarget)
@@ -126,28 +135,36 @@ namespace Com.IsartDigital.Rush.CubeManagement
         
         public void DiconnectCube()
         {
-            for (int i = _Cubes.Count - 1; i > 0; i--)
+            for (int i = cubes.Count - 1; i > 0; i--)
             {
-                if (_Cubes[i] != null)
-                    _Cubes[i].collisionSignal -= CheckCollision;
+                if (cubes[i] != null)
+                    cubes[i].collisionSignal -= CheckCollision;
             }
         }
 
         public void RemoveCube(Cube pCube)
         {
-            if (_Cubes.Contains(pCube))
-                _Cubes.Remove(pCube);
+            if (cubes.Contains(pCube))
+                cubes.Remove(pCube);
 
             CheckAllCubesGone();
         }
 
         private void OnDestroy()
         {
-            foreach (Cube lCube in _Cubes)
+            foreach (Cube lCube in cubes)
             {
                 if (lCube != null)
+                {
                     lCube.collisionSignal -= CheckCollision;
+                    lCube.onCubeColliding -= OnCubeDeath;
+                }
             }
+        }
+
+        private void OnCubeDeath(Cube pCube)
+        {
+            _GameManager.OnGameLost?.Invoke();
         }
     }
 }

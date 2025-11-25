@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -43,7 +44,11 @@ namespace Com.IsartDigital.Rush.UI
         {
             foreach (GameObject level in _InstantiatedLevel)
             {
-                level.SetActive(false);
+                if(level != null)
+                {
+                    DOTween.Kill(level.transform, complete: false);
+                    Destroy(level);
+                }
             }
 
             _InstantiatedLevel.Clear();

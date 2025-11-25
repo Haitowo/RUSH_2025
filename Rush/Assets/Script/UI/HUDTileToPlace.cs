@@ -28,26 +28,18 @@ namespace Com.IsartDigital.Rush.UI
         private GameManager _GameManager => GameManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
-        public event Action <ELevelHUDToload> OnHUDGenerated;
+        private void OnEnable() => _GameManager.SwitchToGame += SetPrefabOnSpawn;
 
-        private void OnEnable()
-        {
-            _GameManager.SwitchToGame += SetPrefabOnSpawn;
-        }
-
-        private void OnDisable()
-        {
-            _GameManager.SwitchToGame -= SetPrefabOnSpawn;
-        }
+        private void OnDisable() => _GameManager.SwitchToGame -= SetPrefabOnSpawn;
 
         private void SetPrefabOnSpawn(bool pBool)
         {
-            ELevelHUDToload lLevelHUDToload = _GameManager.SelectedHUDLevel;
+            ELevelToload lLevelHUDToload = _GameManager.selectHUDLevel;
             LinkSOWithHUD(lLevelHUDToload);
             GenerateHUD();
         }
 
-        public void LinkSOWithHUD(ELevelHUDToload pLevel)
+        public void LinkSOWithHUD(ELevelToload pLevel)
         {
             int lIndexSOLevel = (int)pLevel;
             if(lIndexSOLevel >= 0 && lIndexSOLevel < _AllHUD.Count)
@@ -118,6 +110,5 @@ namespace Com.IsartDigital.Rush.UI
                 _UISlots[lCurrentIndex].ResetSlot(pEntry, lCurrentIndex);
             }
         }
-
     }
 }

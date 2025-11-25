@@ -1,0 +1,2 @@
+C:\Users\fmajc\Desktop\Isart\GDP2\Rush\Florian MAJCHER GDP2 - Rush\Rush\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\fmajc\Desktop\Isart\GDP2\Rush\Florian MAJCHER GDP2 - Rush\Rush\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

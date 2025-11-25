@@ -15,7 +15,7 @@ namespace Com.IsartDigital.Rush.UI
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private Button _LevelSelectCurrentButton;
-        [SerializeField] private ELevelHUDToload _SOLinkedToLevel;
+        [SerializeField] private ELevelToload _SOLinkedToLevel;
         [SerializeField] private HUDTileToPlace _TileToPlace;
 
         private GameManager _GameManager => GameManager.Instance;
@@ -25,6 +25,6 @@ namespace Com.IsartDigital.Rush.UI
             _LevelSelectCurrentButton.onClick.AddListener(() => OnLevelSelected(_SOLinkedToLevel));
         }
 
-        private void OnLevelSelected(ELevelHUDToload pSOToLoad) => _GameManager.SetSelectedHUD(pSOToLoad);
+        private void OnLevelSelected(ELevelToload pSOToLoad) => _GameManager.SetSelectedHUD(pSOToLoad);
     }
 }

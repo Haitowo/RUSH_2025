@@ -44,6 +44,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public Action doAction { get; private set; }
         public Action<Cube, GameObject, ECollision> collisionSignal;
+        public Action<Cube> onCubeColliding;
 
         public EColorSetter cubeColor;
         private ITickProvider _TickProvider;
@@ -61,7 +62,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
             direction = _SelfTransform.forward;
 
-            SetStateMove();
+            SetStateVoid();
         }
 
         private void Start()
@@ -301,6 +302,13 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (_TickProvider != null)
                 _TickProvider.TickEvent -= ReceiveTick;
+            onCubeColliding = null;
         }
+
+        private void OnTriggerEnter(Collider pOther)
+        {
+            if (pOther.CompareTag(Utils.TAG_CUBE)) onCubeColliding?.Invoke(this);
+        }
+        
     }
 }

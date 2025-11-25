@@ -1,6 +1,7 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Ticks;
+using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
+        [SerializeField] private ELevelToload _CurrentLevel;
 
         public EColorSetter ColorSpawnerAndCube => _ColorSpawnerAndCube;
         private ITickProvider _TickProvider;
@@ -50,6 +52,7 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private void SpawnCube()
         {
+            if (_CurrentLevel != _GameManager.selectHUDLevel) return;
             _SpawnPos = new Vector3(transform.position.x, transform.position.y + SPAWN_DECAY, transform.position.z);
 
             GameObject lPrefab = Instantiate(_CubePrefab, _SpawnPos, transform.rotation, _GameObjectContainer);
@@ -66,6 +69,8 @@ namespace Com.IsartDigital.Rush.GameObjects
         {
             if (_TickProvider != null)
                 _TickProvider.TickEvent -= OnTick;
+
+            _GameManager.ActivatePlayPhase -= SpawnCube;
         }
     }
 }
