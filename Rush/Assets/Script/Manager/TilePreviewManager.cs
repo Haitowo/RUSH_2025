@@ -22,6 +22,8 @@ namespace Com.IsartDigital.Rush.Manager
         private Action<GameObject> _DoActionUI;
 
         private const int ERR_VALUE = -1;
+        private const int LEFT_CLICK_BUTTON_AND_TOUCH = 0;
+
         private const float DECAY_TILE = .5f;
         private const float TWEEN_TIME = .5f;
         private const float PAUSE_TIME = .05f;
@@ -267,7 +269,7 @@ namespace Com.IsartDigital.Rush.Manager
         private bool GetPrimaryDown()
         {
 #if UNITY_EDITOR || UNITY_STANDALONE
-            return Input.GetMouseButtonDown(0);
+            return Input.GetMouseButtonDown(LEFT_CLICK_BUTTON_AND_TOUCH);
 #else
     return Touchscreen.current?.primaryTouch.press.wasPressedThisFrame ?? false;
 #endif
