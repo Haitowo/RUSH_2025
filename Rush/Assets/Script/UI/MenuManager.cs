@@ -33,7 +33,7 @@ namespace Com.IsartDigital.Rush.UI
             RegisterButtons();
 
             ShowMenu(EMenuType.MAIN);
-            _GameManager.GameFinished += ShowMenu;
+            _GameManager.gameFinished += ShowMenu;
 
             _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
             _BackLevelSelectButton.onClick.AddListener(() => SetMenuCamera(false));
@@ -110,12 +110,12 @@ namespace Com.IsartDigital.Rush.UI
             if (lCam != null)
                 lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
 
-            _GameManager.SwitchToGame?.Invoke(true);
+            _GameManager.switchToGame?.Invoke(true);
         }
 
         private void SetMenuCamera(bool pBool)
         {
-            _GameManager.BackToMenu?.Invoke(pBool);
+            _GameManager.backToMenu?.Invoke(pBool);
 
             HUDTileToPlace lHud = _HUDManager.hudTileToPlace;
             if (lHud != null)

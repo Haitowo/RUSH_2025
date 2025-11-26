@@ -25,13 +25,13 @@ namespace Com.IsartDigital.Rush.Manager
         private float _ElapsedTime = 0f;
         private float _TimeToWaitOnGameEnd = 2f;
 
-        public event Action TickEvent;
-        public Action OnGameLost;
-        public Action ActivatePlayPhase;
-        public Action<bool> ResetLevel;
-        public Action<bool> SwitchToGame;
-        public Action<bool> BackToMenu;
-        public Action<EMenuType> GameFinished;
+        public event Action tickEvent;
+        public Action onGameLost;
+        public Action activatePlayPhase;
+        public Action<bool> resetLevel;
+        public Action<bool> switchToGame;
+        public Action<bool> backToMenu;
+        public Action<EMenuType> gameFinished;
 
         public ELevelToload selectHUDLevel { get; private set; }
 
@@ -43,9 +43,9 @@ namespace Com.IsartDigital.Rush.Manager
         private void Awake()
         {
             TickProviderLocator.Register(this);
-            ActivatePlayPhase += ActivateLevel;
-            OnGameLost += DisactivateLevel;
-            ResetLevel += ResetCube;
+            activatePlayPhase += ActivateLevel;
+            onGameLost += DisactivateLevel;
+            resetLevel += ResetCube;
             enabled = false;
 
             #region Singleton Management
@@ -70,7 +70,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (_ElapsedTime >= _DurationBetweenTicks)
             {
-                TickEvent?.Invoke();
+                tickEvent?.Invoke();
                 _ElapsedTime = 0f;
             }
 
@@ -85,7 +85,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         public void LevelComplete()
         {
-            GameFinished?.Invoke(_WinScreenToShow);
+            gameFinished?.Invoke(_WinScreenToShow);
             enabled = false;
         }
 
@@ -102,7 +102,7 @@ namespace Com.IsartDigital.Rush.Manager
         private IEnumerator WaitForLevelToReset(bool pShow)
         {
             yield return new WaitForSeconds(_TimeToWaitOnGameEnd);
-            ResetLevel?.Invoke(pShow);
+            resetLevel?.Invoke(pShow);
         }
 
         private void ResetCube(bool pShow)

@@ -71,6 +71,7 @@ MonoBehaviour:
   _SpawnPoint: {fileID: 4358187150086414}
   _GameObjectContainer: {fileID: 0}
   _ColorSpawnerAndCube: 0
+  _CurrentLevel: 0
 --- !u!1 &1263180244934068
 GameObject:
   m_ObjectHideFlags: 0

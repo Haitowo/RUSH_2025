@@ -35,9 +35,9 @@ namespace Com.IsartDigital.Rush.UI
                     lElement.currentPos = lElement.objectToTransform.anchoredPosition;
             }
              
-            _GameManager.SwitchToGame += ToggleHUD;
-            _GameManager.BackToMenu += RemoveHUD;
-            _GameManager.ResetLevel += ToggleHUD;
+            _GameManager.switchToGame += ToggleHUD;
+            _GameManager.backToMenu += RemoveHUD;
+            _GameManager.resetLevel += ToggleHUD;
             transform.gameObject.SetActive(false);
 
             _PlayButton.onClick.AddListener(() => OnClick());
@@ -115,7 +115,7 @@ namespace Com.IsartDigital.Rush.UI
 
         private void OnClick() => ToggleHUD(false);
 
-        private void StartGame() => _GameManager.ActivatePlayPhase?.Invoke();
+        private void StartGame() => _GameManager.activatePlayPhase?.Invoke();
         
     }
 }

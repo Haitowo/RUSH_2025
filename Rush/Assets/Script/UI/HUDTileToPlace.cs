@@ -28,9 +28,9 @@ namespace Com.IsartDigital.Rush.UI
         private GameManager _GameManager => GameManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
-        private void OnEnable() => _GameManager.SwitchToGame += SetPrefabOnSpawn;
+        private void OnEnable() => _GameManager.switchToGame += SetPrefabOnSpawn;
 
-        private void OnDisable() => _GameManager.SwitchToGame -= SetPrefabOnSpawn;
+        private void OnDisable() => _GameManager.switchToGame -= SetPrefabOnSpawn;
 
         private void SetPrefabOnSpawn(bool pBool)
         {

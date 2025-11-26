@@ -40,8 +40,8 @@ namespace Com.IsartDigital.Rush.Manager
         {
             SetStateVoid();
             enabled = false;
-            _GameManager.SwitchToGame += Activate;
-            _GameManager.BackToMenu += Disable;
+            _GameManager.switchToGame += Activate;
+            _GameManager.backToMenu += Disable;
             _TileSelectionManager.OnInventoryEmpty += HandleInventoryEmpty;
 
             #region Singleton Management

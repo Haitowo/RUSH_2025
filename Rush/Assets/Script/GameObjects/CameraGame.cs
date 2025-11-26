@@ -17,6 +17,9 @@ namespace Com.IsartDigital.Rush.CameraManagement
         [SerializeField] private float _YMinAngle = -20f;
         [SerializeField] private float _YMaxAngle = 80f;
         [SerializeField] private bool _IsCameraForUI;
+        [SerializeField] private float _ZoomSpeed = 3f;
+        [SerializeField] private float _ZoomMin = 2f;
+        [SerializeField] private float _ZoomMax = 20f;
 
         [SerializeField] public Transform middlePoint;
 
@@ -26,6 +29,8 @@ namespace Com.IsartDigital.Rush.CameraManagement
         private float _RotationSpeed = 5f;
 
         private const int MOUSE_BUTTON_RIGHT = 1;
+
+        private const float MAX_ZOOM = .01f;
 
         private Vector3 _BasePoint;
 
@@ -39,9 +44,11 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _SelfTransform = transform;
             _GameManager = GameManager.Instance;
 
-            _GameManager.SwitchToGame += EnableCameraForGame;
-            _GameManager.GameFinished += OnWinScreen;
-            _GameManager.BackToMenu += DisableCameraForGame;
+            if (_IsCameraForUI) distanceCamera = 3f;
+
+            _GameManager.switchToGame += EnableCameraForGame;
+            _GameManager.gameFinished += OnWinScreen;
+            _GameManager.backToMenu += DisableCameraForGame;
         }
 
         //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -50,6 +57,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             if (PointerOverUI()) return;
 
             MoveCamera();
+            ZoomMouse();
         }
 
         private bool PointerOverUI()
@@ -106,6 +114,18 @@ namespace Com.IsartDigital.Rush.CameraManagement
 
             _BasePoint = pBasePoint;
             distanceCamera = pDistance;
+        }
+
+        private void ZoomMouse()
+        {
+            if (_IsCameraForUI) return;
+            float lScroll = Input.GetAxis(Utils.MOUSE_WHEEL);
+
+            if (Mathf.Abs(lScroll) > MAX_ZOOM)
+            {
+                distanceCamera -= lScroll * _ZoomSpeed;
+                distanceCamera = Mathf.Clamp(distanceCamera, _ZoomMin, _ZoomMax);
+            }
         }
     }
 }
