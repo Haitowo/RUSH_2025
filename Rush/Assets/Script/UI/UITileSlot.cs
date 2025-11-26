@@ -135,6 +135,7 @@ namespace Com.IsartDigital.Rush.UI
 
         private void OnDestroy()
         {
+            _CurrentTween?.Kill();
             _TileSelectionManager.OnAmountChanged -= UpdateUI;
 
             if (_PreviewCamera != null && _PreviewCamera.targetTexture != null)

@@ -390,6 +390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ScaleMultiplier: 1.05
   _Duration: 0.5
+  _ClickSound: {fileID: 0}
+  _CurrentButton: {fileID: 0}
 --- !u!1 &3134538837523311477
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +530,8 @@ MonoBehaviour:
   _ScaleMultiplier: 1.05
   _Duration: 0.5
   _TargetMenu: 1
+  _ClickButton: {fileID: 0}
+  _CurrentButton: {fileID: 0}
 --- !u!114 &3909289883579342481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,6 +879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ScaleMultiplier: 1.05
   _Duration: 0.5
+  _ClickSound: {fileID: 0}
+  _CurrentButton: {fileID: 0}
 --- !u!1 &5275051803380334752
 GameObject:
   m_ObjectHideFlags: 0

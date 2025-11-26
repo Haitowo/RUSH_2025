@@ -925,6 +925,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &617192375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3323158356764335041, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+  m_PrefabInstance: {fileID: 4997944285583097403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191e5c7a9ab533842b7e0f4b421bf539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &617992406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3828421243238534356, guid: b33d3895a7675674bbaf7ddfe4db5838, type: 3}
@@ -7979,7 +7990,7 @@ PrefabInstance:
     - target: {fileID: 7061495573192959376, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: hudTileToPlace
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 617192375}
     - target: {fileID: 7061495573192959376, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _HUDTileToPlace
       value: 
