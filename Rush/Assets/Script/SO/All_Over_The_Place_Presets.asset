@@ -16,6 +16,12 @@ MonoBehaviour:
   - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
     amountToPlace: 2
     angle: 90
-  - tilesToPlace: {fileID: 1324669775067448, guid: c6a4f00d8e6ee94408e741323199cb71, type: 3}
+  - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
+    amountToPlace: 13
+    angle: 180
+  - tilesToPlace: {fileID: 1820389188126086, guid: 16957ef68a439ee4fb120ba2ffa2519e, type: 3}
     amountToPlace: 2
+    angle: 270
+  - tilesToPlace: {fileID: 1324669775067448, guid: c6a4f00d8e6ee94408e741323199cb71, type: 3}
+    amountToPlace: 4
     angle: 0

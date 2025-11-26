@@ -69,7 +69,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
                 case ECollision.TERRAIN:
-                    _GameManager.OnGameLost?.Invoke();
+                    _GameManager.onGameLost?.Invoke();
                     break;
                 case ECollision.TARGET:
                     TargetManagement(pCube, pObject.GetComponent<Target>());
@@ -92,9 +92,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void TurnTileManagement(Cube pCube, TurnTile pTurnTile)
         {
             if(pTurnTile is null) return;
-            Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube.direction, pCube);
+            Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube.lastDirectionBeforeFall, pCube);
             pCube.SetDirection(lNewDirection);
             pCube.lastDirectionBeforeFall = lNewDirection;
+            Debug.Log(lNewDirection);
             pCube.SetStateMove();
         }
 
@@ -164,7 +165,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void OnCubeDeath(Cube pCube)
         {
-            _GameManager.OnGameLost?.Invoke();
+            _GameManager.onGameLost?.Invoke();
         }
     }
 }

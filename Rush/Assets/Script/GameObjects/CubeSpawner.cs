@@ -3,6 +3,7 @@ using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -18,11 +19,14 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
         [SerializeField] private ELevelToload _CurrentLevel;
 
+        [SerializeField] private float _TickToDelay;
+
         public EColorSetter ColorSpawnerAndCube => _ColorSpawnerAndCube;
         private ITickProvider _TickProvider;
 
         private int _TickCount = 0;
-        private const int TICK_PER_SPAWN = 2;
+        private float _NextSpawnTick;
+        private int _TickNextSpawnToAdd = 9;
 
         private const float SPAWN_DECAY = .5f;
         private const float SPAWN_CUBE_TIME = .2f;
@@ -34,19 +38,21 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private void Start()
         {
+            enabled = false;
             _TickProvider = TickProviderLocator.Instance;
-            _TickProvider.TickEvent += OnTick;
+            _TickProvider.tickEvent += OnTick;
 
-            _GameManager.ActivatePlayPhase += SpawnCube;
+            _GameManager.activatePlayPhase += ResetTick;
         }
 
         private void OnTick()
         {
             _TickCount++;
-            if (_TickCount >= TICK_PER_SPAWN)
+
+            if (_TickCount >= _TickToDelay && _TickCount >= _NextSpawnTick)
             {
-                //SpawnCube();
-                _TickCount = 0;
+                SpawnCube();
+                _NextSpawnTick = _TickCount + _TickNextSpawnToAdd;
             }
         }
 
@@ -65,12 +71,18 @@ namespace Com.IsartDigital.Rush.GameObjects
             if (lCube != null) _CollisionManager.RegisterCube(lCube);
         }
 
+        private void ResetTick()
+        {
+            _TickCount = 0;
+            _NextSpawnTick = 0;
+        }
+
         private void OnDestroy()
         {
             if (_TickProvider != null)
-                _TickProvider.TickEvent -= OnTick;
+                _TickProvider.tickEvent -= OnTick;
 
-            _GameManager.ActivatePlayPhase -= SpawnCube;
+            _GameManager.activatePlayPhase -= SpawnCube;
         }
     }
 }

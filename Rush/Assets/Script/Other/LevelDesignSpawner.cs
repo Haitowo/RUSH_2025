@@ -29,7 +29,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
         {
             GetLevel();
             _LevelContainer.gameObject.SetActive(false);
-            _GameManager.SwitchToGame += SpawnLevel;
+            _GameManager.switchToGame += SpawnLevel;
         }
 
         private void GetLevel()
@@ -51,7 +51,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
 
         private void OnDestroy()
         {
-            _GameManager.SwitchToGame -= SpawnLevel;
+            _GameManager.switchToGame -= SpawnLevel;
         }   
     }
 }

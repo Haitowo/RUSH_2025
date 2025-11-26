@@ -355,6 +355,9 @@ MonoBehaviour:
   _YMinAngle: -5
   _YMaxAngle: 90
   _IsCameraForUI: 0
+  _ZoomSpeed: 3
+  _ZoomMin: 2
+  _ZoomMax: 20
   middlePoint: {fileID: 257429627}
   distanceCamera: 15
 --- !u!4 &371861100 stripped
@@ -7039,15 +7042,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 71.1
+      value: 71.21186
       objectReference: {fileID: 0}
     - target: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.67
+      value: 8.67
       objectReference: {fileID: 0}
     - target: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30.54
+      value: 34.661587
       objectReference: {fileID: 0}
     - target: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
       propertyPath: m_LocalRotation.w

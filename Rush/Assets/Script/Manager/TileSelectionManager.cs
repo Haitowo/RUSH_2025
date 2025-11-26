@@ -30,8 +30,8 @@ namespace Com.IsartDigital.Rush.Manager
         private void Awake()
         {
             enabled = false;
-            _GameManager.SwitchToGame += Activate;
-            _GameManager.BackToMenu += Disable;
+            _GameManager.switchToGame += Activate;
+            _GameManager.backToMenu += Disable;
 
             #region Singleton Management
             if (Instance != this && Instance != null)

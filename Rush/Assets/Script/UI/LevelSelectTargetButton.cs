@@ -28,7 +28,7 @@ namespace Com.IsartDigital.Rush.UI
         private void Start()
         {
             _LoadLevel.onClick.AddListener(LoadLevel);
-            _GameManager.BackToMenu += OnBackToMenu;
+            _GameManager.backToMenu += OnBackToMenu;
         }
 
         private void LoadLevel()

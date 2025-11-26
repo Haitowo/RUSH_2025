@@ -10,6 +10,6 @@ namespace Com.IsartDigital.Rush.Ticks
     {
         float RatioTimeTick { get; }
         float TickSpeed { get; set; }
-        event Action TickEvent;
+        event Action tickEvent;
     }
 }

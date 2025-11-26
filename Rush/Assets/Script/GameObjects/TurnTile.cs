@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.CubeManagement;
+using Com.IsartDigital.Rush.Manager;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -11,6 +12,10 @@ namespace Com.IsartDigital.Rush.GameObjects
         private bool _TurnRight;
         private float _Angle = 90f;
 
+        private GameManager _GameManager => GameManager.Instance;
+
+        private void Start() => _GameManager.activatePlayPhase += SetTurnRight;
+
         public Vector3 GetNextDirection(Vector3 pCurrentDirection, Cube pCube)
         {
             _TurnRight = !_TurnRight;
@@ -20,5 +25,8 @@ namespace Com.IsartDigital.Rush.GameObjects
 
             return lRotation * pCurrentDirection;
         }
+
+        private void SetTurnRight() => _TurnRight = false;
+        
     }
 }
