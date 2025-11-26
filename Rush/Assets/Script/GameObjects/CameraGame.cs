@@ -127,5 +127,15 @@ namespace Com.IsartDigital.Rush.CameraManagement
                 distanceCamera = Mathf.Clamp(distanceCamera, _ZoomMin, _ZoomMax);
             }
         }
+
+        private void OnDestroy()
+        {
+            if (_GameManager != null)
+            {
+                _GameManager.switchToGame -= EnableCameraForGame;
+                _GameManager.gameFinished -= OnWinScreen;
+                _GameManager.backToMenu -= DisableCameraForGame;
+            }
+        }
     }
 }

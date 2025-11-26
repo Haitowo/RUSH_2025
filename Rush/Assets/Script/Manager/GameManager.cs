@@ -21,8 +21,9 @@ namespace Com.IsartDigital.Rush.Manager
         [HideInInspector] public float RatioTimeTick {  get; private set; }
         [SerializeField] private EMenuType _WinScreenToShow;
 
-        [Header(Utils.GAME_SPEED)]
+        [Header(Utils.SOUND)]
         [SerializeField] private AudioClip _GameMusic;
+        [SerializeField] private AudioClip _WinScreenSound;
 
         private float _DurationBetweenTicks = 1f;
         private float _ElapsedTime = 0f;
@@ -96,6 +97,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         public void LevelComplete()
         {
+            _SoundManager.PlaySound(_WinScreenSound, transform.position);
             gameFinished?.Invoke(_WinScreenToShow);
             _IsGamePlaying = false;
         }
@@ -106,7 +108,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void DisactivateLevel()
         {
-            _IsGamePlaying   = false;
+            _IsGamePlaying = false;
             StartCoroutine(WaitForLevelToReset(true));
         }
 

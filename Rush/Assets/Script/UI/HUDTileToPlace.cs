@@ -1,9 +1,13 @@
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
@@ -26,6 +30,7 @@ namespace Com.IsartDigital.Rush.UI
         private List<UITileSlot> _UISlots = new List<UITileSlot>();
 
         private GameManager _GameManager => GameManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
         private void OnEnable() => _GameManager.switchToGame += SetPrefabOnSpawn;
@@ -95,7 +100,7 @@ namespace Com.IsartDigital.Rush.UI
             foreach (UITileSlot slot in _UISlots)
             {
                 if (slot != null)
-                    slot.gameObject.SetActive(false);
+                    Destroy(slot.gameObject);
             }
 
             _UISlots.Clear();

@@ -1,10 +1,7 @@
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
@@ -18,21 +15,37 @@ namespace Com.IsartDigital.Rush.Audio
         [SerializeField] private Slider _SoundSlider;
         [SerializeField] private EVolumeType _VolumeType;
 
-        private float _Sound;
+        private float dB;
+        private float lSliderValue;
 
         private SoundManager _SoundManager => SoundManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
-            _SoundSlider.SetValueWithoutNotify(_Sound);
+            GetVolumeValue();
+            lSliderValue = _SoundManager.DBToSliderValue(dB);
+            _SoundSlider.SetValueWithoutNotify(lSliderValue);
             _SoundSlider.onValueChanged.AddListener(ChangeSound);
         }
 
-        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
+        private void GetVolumeValue()
         {
-
+            switch (_VolumeType)
+            {
+                case EVolumeType.MASTER:
+                    _SoundManager.mixer.GetFloat(Utils.MASTER_PARAM, out dB);
+                    break;
+                case EVolumeType.MUSIC:
+                    _SoundManager.mixer.GetFloat(Utils.MUSIC_PARAM, out dB);
+                    break;
+                case EVolumeType.SFX:
+                    _SoundManager.mixer.GetFloat(Utils.SOUND_PARAM, out dB);
+                    break;
+                default:
+                    dB = 0;
+                    break;
+            }
         }
 
         private void ChangeSound(float pValue)

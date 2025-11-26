@@ -11,7 +11,6 @@ using UnityEngine.UIElements;
 
 namespace Com.IsartDigital.Rush.CubeManagement
 {
-    public enum ECubeState { VOID, MOVE, STOP, WAIT_SLIDE, FALL, SLIDE, TELEPORT }
     public class Cube : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
@@ -51,7 +50,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public Action<Cube> onCubeColliding;
 
         public EColorSetter cubeColor;
-        private ECubeState _CubeState;
         private ITickProvider _TickProvider;
 
         private bool _IsStop;
@@ -100,7 +98,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateStop()
         {
-            _CubeState = ECubeState.STOP;
             _IsWallAfterStop = CheckFrontAfterStop();
             _CheckTickCount = _IsWallAfterStop ? WALL_HIT_STOP_TICK_COUNT : STOP_TICK_COUNT;
             _IsStop = true;
@@ -109,7 +106,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateVoid()
         {
-            _CubeState = ECubeState.VOID;
             doAction = DoActionVoid;
         }
 
@@ -117,7 +113,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (direction == Vector3.down)
                 direction = lastDirectionBeforeFall;
-            _CubeState = ECubeState.MOVE;
             _IsCubeJustSpawned = false;
             _IsFalling = false;
             _JustTeleported = false;
@@ -135,7 +130,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void SetStateFall()
         {
-            _CubeState = ECubeState.FALL;
             _IsFalling = true;
             _FromPos = _SelfTransform.position;
             direction = Vector3.down;
@@ -145,7 +139,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateSlide(Vector3 pSlideDirection)
         {
-            _CubeState = ECubeState.SLIDE;
             _SlideTickCount = 0;
             _SlideDirection = pSlideDirection.normalized;
 
@@ -158,7 +151,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateTeleport(Vector3 pFinalPos)
         {
-            _CubeState = ECubeState.TELEPORT;
             _IsTeleporting = true;
             _TeleportationTickCount = 0;
             _FromPos = _SelfTransform.position;
@@ -168,7 +160,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void SetStateSlideWait()
         {
-            _CubeState = ECubeState.WAIT_SLIDE;
             _SlideWaitTickCount = 0;
             doAction = DoActionSlideWait;
         }
@@ -206,7 +197,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void CheckCollision()
         {
-            Debug.Log("Bonjour");
             if (_JustTeleported || _IsSliding) return;
 
             Ray lRayDown = new Ray(_SelfTransform.position, Vector3.down);

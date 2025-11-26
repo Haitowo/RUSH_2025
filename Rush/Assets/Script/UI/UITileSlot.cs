@@ -1,7 +1,9 @@
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.UI;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -10,7 +12,7 @@ using UnityEngine.UI;
 namespace Com.IsartDigital.Rush.UI
 {
     
-    public class UITileSlot : MonoBehaviour
+    public class UITileSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private TMP_Text amountText;
@@ -18,6 +20,14 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Transform _PrefabHolder;
         [SerializeField] private Camera _PreviewCamera;
         [SerializeField] private RawImage _CurrentImage;
+        [SerializeField] private AudioClip _ClickSound;
+
+        private float _ScaleMultiplier = 1.1f;
+        private float _Duration = .5f;
+
+        private Vector3 _OriginalScale;
+
+        private Tween _CurrentTween;
 
         private TileEntryRuntime _RuntimeEntry;
 
@@ -32,6 +42,7 @@ namespace Com.IsartDigital.Rush.UI
 
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
         private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         public void Init(TileEntryRuntime pEntry, int pIndex)
         {
@@ -44,16 +55,14 @@ namespace Com.IsartDigital.Rush.UI
             UpdateUI();
 
             _Button.onClick.AddListener(OnClick);
+            _OriginalScale = transform.localScale;
         }
-
-        private void OnEnable() => _TileSelectionManager.OnAmountChanged += UpdateUI;
-
-        private void OnDisable() => _TileSelectionManager.OnAmountChanged -= UpdateUI;
 
         private void OnClick()
         {
             GameObject lPreviewTile;
 
+            _SoundManager.PlaySound(_ClickSound, transform.position);
             if (_RuntimeEntry.remaining > 0 && !_IsTileAlreadySelected)
             {
                 _TileSelectionManager.SetIndex(_Index);
@@ -104,6 +113,37 @@ namespace Com.IsartDigital.Rush.UI
             UpdateUI();
 
             _TileSelectionManager.OnAmountChanged += UpdateUI;
+        }
+
+        public void OnPointerEnter(PointerEventData pEventData)
+        {
+            _CurrentTween?.Kill();
+
+            _CurrentTween = transform.DOScale(_OriginalScale * _ScaleMultiplier, _Duration)
+                .SetEase(Ease.OutElastic);
+        }
+
+        public void OnPointerExit(PointerEventData pEventData)
+        {
+            _CurrentTween?.Kill();
+
+            _CurrentTween = transform.DOScale(_OriginalScale, _Duration)
+                .SetEase(Ease.OutElastic);
+        }
+
+        private void OnEnable() => _TileSelectionManager.OnAmountChanged += UpdateUI;
+
+        private void OnDestroy()
+        {
+            _TileSelectionManager.OnAmountChanged -= UpdateUI;
+
+            if (_PreviewCamera != null && _PreviewCamera.targetTexture != null)
+            {
+                _PreviewCamera.targetTexture.Release();
+                Destroy(_PreviewCamera.targetTexture);
+            }
+            if (_SpawnPrefab != null)
+                Destroy(_SpawnPrefab);
         }
     }
 }

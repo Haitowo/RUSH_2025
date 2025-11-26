@@ -24,6 +24,7 @@ namespace Com.IsartDigital.Rush.Utilities
         public const string CAMERA_MANAGEMENT = "Camera Management";
         public const string CUBE_MANAGEMENT = "Cube Management";
         public const string GAME_SPEED = "Game Speed - Ticks";
+        public const string SOUND = "Sounds";
 
         //ERROR MESSAGE
         public const string ERR_TICK_FOUND = "No ITickProvider found in project.";

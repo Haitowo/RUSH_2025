@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 8239268057310323146}
   - component: {fileID: 6202264320898243}
   - component: {fileID: 9018698739156831974}
+  - component: {fileID: 2192861607142739100}
   m_Layer: 5
   m_Name: TILES
   m_TagString: Untagged
@@ -220,6 +221,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2192861607142739100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888415190375425345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd1a8a4d7519264a82744a366ae1eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToTransform: {fileID: 8239268057310323146}
+  pos: 3
+  currentPos: {x: 0, y: 0, z: 0}
+  ignoreHide: 0
 --- !u!1 &2947190381889811921
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToTransform: {fileID: 3368185468021205483}
   pos: 0
+  currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
 --- !u!114 &677083959819402180
 MonoBehaviour:
@@ -524,6 +542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToTransform: {fileID: 4946899360576370641}
   pos: 2
+  currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
 --- !u!1 &4268105706578758766
 GameObject:
@@ -826,6 +845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToTransform: {fileID: 5310728059638225137}
   pos: 2
+  currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
 --- !u!114 &4339223630813177224
 MonoBehaviour:
@@ -1475,6 +1495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToTransform: {fileID: 9128336151536305372}
   pos: 1
+  currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 1
 --- !u!114 &3146820493427262073
 MonoBehaviour:
@@ -1762,6 +1783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToTransform: {fileID: 6296758410929535431}
   pos: 0
+  currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
 --- !u!114 &2120665341267044815
 MonoBehaviour:

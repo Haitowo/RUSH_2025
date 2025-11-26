@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Manager;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,8 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private float _ScaleMultiplier = 1.1f;
         [SerializeField] private float _Duration = .5f;
         [SerializeField] private EMenuType _TargetMenu;
+        [SerializeField] private AudioClip _ClickButton;
+        [SerializeField] private Button _CurrentButton;
 
         public EMenuType TargetMenu => _TargetMenu;
 
@@ -22,9 +25,12 @@ namespace Com.IsartDigital.Rush.UI
 
         private Vector3 _OriginScale;
 
+        private SoundManager _SoundManager => SoundManager.Instance;
+
         private void Awake()
         {
             _OriginScale = transform.localScale;
+            _CurrentButton.onClick.AddListener(() => _SoundManager.PlaySound(_ClickButton, transform.position));
         }
 
         public void OnPointerEnter(PointerEventData pEventData)

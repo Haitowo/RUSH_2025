@@ -21,8 +21,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         [SerializeField] private AudioSource _SFX_Source;
 
-        private const string MUSIC_PARAM = "MusicVolume";
-        private const string SFX_PARAM = "SFXVolume";
+        public AudioMixer mixer => _Mixer;
 
         public static SoundManager Instance { get; private set; }
 
@@ -44,7 +43,6 @@ namespace Com.IsartDigital.Rush.Manager
             Instance = this;
 
             CreateMusicPlayer(_MusicPlayerParent);
-            DontDestroyOnLoad(this);
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY / AWAKE
@@ -56,6 +54,7 @@ namespace Com.IsartDigital.Rush.Manager
             {
                 CreateSoundPlayer(_SoundPoolParent);
             }
+            DontDestroyOnLoad(this);
         }
 
         private void CreateSoundPlayer(GameObject pObject)
@@ -66,11 +65,7 @@ namespace Com.IsartDigital.Rush.Manager
             lInactiveSound.outputAudioMixerGroup = _SoundGroup;
         }
 
-        private void CreateMusicPlayer(GameObject pObject)
-        {
-            _MusicPlayer = pObject.AddComponent<AudioSource>();
-            _MusicPlayer.transform.SetParent(_MusicPlayerParent.transform);
-        }
+        private void CreateMusicPlayer(GameObject pObject) => _MusicPlayer = pObject.AddComponent<AudioSource>();
 
         private void SoundFinish(AudioSource pCurrentSound)
         {
@@ -91,7 +86,6 @@ namespace Com.IsartDigital.Rush.Manager
         public void PlaySound(AudioClip pClip, Vector3 pSoundPosition)
         {
             if (_InactiveSoundPlayer.Count == 0) CreateSoundPlayer(_SoundPoolParent);
-            else if (_IsSoundAlreadyPlayed) return;
 
             AudioSource lSoundPlayer = _InactiveSoundPlayer[0];
             _InactiveSoundPlayer.Remove(lSoundPlayer);
@@ -115,7 +109,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (pSounds is null || pSounds.Length <= 0) return;
 
-            int lRandomIndex = Random.Range(0, pSounds.Length - 1);
+            int lRandomIndex = Random.Range(0, pSounds.Length);
             PlaySound(pSounds[lRandomIndex], pPosition);
         }
 
@@ -124,5 +118,11 @@ namespace Com.IsartDigital.Rush.Manager
             float dB = Mathf.Lerp(NO_SOUND_VALUE, MAX_SOUND_VALUE, pValue);
             _Mixer.SetFloat(pBusToChange, dB);
         }
+
+        public float DBToSliderValue(float dB)
+        {
+            return Mathf.InverseLerp(NO_SOUND_VALUE, MAX_SOUND_VALUE, dB);
+        }
+
     }
 }
