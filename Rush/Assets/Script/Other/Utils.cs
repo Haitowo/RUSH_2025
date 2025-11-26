@@ -32,5 +32,10 @@ namespace Com.IsartDigital.Rush.Utilities
 
         //TRIGGER
         public const string TAG_CUBE = "CUBE";
+
+        //SOUND
+        public const string MASTER_PARAM = "MasterVolume";
+        public const string MUSIC_PARAM = "MusicVolume";
+        public const string SOUND_PARAM = "SFXVolume";
     }
 }

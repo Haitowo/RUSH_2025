@@ -14,10 +14,15 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private AudioMixerGroup _SoundGroup;
         [SerializeField] private AudioMixerGroup _MusicGroup;
 
+        [SerializeField] private AudioMixer _Mixer;
+
         [SerializeField] private GameObject _MusicPlayerParent;
         [SerializeField] private GameObject _SoundPoolParent;
 
         [SerializeField] private AudioSource _SFX_Source;
+
+        private const string MUSIC_PARAM = "MusicVolume";
+        private const string SFX_PARAM = "SFXVolume";
 
         public static SoundManager Instance { get; private set; }
 
@@ -31,7 +36,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private int _NumberOfSoundsToPlay = 8;
 
-        private const float MIN_VALUE_SOUND = -25f;
+        private const float MAX_SOUND_VALUE = 0f;
         private const float NO_SOUND_VALUE = -80f;
 
         private void Init()
@@ -58,7 +63,7 @@ namespace Com.IsartDigital.Rush.Manager
             AudioSource lInactiveSound = Instantiate(_SFX_Source);
             lInactiveSound.transform.SetParent(pObject.transform);
             _InactiveSoundPlayer.Add(lInactiveSound);
-            lInactiveSound.outputAudioMixerGroup = _MusicGroup;
+            lInactiveSound.outputAudioMixerGroup = _SoundGroup;
         }
 
         private void CreateMusicPlayer(GameObject pObject)
@@ -114,21 +119,10 @@ namespace Com.IsartDigital.Rush.Manager
             PlaySound(pSounds[lRandomIndex], pPosition);
         }
 
-        public void SoundVolume(float pValue)
+        public void ChangeVolume(float pValue, string pBusToChange)
         {
-            if (pValue <= MIN_VALUE_SOUND)
-                pValue = NO_SOUND_VALUE;
-            foreach (AudioSource lSoundPlayer in _ActiveSoundPlayer)
-            {
-                lSoundPlayer.volume = pValue;
-            }
-        }
-
-        public void MusicVolume(float pValue)
-        {
-            if (pValue <= MIN_VALUE_SOUND)
-                pValue = NO_SOUND_VALUE;
-            _MusicPlayer.volume = pValue;
+            float dB = Mathf.Lerp(NO_SOUND_VALUE, MAX_SOUND_VALUE, pValue);
+            _Mixer.SetFloat(pBusToChange, dB);
         }
     }
 }

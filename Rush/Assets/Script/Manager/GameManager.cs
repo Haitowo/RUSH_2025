@@ -21,6 +21,9 @@ namespace Com.IsartDigital.Rush.Manager
         [HideInInspector] public float RatioTimeTick {  get; private set; }
         [SerializeField] private EMenuType _WinScreenToShow;
 
+        [Header(Utils.GAME_SPEED)]
+        [SerializeField] private AudioClip _GameMusic;
+
         private float _DurationBetweenTicks = 1f;
         private float _ElapsedTime = 0f;
         private float _TimeToWaitOnGameEnd = 2f;
@@ -33,9 +36,12 @@ namespace Com.IsartDigital.Rush.Manager
         public Action<bool> backToMenu;
         public Action<EMenuType> gameFinished;
 
+        private bool _IsGamePlaying;
+
         public ELevelToload selectHUDLevel { get; private set; }
 
         private CollisionManager _CollisionManager => CollisionManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         public static GameManager Instance { get; private set; }
 
@@ -46,7 +52,7 @@ namespace Com.IsartDigital.Rush.Manager
             activatePlayPhase += ActivateLevel;
             onGameLost += DisactivateLevel;
             resetLevel += ResetCube;
-            enabled = false;
+            _IsGamePlaying = false;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -60,10 +66,15 @@ namespace Com.IsartDigital.Rush.Manager
             #endregion
         }
 
+        private void Start()
+        {
+            _SoundManager.PlayMusic(_GameMusic);
+        }
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            TickManager();
+            if (_IsGamePlaying) TickManager();
         }
 
         private void TickManager()
@@ -86,16 +97,16 @@ namespace Com.IsartDigital.Rush.Manager
         public void LevelComplete()
         {
             gameFinished?.Invoke(_WinScreenToShow);
-            enabled = false;
+            _IsGamePlaying = false;
         }
 
         public void SetSelectedHUD(ELevelToload pLevel) => selectHUDLevel = pLevel;
         
-        private void ActivateLevel() => enabled = true;
+        private void ActivateLevel() => _IsGamePlaying = true;
 
         private void DisactivateLevel()
         {
-            enabled = false;
+            _IsGamePlaying   = false;
             StartCoroutine(WaitForLevelToReset(true));
         }
 
