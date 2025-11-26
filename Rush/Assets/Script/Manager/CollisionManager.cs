@@ -95,7 +95,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
             Vector3 lNewDirection = pTurnTile.GetNextDirection(pCube.lastDirectionBeforeFall, pCube);
             pCube.SetDirection(lNewDirection);
             pCube.lastDirectionBeforeFall = lNewDirection;
-            Debug.Log(lNewDirection);
             pCube.SetStateMove();
         }
 

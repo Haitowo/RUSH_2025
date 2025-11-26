@@ -6094,6 +6094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LevelContainer: {fileID: 6400977238854385452}
+  _TileApparitionSound: {fileID: 8300000, guid: 4ed1ee896a7db7e4fb690e61c437c1f0, type: 3}
 --- !u!1 &2861016133586208025
 GameObject:
   m_ObjectHideFlags: 0

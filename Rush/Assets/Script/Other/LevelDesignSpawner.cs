@@ -14,6 +14,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private Transform _LevelContainer;
+        [SerializeField] private AudioClip _TileApparitionSound;
 
         private List<GameObject> _TilesForLevel = new List<GameObject>();
 
@@ -23,6 +24,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
         private const int DECAY_DOWN = 10;
 
         private GameManager _GameManager => GameManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -30,6 +32,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
             GetLevel();
             _LevelContainer.gameObject.SetActive(false);
             _GameManager.switchToGame += SpawnLevel;
+            _SoundManager.PlaySound(_TileApparitionSound, transform.position);
         }
 
         private void GetLevel()

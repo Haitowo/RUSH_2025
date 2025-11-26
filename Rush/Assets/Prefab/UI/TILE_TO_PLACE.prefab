@@ -372,6 +372,7 @@ MonoBehaviour:
   _PrefabHolder: {fileID: 6978494501782215304}
   _PreviewCamera: {fileID: 5804751253869961895}
   _CurrentImage: {fileID: 7823096973490269866}
+  _ClickSound: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
 --- !u!114 &8009549755043044296
 MonoBehaviour:
   m_ObjectHideFlags: 0

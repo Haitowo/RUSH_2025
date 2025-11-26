@@ -72,6 +72,7 @@ MonoBehaviour:
   _GameObjectContainer: {fileID: 0}
   _ColorSpawnerAndCube: 0
   _CurrentLevel: 0
+  _TickToDelay: 0
 --- !u!1 &1263180244934068
 GameObject:
   m_ObjectHideFlags: 0
@@ -6042,6 +6043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LevelContainer: {fileID: 1038111596437782588}
+  _TileApparitionSound: {fileID: 8300000, guid: 4ed1ee896a7db7e4fb690e61c437c1f0, type: 3}
 --- !u!1 &5023822391076104201
 GameObject:
   m_ObjectHideFlags: 0

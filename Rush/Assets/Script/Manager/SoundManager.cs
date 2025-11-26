@@ -14,10 +14,14 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private AudioMixerGroup _SoundGroup;
         [SerializeField] private AudioMixerGroup _MusicGroup;
 
+        [SerializeField] private AudioMixer _Mixer;
+
         [SerializeField] private GameObject _MusicPlayerParent;
         [SerializeField] private GameObject _SoundPoolParent;
 
         [SerializeField] private AudioSource _SFX_Source;
+
+        public AudioMixer mixer => _Mixer;
 
         public static SoundManager Instance { get; private set; }
 
@@ -31,7 +35,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private int _NumberOfSoundsToPlay = 8;
 
-        private const float MIN_VALUE_SOUND = -25f;
+        private const float MAX_SOUND_VALUE = 0f;
         private const float NO_SOUND_VALUE = -80f;
 
         private void Init()
@@ -39,7 +43,6 @@ namespace Com.IsartDigital.Rush.Manager
             Instance = this;
 
             CreateMusicPlayer(_MusicPlayerParent);
-            DontDestroyOnLoad(this);
         }
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY / AWAKE
@@ -51,6 +54,7 @@ namespace Com.IsartDigital.Rush.Manager
             {
                 CreateSoundPlayer(_SoundPoolParent);
             }
+            DontDestroyOnLoad(this);
         }
 
         private void CreateSoundPlayer(GameObject pObject)
@@ -58,14 +62,10 @@ namespace Com.IsartDigital.Rush.Manager
             AudioSource lInactiveSound = Instantiate(_SFX_Source);
             lInactiveSound.transform.SetParent(pObject.transform);
             _InactiveSoundPlayer.Add(lInactiveSound);
-            lInactiveSound.outputAudioMixerGroup = _MusicGroup;
+            lInactiveSound.outputAudioMixerGroup = _SoundGroup;
         }
 
-        private void CreateMusicPlayer(GameObject pObject)
-        {
-            _MusicPlayer = pObject.AddComponent<AudioSource>();
-            _MusicPlayer.transform.SetParent(_MusicPlayerParent.transform);
-        }
+        private void CreateMusicPlayer(GameObject pObject) => _MusicPlayer = pObject.AddComponent<AudioSource>();
 
         private void SoundFinish(AudioSource pCurrentSound)
         {
@@ -86,7 +86,6 @@ namespace Com.IsartDigital.Rush.Manager
         public void PlaySound(AudioClip pClip, Vector3 pSoundPosition)
         {
             if (_InactiveSoundPlayer.Count == 0) CreateSoundPlayer(_SoundPoolParent);
-            else if (_IsSoundAlreadyPlayed) return;
 
             AudioSource lSoundPlayer = _InactiveSoundPlayer[0];
             _InactiveSoundPlayer.Remove(lSoundPlayer);
@@ -110,25 +109,20 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (pSounds is null || pSounds.Length <= 0) return;
 
-            int lRandomIndex = Random.Range(0, pSounds.Length - 1);
+            int lRandomIndex = Random.Range(0, pSounds.Length);
             PlaySound(pSounds[lRandomIndex], pPosition);
         }
 
-        public void SoundVolume(float pValue)
+        public void ChangeVolume(float pValue, string pBusToChange)
         {
-            if (pValue <= MIN_VALUE_SOUND)
-                pValue = NO_SOUND_VALUE;
-            foreach (AudioSource lSoundPlayer in _ActiveSoundPlayer)
-            {
-                lSoundPlayer.volume = pValue;
-            }
+            float dB = Mathf.Lerp(NO_SOUND_VALUE, MAX_SOUND_VALUE, pValue);
+            _Mixer.SetFloat(pBusToChange, dB);
         }
 
-        public void MusicVolume(float pValue)
+        public float DBToSliderValue(float dB)
         {
-            if (pValue <= MIN_VALUE_SOUND)
-                pValue = NO_SOUND_VALUE;
-            _MusicPlayer.volume = pValue;
+            return Mathf.InverseLerp(NO_SOUND_VALUE, MAX_SOUND_VALUE, dB);
         }
+
     }
 }

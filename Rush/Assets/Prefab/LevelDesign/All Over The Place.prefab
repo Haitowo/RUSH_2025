@@ -4991,6 +4991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _LevelContainer: {fileID: 7114624930243371749}
+  _TileApparitionSound: {fileID: 8300000, guid: 4ed1ee896a7db7e4fb690e61c437c1f0, type: 3}
 --- !u!1 &8994909806265916695
 GameObject:
   m_ObjectHideFlags: 0
@@ -5241,6 +5242,10 @@ PrefabInstance:
       propertyPath: _ColorSpawnerAndCube
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
+      propertyPath: _DoesLevelNeedsToGetDelaySpawn
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5327,6 +5332,10 @@ PrefabInstance:
       propertyPath: _ColorSpawnerAndCube
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
+      propertyPath: _DoesLevelNeedsToGetDelaySpawn
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5412,6 +5421,10 @@ PrefabInstance:
     - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
       propertyPath: _ColorSpawnerAndCube
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
+      propertyPath: _DoesLevelNeedsToGetDelaySpawn
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5560,6 +5573,10 @@ PrefabInstance:
     - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
       propertyPath: _TickNextSpawnToAdd
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473297084656719757, guid: 9ca5dea2adfa3df4789e230db6d39e0a, type: 3}
+      propertyPath: _DoesLevelNeedsToGetDelaySpawn
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

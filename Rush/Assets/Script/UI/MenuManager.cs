@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.CameraManagement;
+using Com.IsartDigital.Rush.LevelDesign;
 using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
@@ -18,13 +19,15 @@ namespace Com.IsartDigital.Rush.UI
         private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
 
         [SerializeField] private Transform _CurrentCameraGame;
+        [SerializeField] private AudioClip _TransitionSound;
         [SerializeField] private Button _BackMenuGame;
         [SerializeField] private Button _BackLevelSelectButton;
 
-        private const float TRANSITION_TIME = .75f;
+        private const float TRANSITION_TIME = 1f;
 
         private GameManager _GameManager => GameManager.Instance;
         private HUDManager _HUDManager => HUDManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -66,6 +69,7 @@ namespace Com.IsartDigital.Rush.UI
         {
             CheckTypeOfQuit(pType);
 
+            _SoundManager.PlaySound(_TransitionSound, transform.position);
             MenuType lNextMenuToShow;
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
@@ -115,11 +119,11 @@ namespace Com.IsartDigital.Rush.UI
 
         private void SetMenuCamera(bool pBool)
         {
-            _GameManager.backToMenu?.Invoke(pBool);
-
             HUDTileToPlace lHud = _HUDManager.hudTileToPlace;
             if (lHud != null)
                 lHud.ClearAllSlots(pBool);
+
+            _GameManager.backToMenu?.Invoke(pBool);
 
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
