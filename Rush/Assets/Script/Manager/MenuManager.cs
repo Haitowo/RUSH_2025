@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace Com.IsartDigital.Rush.UI
 {
-    
+
     public class MenuManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
@@ -21,7 +21,8 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Transform _CurrentCameraGame;
         [SerializeField] private AudioClip _TransitionSound;
         [SerializeField] private Button _BackMenuGame;
-        [SerializeField] private Button _BackLevelSelectButton;
+        [SerializeField] private Button _PauseButton;
+        [SerializeField] private Button[] _BackLevelSelectButtonsArray;
 
         private const float TRANSITION_TIME = 1f;
 
@@ -39,7 +40,11 @@ namespace Com.IsartDigital.Rush.UI
             _GameManager.gameFinished += ShowMenu;
 
             _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
-            _BackLevelSelectButton.onClick.AddListener(() => SetMenuCamera(false));
+            _PauseButton.onClick.AddListener(() => SetPauseCamera(true));
+
+            foreach (Button lBackButton in _BackLevelSelectButtonsArray)
+                lBackButton.onClick.AddListener(() => SetMenuCamera(false));
+            
         }
 
         private void RegisterMenus()
@@ -89,8 +94,8 @@ namespace Com.IsartDigital.Rush.UI
                 lMenu.SetActive(false);
 
            _Menus[pType].SetActive(true);
-            if (pType == EMenuType.PLAY) 
-                SetGameCamera();
+            if (pType == EMenuType.PLAY && !_GameManager.isGameOnPause) 
+                SetGameCamera(false);
         }
 
         private void CheckTypeOfQuit(EMenuType pType)
@@ -106,7 +111,7 @@ namespace Com.IsartDigital.Rush.UI
             }
         }
 
-        private void SetGameCamera()
+        private void SetGameCamera(bool pIsPause)
         {
             CameraGame lCam = _CurrentCameraGame.GetComponent<CameraGame>();
             Vector3 lBasePoint = _CurrentCameraGame.position + (_CurrentCameraGame.rotation * Vector3.forward * lCam.distanceCamera);
@@ -114,7 +119,7 @@ namespace Com.IsartDigital.Rush.UI
             if (lCam != null)
                 lCam.SetStartTransform(_CurrentCameraGame.position, _CurrentCameraGame.rotation, lCam.distanceCamera, lBasePoint);
 
-            _GameManager.switchToGame?.Invoke(true);
+            if(!pIsPause) _GameManager.switchToGame?.Invoke(true);
         }
 
         private void SetMenuCamera(bool pBool)
@@ -126,6 +131,12 @@ namespace Com.IsartDigital.Rush.UI
             _GameManager.backToMenu?.Invoke(pBool);
 
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
+        }
+
+        private void SetPauseCamera(bool pBool)
+        {
+            _GameManager.pauseGame?.Invoke(pBool);
+            SwitchCameraPos(EMenuType.PAUSE);
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Com.IsartDigital.Rush.LevelDesign
             GetLevel();
             _LevelContainer.gameObject.SetActive(false);
             _GameManager.switchToGame += SpawnLevel;
-            _SoundManager.PlaySound(_TileApparitionSound, transform.position);
         }
 
         private void GetLevel()
@@ -45,6 +44,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
 
         private void SpawnLevel(bool pShow)
         {
+            _SoundManager.PlaySound(_TileApparitionSound, transform.position);
             _LevelContainer.gameObject.SetActive(pShow);
             foreach (GameObject tile in _TilesForLevel)
             {

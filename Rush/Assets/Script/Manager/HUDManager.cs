@@ -37,6 +37,7 @@ namespace Com.IsartDigital.Rush.UI
              
             _GameManager.switchToGame += ToggleHUD;
             _GameManager.backToMenu += RemoveHUD;
+            _GameManager.pauseGame += RemoveHUD;
             _GameManager.resetLevel += ToggleHUD;
             transform.gameObject.SetActive(false);
 
@@ -110,7 +111,7 @@ namespace Com.IsartDigital.Rush.UI
                 if (lElement.objectToTransform != null)
                     lElement.objectToTransform.anchoredPosition = lElement.currentPos;
             }
-            transform.gameObject.SetActive(pShow);
+            transform.gameObject.SetActive(false);
         }
 
         private void OnClick() => ToggleHUD(false);

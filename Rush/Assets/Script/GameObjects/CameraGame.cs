@@ -49,6 +49,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _GameManager.switchToGame += EnableCameraForGame;
             _GameManager.gameFinished += OnWinScreen;
             _GameManager.backToMenu += DisableCameraForGame;
+            _GameManager.pauseGame += DisableCameraForGame;
         }
 
         //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
@@ -57,7 +58,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             if (PointerOverUI()) return;
 
             MoveCamera();
-            ZoomMouse();
+            //ZoomMouse();
         }
 
         private bool PointerOverUI()
@@ -97,9 +98,9 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _YAngles = Mathf.Clamp(_YAngles, _YMinAngle, _YMaxAngle);
         }
 
-        private void EnableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
+        private void EnableCameraForGame(bool pEnableCamera) => enabled = true;
 
-        private void DisableCameraForGame(bool pEnableCamera) => enabled = pEnableCamera;
+        private void DisableCameraForGame(bool pEnableCamera) => enabled = false;
 
         private void OnWinScreen(EMenuType pType) => enabled = false;
 
@@ -135,6 +136,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
                 _GameManager.switchToGame -= EnableCameraForGame;
                 _GameManager.gameFinished -= OnWinScreen;
                 _GameManager.backToMenu -= DisableCameraForGame;
+                _GameManager.pauseGame -= DisableCameraForGame;
             }
         }
     }
