@@ -101,7 +101,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void SetTeleporter(Teleporter pTeleporter)
         {
             _CurrentTeleporter = pTeleporter;
-            _NextTeleporter = TeleporterManager.Instance.GetNext(_CurrentTeleporter);
+            _NextTeleporter = _TeleporterManager.GetNext(_CurrentTeleporter);
         }
 
         private void TargetManagement(Cube pCube, Target pCurrentTarget)
@@ -162,9 +162,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             }
         }
 
-        private void OnCubeDeath(Cube pCube)
-        {
-            _GameManager.onGameLost?.Invoke();
-        }
+        private void OnCubeDeath(Cube pCube) => _GameManager.onGameLost?.Invoke();
+        
     }
 }

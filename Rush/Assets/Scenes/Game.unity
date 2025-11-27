@@ -399,9 +399,6 @@ MonoBehaviour:
   _YMinAngle: -5
   _YMaxAngle: 90
   _IsCameraForUI: 0
-  _ZoomSpeed: 3
-  _ZoomMin: 2
-  _ZoomMax: 20
   middlePoint: {fileID: 257429627}
   distanceCamera: 15
 --- !u!4 &371861100 stripped
@@ -6334,7 +6331,6 @@ MonoBehaviour:
   _WinScreenToShow: 6
   _GameMusic: {fileID: 8300000, guid: 7f787238bee686b46a2e0cdecd1d12f5, type: 3}
   _WinScreenSound: {fileID: 8300000, guid: 7aaafc44c4c4fe647a205e2c46cfac91, type: 3}
-  isGameOnPause: 0
 --- !u!114 &947713495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6390,7 +6386,7 @@ MonoBehaviour:
   _HUDTileToPlace: {fileID: 617192375}
   _ObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!114 &947713499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6872,17 +6868,12 @@ Transform:
   m_GameObject: {fileID: 1639185785}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 95, y: -19, z: 55}
+  m_LocalPosition: {x: 72, y: 5, z: 47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1297489606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1655675248 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8589153373198128859, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-  m_PrefabInstance: {fileID: 4997944285583097403}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1692165115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8329,6 +8320,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3999176384747164367, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _TargetMenu
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4294920240490614703, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -8376,7 +8371,7 @@ PrefabInstance:
     - target: {fileID: 4625424397380387561, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: CameraPos
       value: 
-      objectReference: {fileID: 1655675248}
+      objectReference: {fileID: 1639185786}
     - target: {fileID: 4647118814431036661, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_Name
       value: /---- MENUS ----\
@@ -8441,6 +8436,10 @@ PrefabInstance:
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 315571823}
+    - target: {fileID: 5846063934124626996, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _TargetMenu
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5858971401467660115, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_fontColor.b
       value: 0

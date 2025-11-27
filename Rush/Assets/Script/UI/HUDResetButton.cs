@@ -20,7 +20,6 @@ namespace Com.IsartDigital.Rush.UI
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start() => _CurrentResetButton.onClick.AddListener(ResetTiles);
         
-
         private void ResetTiles()
         {
             _HUDTileToPlace.ResetSlot();
