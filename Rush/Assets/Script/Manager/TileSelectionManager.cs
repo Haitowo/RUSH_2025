@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.Manager
         public static TileSelectionManager Instance { get; private set; }
 
         private List<TileEntryRuntime> _Entries;
+        private List<UITileSlot> _UISlots = new List<UITileSlot>();
         private int _CurrentIndex = 0;
 
         public TileEntryRuntime CurrentEntry => _Entries != null && _Entries.Count > 0 ? _Entries[_CurrentIndex] : null;
@@ -24,6 +25,8 @@ namespace Com.IsartDigital.Rush.Manager
 
         private GameManager _GameManager => GameManager.Instance;
 
+        public UITileSlot CurrentSlot { get; private set; }
+
         public bool IsInventoryEmpty => !HasAnyTilesAvailable();
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -32,6 +35,7 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
             _GameManager.switchToGame += Activate;
             _GameManager.backToMenu += Disable;
+            _GameManager.pauseGame += Disable;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -128,7 +132,16 @@ namespace Com.IsartDigital.Rush.Manager
         public void SetIndex(int pIndex)
         {
             _CurrentIndex = Mathf.Clamp(pIndex, 0, _Entries.Count - 1);
+            if (pIndex < _UISlots.Count)
+                CurrentSlot = _UISlots[pIndex];
+
             SkipIfEmpty();
+        }
+
+        public void RegisterSlot(UITileSlot slot)
+        {
+            if (!_UISlots.Contains(slot))
+                _UISlots.Add(slot);
         }
 
         public void ResetAll()

@@ -16,6 +16,7 @@ namespace Com.IsartDigital.Rush.UI
         OPTIONS,
         CREDITS,
         QUIT,
-        WIN_SCREEN
+        WIN_SCREEN,
+        PAUSE
     }
 }

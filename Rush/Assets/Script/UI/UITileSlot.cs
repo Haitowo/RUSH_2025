@@ -56,6 +56,7 @@ namespace Com.IsartDigital.Rush.UI
 
             _Button.onClick.AddListener(OnClick);
             _OriginalScale = transform.localScale;
+            _TileSelectionManager.RegisterSlot(this);
         }
 
         private void OnClick()
@@ -63,6 +64,9 @@ namespace Com.IsartDigital.Rush.UI
             GameObject lPreviewTile;
 
             _SoundManager.PlaySound(_ClickSound, transform.position);
+            if (_TileSelectionManager.CurrentSlot != null && _TileSelectionManager.CurrentSlot != this)
+                _TileSelectionManager.CurrentSlot.Deselect();
+            
             if (_RuntimeEntry.remaining > 0 && !_IsTileAlreadySelected)
             {
                 _TileSelectionManager.SetIndex(_Index);
@@ -131,6 +135,8 @@ namespace Com.IsartDigital.Rush.UI
                 .SetEase(Ease.OutElastic);
         }
 
+        public void Deselect() => _IsTileAlreadySelected = false;
+        
         private void OnEnable() => _TileSelectionManager.OnAmountChanged += UpdateUI;
 
         private void OnDestroy()

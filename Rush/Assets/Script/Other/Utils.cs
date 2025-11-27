@@ -30,6 +30,7 @@ namespace Com.IsartDigital.Rush.Utilities
         public const string ERR_TICK_FOUND = "No ITickProvider found in project.";
         public const string ERR_CAMERA_MENU = "Next menu not found, switch camera position didn't work.";
         public const string ERR_HUD_SPAWN = "HUDType sélectionné invalide pour la liste de ScriptableObjects !";
+        public const string ERR_SNAP_POS = "TilePreviewManager: Impossible de snap la position ! La case est invalide ou hors layer mask.";
 
         //TRIGGER
         public const string TAG_CUBE = "CUBE";

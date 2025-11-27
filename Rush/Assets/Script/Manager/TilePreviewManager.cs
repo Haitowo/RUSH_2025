@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.UI;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
@@ -17,18 +18,22 @@ namespace Com.IsartDigital.Rush.Manager
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private HUDTileToPlace _HUDTileToPlace;
+        [SerializeField] private LayerMask _ObstacleMask;
 
         private GameObject _GhostTile;
         private Action<GameObject> _DoActionUI;
 
-        private const int ERR_VALUE = -1;
         private const int LEFT_CLICK_BUTTON_AND_TOUCH = 0;
 
         private const float DECAY_TILE = .5f;
         private const float TWEEN_TIME = .5f;
         private const float PAUSE_TIME = .05f;
         private const float FULL_TURN = 360f;
+
         private List<GameObject> _PlacedTiles = new List<GameObject>();
+        private List<Vector3?> _PositionUsed = new List<Vector3?>();
+
+        private bool _HasSnapErrorBeenShown = false;
 
         public static TilePreviewManager Instance { get; private set; }
 
@@ -42,6 +47,7 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
             _GameManager.switchToGame += Activate;
             _GameManager.backToMenu += Disable;
+            _GameManager.pauseGame += Disable;
             _TileSelectionManager.OnInventoryEmpty += HandleInventoryEmpty;
 
             #region Singleton Management
@@ -82,36 +88,44 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void DoActionTileOnGrid(GameObject pTile)
         {
-            Vector3 lSnapPos = SnapOnGrid();
-            if (lSnapPos.x != -1)
-                pTile.transform.position = lSnapPos;
+            Vector3? lSnapPos = SnapOnGrid();
+
+            if (!lSnapPos.HasValue && _GhostTile.activeSelf)
+            {
+                _GhostTile.SetActive(false);
+                return;
+            }
+            else if (!_GhostTile.activeSelf && lSnapPos.HasValue)
+                _GhostTile.SetActive(true);
+
+            _HasSnapErrorBeenShown = false;
+            if (lSnapPos.HasValue) 
+                pTile.transform.position = lSnapPos.Value;
         }
 
-        private Vector3 SnapOnGrid()
+        private Vector3? SnapOnGrid()
         {
             Vector3 lMousePos = GetPointerPosition();
             Vector3 lGlobalIndexToIndex;
             Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
 
-            int lCollisionLayerObstacle = 1 << (int)ECollision.GROUND;
-
-            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, lCollisionLayerObstacle))
+            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, _ObstacleMask))
             {
                 lGlobalIndexToIndex = lHitInfo.point;
-                Vector3 lPlaceInfo = lHitInfo.point;
-                int lX = Mathf.FloorToInt(lPlaceInfo.x + DECAY_TILE);
-                int lZ = Mathf.FloorToInt(lPlaceInfo.z + DECAY_TILE);
-                float lY = Mathf.FloorToInt(lPlaceInfo.y) + DECAY_TILE;
+                int lX = Mathf.FloorToInt(lGlobalIndexToIndex.x + DECAY_TILE);
+                int lZ = Mathf.FloorToInt(lGlobalIndexToIndex.z + DECAY_TILE);
+                float lY = Mathf.FloorToInt(lGlobalIndexToIndex.y) + DECAY_TILE;
 
                 lGlobalIndexToIndex = new Vector3(lX, lY, lZ);
                 return lGlobalIndexToIndex;
             }
-            else return lGlobalIndexToIndex = new Vector3(ERR_VALUE, ERR_VALUE, ERR_VALUE);
+            else return null;
         }
 
         private void CheckValidation()
         {
-            if (_GhostTile != null && GetPrimaryDown())
+            Vector3? lCurrentMousePos = SnapOnGrid();
+            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && !_PositionUsed.Contains(lCurrentMousePos))
                 ValidateTilePlacement();
             else if (_GhostTile == null && GetPrimaryDown())
                 TryRemoveTile();
@@ -120,9 +134,13 @@ namespace Com.IsartDigital.Rush.Manager
         private void ValidateTilePlacement()
         {
             if (_GhostTile == null) return;
+
             TileRuntimeIdentifier lIdentifier;
             GameObject lPlacedTile = Instantiate(_GhostTile);
+
             Vector3 lPos = _GhostTile.transform.position;
+            _PositionUsed.Add(lPos);
+                
             lPlacedTile.transform.position = lPos;
             lIdentifier = lPlacedTile.AddComponent<TileRuntimeIdentifier>();
             lIdentifier.tileEntry = _TileSelectionManager.CurrentEntry;
@@ -246,12 +264,16 @@ namespace Com.IsartDigital.Rush.Manager
         {
             enabled = pEnable;
 
+            if (_GameManager.isGameOnPause) return;
+
             foreach (GameObject tile in _PlacedTiles)
             {
                 if(tile != null)
                     Destroy(tile);  
             }
+
             _PlacedTiles.Clear();
+            _PositionUsed.Clear();
         }
 
         private void AnimateTileRemoval(GameObject pTile, TileRuntimeIdentifier pIdentifier)

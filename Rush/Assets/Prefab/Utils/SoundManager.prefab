@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SoundGroup: {fileID: -9121359216332426380, guid: fbb4afc326d5f4445b16f96dc589deec, type: 2}
   _MusicGroup: {fileID: 6808540802026009384, guid: fbb4afc326d5f4445b16f96dc589deec, type: 2}
+  _Mixer: {fileID: 24100000, guid: fbb4afc326d5f4445b16f96dc589deec, type: 2}
   _MusicPlayerParent: {fileID: 5115320314972209570}
   _SoundPoolParent: {fileID: 1887847342569404114}
   _SFX_Source: {fileID: 1193857816496195675}
