@@ -25,6 +25,7 @@ namespace Com.IsartDigital.Rush.UI
             _HUDTileToPlace.ResetSlot();
             _TileSelectionManager.ResetAll();
             _TilePreviewManager.ResetPreview();
+            _TilePreviewManager.positionUSed.Clear();
         }
     }
 }

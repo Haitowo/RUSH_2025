@@ -771,7 +771,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/PROGRA~1/Unity/Hub/Editor/60000~1.60F/Editor/Data/PLAYBA~1/ANDROI~1/SDK/cmake/322~1.1/bin/ninja.exe"
+			"value" : "C:/Program Files/Unity/Hub/Editor/6000.0.60f1/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1/bin/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -1255,11 +1255,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "The CMake toolchain file"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Unity/Hub/Editor/6000.0.60f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/build/cmake/android.toolchain.cmake"
+			"type" : "UNINITIALIZED",
+			"value" : "C:\\Program Files\\Unity\\Hub\\Editor\\6000.0.60f1\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\NDK\\build\\cmake\\android.toolchain.cmake"
 		},
 		{
 			"name" : "CMAKE_VERBOSE_MAKEFILE",

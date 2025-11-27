@@ -24,6 +24,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
         private float _XAngles = 0f;
         private float _YAngles = 20f;
         private float _RotationSpeed = 5f;
+        private float _InputRotationSpeed = 80f;
 
         private const int MOUSE_BUTTON_RIGHT = 1;
 
@@ -50,6 +51,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             if (PointerOverUI()) return;
 
             MoveCamera();
+            RotateAroundPoint();
         }
 
         private bool PointerOverUI()
@@ -105,6 +107,17 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _YAngles = pEuler.x;
 
             distanceCamera = pDistance;
+        }
+
+        private void RotateAroundPoint()
+        {
+            float lHorizontal = Input.GetAxis(Utils.HORIZONTAL_INPUTS);
+            float lVertical = Input.GetAxis(Utils.VERTICAL_INPUTS);
+
+            _XAngles -= lHorizontal * _InputRotationSpeed * Time.deltaTime;
+            _YAngles += lVertical * _InputRotationSpeed * Time.deltaTime;
+
+            _YAngles = Mathf.Clamp(_YAngles, _YMinAngle, _YMaxAngle);
         }
 
         private void OnDestroy()

@@ -24,6 +24,7 @@ namespace Com.IsartDigital.Rush.Manager
         private Action<GameObject> _DoActionUI;
 
         private const int LEFT_CLICK_BUTTON_AND_TOUCH = 0;
+        private const int RIGHT_CLICK_BUTTON_AND_TOUCH = 1;
 
         private const float DECAY_TILE = .5f;
         private const float TWEEN_TIME = .5f;
@@ -31,7 +32,7 @@ namespace Com.IsartDigital.Rush.Manager
         private const float FULL_TURN = 360f;
 
         private List<GameObject> _PlacedTiles = new List<GameObject>();
-        private List<Vector3?> _PositionUsed = new List<Vector3?>();
+        public List<Vector3?> positionUSed = new List<Vector3?>();
 
         public static TilePreviewManager Instance { get; private set; }
 
@@ -122,7 +123,7 @@ namespace Com.IsartDigital.Rush.Manager
         private void CheckValidation()
         {
             Vector3? lCurrentMousePos = SnapOnGrid();
-            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && !_PositionUsed.Contains(lCurrentMousePos))
+            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && !positionUSed.Contains(lCurrentMousePos))
                 ValidateTilePlacement();
             else if (_GhostTile == null && GetPrimaryDown())
                 TryRemoveTile();
@@ -136,7 +137,7 @@ namespace Com.IsartDigital.Rush.Manager
             GameObject lPlacedTile = Instantiate(_GhostTile);
 
             Vector3 lPos = _GhostTile.transform.position;
-            _PositionUsed.Add(lPos);
+            positionUSed.Add(lPos);
                 
             lPlacedTile.transform.position = lPos;
             lIdentifier = lPlacedTile.AddComponent<TileRuntimeIdentifier>();
@@ -201,7 +202,7 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void CheckClickInputs()
         {
-            if (_GhostTile != null && Input.GetMouseButton(1))
+            if (_GhostTile != null && Input.GetMouseButton(RIGHT_CLICK_BUTTON_AND_TOUCH))
             {
                 _GhostTile.SetActive(false);
                 SetStateVoid();
@@ -251,7 +252,7 @@ namespace Com.IsartDigital.Rush.Manager
                 if (lIdentifier != null && _PlacedTiles.Contains(lTargetTile))
                 {
                     _PlacedTiles.Remove(lTargetTile);
-                    _PositionUsed.Remove(lTargetTile.transform.position);
+                    positionUSed.Remove(lTargetTile.transform.position);
                     AnimateTileRemoval(lTargetTile, lIdentifier);
                 }
             }
@@ -270,7 +271,7 @@ namespace Com.IsartDigital.Rush.Manager
             }
 
             _PlacedTiles.Clear();
-            _PositionUsed.Clear();
+            positionUSed.Clear();
         }
 
         private void AnimateTileRemoval(GameObject pTile, TileRuntimeIdentifier pIdentifier)

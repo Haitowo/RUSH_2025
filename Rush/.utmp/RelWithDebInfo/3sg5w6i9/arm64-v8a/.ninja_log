@@ -1,11 +1,11 @@
 # ninja log v5
 26	2488	7859365488858208	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	be1cd657895b50de
 34	2519	7859365489148030	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	e1037ddbe215e303
-55	3169	7859365495537251	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2ada438fbd5fced1
 0	2574	7859365489649063	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	90046b35717f18ce
-3169	3332	7859365497312263	C:/Users/fmajc/Desktop/Isart/GDP2/Rush/Florian MAJCHER GDP2 - Rush/Rush/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3sg5w6i9/obj/arm64-v8a/libgame.so	bc0b79bb6c7d43c0
-17	2644	7859365490408884	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3789ccfb3f181433
+55	3169	7859365495537251	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2ada438fbd5fced1
 61	2596	7859365489893993	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a73f3373995a56b8
+17	2644	7859365490408884	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3789ccfb3f181433
+3169	3332	7859365497312263	C:/Users/fmajc/Desktop/Isart/GDP2/Rush/Florian MAJCHER GDP2 - Rush/Rush/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3sg5w6i9/obj/arm64-v8a/libgame.so	bc0b79bb6c7d43c0
 43	2844	7859365492254638	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	fe12eca6502ef9e1
 6	2950	7859365493345983	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	fa1457027284c197
-11	970	7859653718268908	build.ninja	e89bb227d4e973dc
+11	970	7859762497861887	build.ninja	e89bb227d4e973dc

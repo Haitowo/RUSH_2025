@@ -19,6 +19,8 @@ namespace Com.IsartDigital.Rush.Utilities
         public const string MOUSE_BUTTON_X = "Mouse X";
         public const string MOUSE_BUTTON_Y = "Mouse Y";
         public const string MOUSE_WHEEL = "Mouse ScrollWheel";
+        public const string VERTICAL_INPUTS = "Vertical";
+        public const string HORIZONTAL_INPUTS = "Horizontal";
 
         //HEADER
         public const string CAMERA_MANAGEMENT = "Camera Management";

@@ -29,6 +29,8 @@ namespace Com.IsartDigital.Rush.Manager
         private float _ElapsedTime = 0f;
         private float _TimeToWaitOnGameEnd = 2f;
 
+        private const float TWEEN_TIME = .5f;
+
         public event Action tickEvent;
         public Action onGameLost;
         public Action activatePlayPhase;
@@ -122,7 +124,7 @@ namespace Com.IsartDigital.Rush.Manager
         private void ResetCube(bool pShow)
         {
             foreach (Cube pCubes in _CollisionManager.cubes)
-                pCubes.transform.DOScale(Vector3.zero, .5f).SetEase(Ease.Linear).OnComplete(() => DestroyCurrentCubes(pCubes));
+                pCubes.transform.DOScale(Vector3.zero, TWEEN_TIME).SetEase(Ease.Linear).OnComplete(() => DestroyCurrentCubes(pCubes));
 
             _CollisionManager.cubes.Clear();
         }
