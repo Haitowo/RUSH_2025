@@ -36,7 +36,7 @@ namespace Com.IsartDigital.Rush.CameraManagement
             enabled = _IsCameraForUI ? true : false;
             _SelfTransform = transform;
 
-            if (_IsCameraForUI) distanceCamera = 3f;
+            if (_IsCameraForUI) distanceCamera = 5f;
 
             _GameManager.switchToGame += EnableCameraForGame;
             _GameManager.gameFinished += OnWinScreen;
