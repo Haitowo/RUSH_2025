@@ -251,6 +251,7 @@ namespace Com.IsartDigital.Rush.Manager
                 if (lIdentifier != null && _PlacedTiles.Contains(lTargetTile))
                 {
                     _PlacedTiles.Remove(lTargetTile);
+                    _PositionUsed.Remove(lTargetTile.transform.position);
                     AnimateTileRemoval(lTargetTile, lIdentifier);
                 }
             }

@@ -66,7 +66,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _SelfTransform = transform;
 
             direction = _SelfTransform.forward;
-            DISTANCE_RAYCAST = (_SelfTransform.localScale.y / 2f) + .3f;
         }
 
         private void Start()
