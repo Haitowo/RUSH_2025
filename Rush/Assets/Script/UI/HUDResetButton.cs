@@ -18,10 +18,8 @@ namespace Com.IsartDigital.Rush.UI
         private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
-        private void Start()
-        {
-            _CurrentResetButton.onClick.AddListener(ResetTiles);
-        }
+        private void Start() => _CurrentResetButton.onClick.AddListener(ResetTiles);
+        
 
         private void ResetTiles()
         {

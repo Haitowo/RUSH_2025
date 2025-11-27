@@ -49,9 +49,8 @@ namespace Com.IsartDigital.Rush.Manager
             List<Teleporter> lListTeleporter = _DicoTeleporter[pColor];
 
             for (int i = 0; i < lListTeleporter.Count; i++)
-            {
                 lListTeleporter[i].Index = i;
-            }
+            
         }
 
         public Teleporter GetNext(Teleporter pOrigin)

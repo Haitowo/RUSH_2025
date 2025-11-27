@@ -9,9 +9,7 @@ namespace Com.IsartDigital.Rush.Ticks
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         public static ITickProvider Instance { get; private set; }
 
-        public static void Register(ITickProvider pProvider)
-        {
-            Instance = pProvider;
-        }
+        public static void Register(ITickProvider pProvider) => Instance = pProvider;
+        
     }
 }

@@ -40,7 +40,6 @@ namespace Com.IsartDigital.Rush.Manager
         public Action<bool> finishPauseGame;
 
         private bool _IsGamePlaying;
-        public bool isGameOnPause;
 
         public ELevelToload selectHUDLevel { get; private set; }
 
@@ -77,7 +76,7 @@ namespace Com.IsartDigital.Rush.Manager
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update()
         {
-            if (_IsGamePlaying && !isGameOnPause) TickManager();
+            if (_IsGamePlaying) TickManager();
         }
 
         private void TickManager()
@@ -127,10 +126,6 @@ namespace Com.IsartDigital.Rush.Manager
 
             _CollisionManager.cubes.Clear();
         }
-
-        private void SetGamePause(bool pPause) => isGameOnPause = true;
-
-        private void FinishPause(bool pPause) => isGameOnPause = false;
 
         private void DestroyCurrentCubes(Cube pCube) => Destroy(pCube.gameObject);
 

@@ -33,8 +33,6 @@ namespace Com.IsartDigital.Rush.Manager
         private List<GameObject> _PlacedTiles = new List<GameObject>();
         private List<Vector3?> _PositionUsed = new List<Vector3?>();
 
-        private bool _HasSnapErrorBeenShown = false;
-
         public static TilePreviewManager Instance { get; private set; }
 
         private GameManager _GameManager => GameManager.Instance;
@@ -98,7 +96,6 @@ namespace Com.IsartDigital.Rush.Manager
             else if (!_GhostTile.activeSelf && lSnapPos.HasValue)
                 _GhostTile.SetActive(true);
 
-            _HasSnapErrorBeenShown = false;
             if (lSnapPos.HasValue) 
                 pTile.transform.position = lSnapPos.Value;
         }
@@ -146,7 +143,8 @@ namespace Com.IsartDigital.Rush.Manager
             lIdentifier.tileEntry = _TileSelectionManager.CurrentEntry;
             Destroy(_GhostTile);
             _GhostTile = null;
-            lPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true).OnComplete(() => PlaceTile(lPlacedTile));
+            lPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360)
+                .SetRelative(true).OnComplete(() => PlaceTile(lPlacedTile));
 
             _TileSelectionManager.UseOne();
             GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
@@ -263,8 +261,6 @@ namespace Com.IsartDigital.Rush.Manager
         private void Disable(bool pEnable)
         {
             enabled = pEnable;
-
-            if (_GameManager.isGameOnPause) return;
 
             foreach (GameObject tile in _PlacedTiles)
             {

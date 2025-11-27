@@ -31,8 +31,6 @@ namespace Com.IsartDigital.Rush.Manager
 
         private AudioSource _MusicPlayer;
 
-        private bool _IsSoundAlreadyPlayed;
-
         private int _NumberOfSoundsToPlay = 8;
 
         private const float MAX_SOUND_VALUE = 0f;

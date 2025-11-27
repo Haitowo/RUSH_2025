@@ -30,7 +30,6 @@ namespace Com.IsartDigital.Rush.UI
         private List<UITileSlot> _UISlots = new List<UITileSlot>();
 
         private GameManager _GameManager => GameManager.Instance;
-        private SoundManager _SoundManager => SoundManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
         private void OnEnable() => _GameManager.switchToGame += SetPrefabOnSpawn;

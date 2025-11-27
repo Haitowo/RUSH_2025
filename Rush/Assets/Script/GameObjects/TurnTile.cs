@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.GameObjects
 {
-    public class TurnTile : PlaceableTiles
+    public class TurnTile : MonoBehaviour
     {
         private bool _TurnRight;
         private float _Angle = 90f;

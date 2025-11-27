@@ -23,16 +23,10 @@ namespace Com.IsartDigital.Rush.Lighting
         private float _DayTimeSpeed = .25f;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
-        private void Update()
-        {
-            CheckTime();
-        }
-
-        private void OnValidate()
-        {
-            SetupLight();
-        }
-
+        private void Update() => CheckTime();
+        
+        private void OnValidate() => SetupLight();
+        
         private void SetupLight()
         {
             Light[] lLights = FindObjectsByType<Light>(FindObjectsSortMode.None);
@@ -41,16 +35,8 @@ namespace Com.IsartDigital.Rush.Lighting
             if (RenderSettings.sun != null)
                 _DirectionalLight = RenderSettings.sun;
             else
-            {
-                foreach (Light light in lLights)
-                {
-                    if (light.type == LightType.Directional)
-                    {
-                        _DirectionalLight = light;
-                        return;
-                    }
-                }
-            }
+                ModifLight(lLights);
+            
         }
 
         private void UpdateLighting(float pTimeOfDay)
@@ -74,6 +60,18 @@ namespace Com.IsartDigital.Rush.Lighting
                 UpdateLighting(_TimeOfDay / _HoursOfADay);
             }
             else UpdateLighting(_TimeOfDay / _HoursOfADay);
+        }
+
+        private void ModifLight(Light[] pLights)
+        {
+            foreach (Light light in pLights)
+            {
+                if (light.type == LightType.Directional)
+                {
+                    _DirectionalLight = light;
+                    return;
+                }
+            }
         }
     }
 }

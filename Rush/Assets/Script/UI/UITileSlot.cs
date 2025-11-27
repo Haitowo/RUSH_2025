@@ -99,19 +99,19 @@ namespace Com.IsartDigital.Rush.UI
             _CurrentImage.texture = lRenderTexture;
         }
 
-        public void SetRotation(int angle)
+        public void SetRotation(int pAngle)
         {
             if (_SpawnPrefab != null)
-                _SpawnPrefab.transform.localRotation = Quaternion.Euler(0f, angle, 0f);
+                _SpawnPrefab.transform.localRotation = Quaternion.Euler(0f, pAngle, 0f);
         }
 
 
-        public void ResetSlot(TileEntryRuntime newEntry, int index)
+        public void ResetSlot(TileEntryRuntime pNewEntry, int pIndex)
         {
             _TileSelectionManager.OnAmountChanged -= UpdateUI;
 
-            _RuntimeEntry = newEntry;
-            _Index = index;
+            _RuntimeEntry = pNewEntry;
+            _Index = pIndex;
             _IsTileAlreadySelected = false;
 
             UpdateUI();

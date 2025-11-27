@@ -52,9 +52,7 @@ namespace Com.IsartDigital.Rush.UI
             _Menus.Clear();
 
             foreach (MenuType lMenu in FindObjectsByType<MenuType>(FindObjectsSortMode.None))
-            {
                 _Menus[lMenu.Type] = lMenu.gameObject;
-            }
         }
 
         private void RegisterButtons()
@@ -94,7 +92,7 @@ namespace Com.IsartDigital.Rush.UI
                 lMenu.SetActive(false);
 
            _Menus[pType].SetActive(true);
-            if (pType == EMenuType.PLAY && !_GameManager.isGameOnPause) 
+            if (pType == EMenuType.PLAY) 
                 SetGameCamera(false);
         }
 

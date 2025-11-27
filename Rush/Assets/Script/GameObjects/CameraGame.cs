@@ -17,9 +17,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
         [SerializeField] private float _YMinAngle = -20f;
         [SerializeField] private float _YMaxAngle = 80f;
         [SerializeField] private bool _IsCameraForUI;
-        [SerializeField] private float _ZoomSpeed = 3f;
-        [SerializeField] private float _ZoomMin = 2f;
-        [SerializeField] private float _ZoomMax = 20f;
 
         [SerializeField] public Transform middlePoint;
 
@@ -30,19 +27,14 @@ namespace Com.IsartDigital.Rush.CameraManagement
 
         private const int MOUSE_BUTTON_RIGHT = 1;
 
-        private const float MAX_ZOOM = .01f;
-
-        private Vector3 _BasePoint;
-
         private Transform _SelfTransform;
-        private GameManager _GameManager;
+        private GameManager _GameManager => GameManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
         {
             enabled = _IsCameraForUI ? true : false;
             _SelfTransform = transform;
-            _GameManager = GameManager.Instance;
 
             if (_IsCameraForUI) distanceCamera = 3f;
 
@@ -112,7 +104,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
             _XAngles = pEuler.y;
             _YAngles = pEuler.x;
 
-            _BasePoint = pBasePoint;
             distanceCamera = pDistance;
         }
 
