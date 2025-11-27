@@ -58,7 +58,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
             if (PointerOverUI()) return;
 
             MoveCamera();
-            //ZoomMouse();
         }
 
         private bool PointerOverUI()
@@ -115,18 +114,6 @@ namespace Com.IsartDigital.Rush.CameraManagement
 
             _BasePoint = pBasePoint;
             distanceCamera = pDistance;
-        }
-
-        private void ZoomMouse()
-        {
-            if (_IsCameraForUI) return;
-            float lScroll = Input.GetAxis(Utils.MOUSE_WHEEL);
-
-            if (Mathf.Abs(lScroll) > MAX_ZOOM)
-            {
-                distanceCamera -= lScroll * _ZoomSpeed;
-                distanceCamera = Mathf.Clamp(distanceCamera, _ZoomMin, _ZoomMax);
-            }
         }
 
         private void OnDestroy()

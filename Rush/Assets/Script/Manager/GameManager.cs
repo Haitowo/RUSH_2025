@@ -37,6 +37,7 @@ namespace Com.IsartDigital.Rush.Manager
         public Action<bool> backToMenu;
         public Action<EMenuType> gameFinished;
         public Action<bool> pauseGame;
+        public Action<bool> finishPauseGame;
 
         private bool _IsGamePlaying;
         public bool isGameOnPause;
@@ -55,7 +56,6 @@ namespace Com.IsartDigital.Rush.Manager
             activatePlayPhase += ActivateLevel;
             onGameLost += DisactivateLevel;
             resetLevel += ResetCube;
-            _IsGamePlaying = false;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -128,8 +128,9 @@ namespace Com.IsartDigital.Rush.Manager
             _CollisionManager.cubes.Clear();
         }
 
-        private void SetGamePause() => isGameOnPause = true;
-        
+        private void SetGamePause(bool pPause) => isGameOnPause = true;
+
+        private void FinishPause(bool pPause) => isGameOnPause = false;
 
         private void DestroyCurrentCubes(Cube pCube) => Destroy(pCube.gameObject);
 
