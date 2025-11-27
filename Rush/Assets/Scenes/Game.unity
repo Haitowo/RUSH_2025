@@ -6274,6 +6274,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8738030055616797484, guid: 6445f75941fa30e40b106ab271e9cdec, type: 3}
+      propertyPath: m_MaterialTemplate
+      value: 
+      objectReference: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+    - target: {fileID: 8738030055616797484, guid: 6445f75941fa30e40b106ab271e9cdec, type: 3}
+      propertyPath: m_SplatMapDistance
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738030055616797484, guid: 6445f75941fa30e40b106ab271e9cdec, type: 3}
+      propertyPath: m_ShadowCastingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738030055616797484, guid: 6445f75941fa30e40b106ab271e9cdec, type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
