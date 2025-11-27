@@ -1984,7 +1984,7 @@
     "m_ObjectId": "55f0951e91a444389d88eeeca2b10eaf",
     "m_Title": "Texture & Color",
     "m_Position": {
-        "x": -477.3333740234375,
+        "x": -477.333251953125,
         "y": 172.0
     }
 }
@@ -3003,7 +3003,7 @@
     "m_ObjectId": "ac8066290cf14c368cd2ea50a93afedb",
     "m_Title": "Vertex Animation",
     "m_Position": {
-        "x": -1697.3333740234375,
+        "x": -1697.333251953125,
         "y": -278.66668701171877
     }
 }

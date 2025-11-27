@@ -1,0 +1,134 @@
+using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.UI;
+using Com.IsartDigital.Rush.Utilities;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+// Author : Florian MAJCHER - Isart DIGITAL
+// DATE : 04/11/2025 - Beginning of the class
+
+namespace Com.IsartDigital.Rush.CameraManagement
+{
+    public class CameraGame : MonoBehaviour
+    {
+        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+
+        [Header(Utils.CAMERA_MANAGEMENT)]
+        [SerializeField] private float _YMinAngle = -20f;
+        [SerializeField] private float _YMaxAngle = 80f;
+        [SerializeField] private bool _IsCameraForUI;
+
+        [SerializeField] public Transform middlePoint;
+
+        public float distanceCamera = 10f;
+        private float _XAngles = 0f;
+        private float _YAngles = 20f;
+        private float _RotationSpeed = 5f;
+        private float _InputRotationSpeed = 80f;
+
+        private const int MOUSE_BUTTON_RIGHT = 1;
+
+        private Transform _SelfTransform;
+        private GameManager _GameManager => GameManager.Instance;
+
+        // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
+        private void Start()
+        {
+            enabled = _IsCameraForUI ? true : false;
+            _SelfTransform = transform;
+
+            if (_IsCameraForUI) distanceCamera = 5f;
+
+            _GameManager.switchToGame += EnableCameraForGame;
+            _GameManager.gameFinished += OnWinScreen;
+            _GameManager.backToMenu += DisableCameraForGame;
+            _GameManager.pauseGame += DisableCameraForGame;
+        }
+
+        //// ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
+        private void Update()
+        {
+            if (PointerOverUI()) return;
+
+            MoveCamera();
+            RotateAroundPoint();
+        }
+
+        private bool PointerOverUI()
+        {
+            #if UNITY_EDITOR || UNITY_STANDALONE
+                        return EventSystem.current.IsPointerOverGameObject();
+            #elif UNITY_ANDROID || UNITY_IOS
+                if (Input.touchCount > 0)
+                    return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+            
+                return false;
+            #else
+                return false;
+            #endif
+        }
+
+        private void MoveCamera()
+        {
+            Quaternion lRotation;
+            Vector3 lDistance;
+            Vector3 lPosition;
+
+            if (Input.GetMouseButton(MOUSE_BUTTON_RIGHT)) GetAxisMouseAndTouch();
+
+            lRotation = Quaternion.Euler(_YAngles, _XAngles, 0f);
+            lDistance = new Vector3(0f, 0f, -distanceCamera);
+            lPosition = lRotation * lDistance + middlePoint.position;
+
+            transform.rotation = lRotation;
+            transform.position = lPosition;
+        }
+
+        private void GetAxisMouseAndTouch()
+        {
+            _XAngles += Input.GetAxis(Utils.MOUSE_BUTTON_X) * _RotationSpeed;
+            _YAngles += Input.GetAxis(Utils.MOUSE_BUTTON_Y) * _RotationSpeed;
+            _YAngles = Mathf.Clamp(_YAngles, _YMinAngle, _YMaxAngle);
+        }
+
+        private void EnableCameraForGame(bool pEnableCamera) => enabled = true;
+
+        private void DisableCameraForGame(bool pEnableCamera) => enabled = false;
+
+        private void OnWinScreen(EMenuType pType) => enabled = false;
+
+        public void SetStartTransform(Vector3 pPosition, Quaternion pRotation, float pDistance, Vector3 pBasePoint)
+        {
+            _SelfTransform.position = pPosition;
+            _SelfTransform.rotation = pRotation;
+
+            Vector3 pEuler = pRotation.eulerAngles;
+            _XAngles = pEuler.y;
+            _YAngles = pEuler.x;
+
+            distanceCamera = pDistance;
+        }
+
+        private void RotateAroundPoint()
+        {
+            float lHorizontal = Input.GetAxis(Utils.HORIZONTAL_INPUTS);
+            float lVertical = Input.GetAxis(Utils.VERTICAL_INPUTS);
+
+            _XAngles -= lHorizontal * _InputRotationSpeed * Time.deltaTime;
+            _YAngles += lVertical * _InputRotationSpeed * Time.deltaTime;
+
+            _YAngles = Mathf.Clamp(_YAngles, _YMinAngle, _YMaxAngle);
+        }
+
+        private void OnDestroy()
+        {
+            if (_GameManager != null)
+            {
+                _GameManager.switchToGame -= EnableCameraForGame;
+                _GameManager.gameFinished -= OnWinScreen;
+                _GameManager.backToMenu -= DisableCameraForGame;
+                _GameManager.pauseGame -= DisableCameraForGame;
+            }
+        }
+    }
+}

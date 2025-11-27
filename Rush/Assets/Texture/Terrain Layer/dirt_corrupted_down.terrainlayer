@@ -9,7 +9,7 @@ TerrainLayer:
   m_Name: dirt_corrupted_down
   m_DiffuseTexture: {fileID: 2800000, guid: 7e287733332f50545b741d3ea61e5833, type: 3}
   m_NormalMapTexture: {fileID: 0}
-  m_MaskMapTexture: {fileID: 0}
+  m_MaskMapTexture: {fileID: 9016619813317925149, guid: 8b00288252ea5bf489a63b6dda1ee193, type: 2}
   m_TileSize: {x: 2, y: 2}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}
