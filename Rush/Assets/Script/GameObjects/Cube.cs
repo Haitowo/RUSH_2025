@@ -28,7 +28,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private float DISTANCE_RAYCAST = 1f;
         private const float TELEPORT_DECAY = .5f;
-        private const float TWEEN_TIME_SCALE = .2f;
+        private const float TWEEN_TIME = .2f;
+        private const float TWEEN_JUMP_POWER = .5f;
+        private const float TWEEN_JUMP_DURATION = .5f;
 
         private float _GridSize = 1f;
 
@@ -42,6 +44,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private const int SLIDE_WAIT_DURATION = 2;
         private const int STOP_TICK_COUNT = 2;
         private const int WALL_HIT_STOP_TICK_COUNT = 3;
+        private const int NUMBER_OF_JUMPS = 1;
 
         private Quaternion _FromRotation, _ToRotation;
 
@@ -180,7 +183,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void DoActionTeleport()
         {
             _SelfTransform.position = Vector3.Lerp(_FromPos, _TpFinalPos, _TickProvider.RatioTimeTick);
-            _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
+            _SelfTransform.DOScale(Vector3.zero, TWEEN_TIME / _TickProvider.TickSpeed);
         }
 
         private void DoActionSlideWait()
@@ -240,7 +243,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             RaycastHit lHit;
             _JustTeleported = true;
 
-            _SelfTransform.DOScale(Vector3.one, TWEEN_TIME_SCALE / _TickProvider.TickSpeed);
+            _SelfTransform.DOScale(Vector3.one, TWEEN_TIME / _TickProvider.TickSpeed);
 
             ResetAllValues();
 

@@ -2,6 +2,7 @@ using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 10/11/2025 - Beginning of the class
@@ -11,6 +12,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
     public class CollisionManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [SerializeField] private ParticleSystem _ApparitionAndTpParticles;
         [HideInInspector] public List<Cube> cubes = new List<Cube>();
 
         private Teleporter _CurrentTeleporter;
@@ -38,6 +40,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         public void RegisterCube(Cube pCube)
         {
+            SpreadParticles(pCube);
             cubes.Add(pCube);
             pCube.collisionSignal += CheckCollision;
             pCube.onCubeColliding += OnCubeDeath;
@@ -65,6 +68,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateSlide(pObject.transform.forward);
                     break;
                 case ECollision.TELEPORTER:
+                    SpreadParticles(pCube);
                     TeleportCollisionManagement(pCube, pObject.GetComponent<Teleporter>());
                     pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
@@ -109,6 +113,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             CheckTarget(pCube, pCurrentTarget);
             CheckDisconnectCurrentCube(pCube, pCurrentTarget);
             pCurrentTarget.DetectCubeColor(pCube);
+            SpreadParticles(pCube);
         }
 
         private void CheckTarget(Cube pCube, Target pCurrentTarget)
@@ -160,6 +165,13 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     lCube.onCubeColliding -= OnCubeDeath;
                 }
             }
+        }
+
+        private void SpreadParticles(Cube pCube)
+        {
+            ParticleSystem lParticles = Instantiate(_ApparitionAndTpParticles, pCube.transform.position, Quaternion.identity);
+            lParticles.Play();
+            Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
 
         private void OnCubeDeath(Cube pCube) => _GameManager.onGameLost?.Invoke();
