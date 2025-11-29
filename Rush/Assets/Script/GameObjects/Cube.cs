@@ -63,6 +63,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private bool _IsSliding;
         private bool _IsCubeJustSpawned;
 
+        private Tween squashStretchTween;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
@@ -115,6 +117,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (direction == Vector3.down)
                 direction = lastDirectionBeforeFall;
+
+            PlaySquashStretch(new Vector3(1.2f, 0.8f, 1.2f), TWEEN_TIME);
             _IsCubeJustSpawned = false;
             _IsFalling = false;
             _JustTeleported = false;
@@ -360,6 +364,21 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void OnTriggerEnter(Collider pOther)
         {
             if (pOther.CompareTag(Utils.TAG_CUBE)) onCubeColliding?.Invoke(this);
+        }
+
+
+        private void PlaySquashStretch(Vector3 pTargetScale, float pDuration)
+        {
+            if (squashStretchTween != null && squashStretchTween.IsActive())
+                squashStretchTween.Kill();
+
+            squashStretchTween = _SelfTransform.DOScale(pTargetScale, pDuration * 0.5f)
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    _SelfTransform.DOScale(Vector3.one, pDuration * 0.5f)
+                        .SetEase(Ease.InQuad);
+                });
         }
 
     }

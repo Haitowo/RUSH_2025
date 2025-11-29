@@ -17,11 +17,14 @@ namespace Com.IsartDigital.Rush.Manager
         private Dictionary<EColorSetter, List<Teleporter>> _DicoTeleporter = new Dictionary<EColorSetter, List<Teleporter>>();
         private Dictionary<Cube, Teleporter> _LastTeleporterUsed = new();
 
+        private GameManager _GameManager => GameManager.Instance;
+
         private const int NEXT_INDEX = 1;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
+            _GameManager.backToMenu += ResetTeleport;
             #region Singleton Management
             if (Instance != this && Instance != null)
             {
@@ -71,6 +74,12 @@ namespace Com.IsartDigital.Rush.Manager
 
             _LastTeleporterUsed[pCube] = pTeleporter;
             return true;
+        }
+
+        private void ResetTeleport(bool pBackToMenu)
+        {
+            _LastTeleporterUsed.Clear();
+            _DicoTeleporter.Clear();
         }
     }
 }

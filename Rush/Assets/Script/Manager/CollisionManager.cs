@@ -169,7 +169,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private void SpreadParticles(Cube pCube)
         {
-            ParticleSystem lParticles = Instantiate(_ApparitionAndTpParticles, pCube.transform.position, Quaternion.identity);
+            ParticleSystem lParticles = Instantiate(_ApparitionAndTpParticles, pCube.transform.position, Quaternion.AngleAxis(-90f, Vector3.right));
             lParticles.Play();
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
