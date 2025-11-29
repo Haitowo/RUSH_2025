@@ -14,7 +14,7 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private EColorSetter _TargetColor;
         public EColorSetter CurrentColor => _TargetColor;
 
-        private const float TWEEN_TIME_SCALE = .2f;
+        private const float TWEEN_TIME_SCALE = .1f;
 
         private CollisionManager _CollisionManager => CollisionManager.Instance;
 
