@@ -6359,6 +6359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95344dbeec1204a4384cb1da491b0795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ApparitionAndTpParticles: {fileID: 4807122823709240297, guid: 5ed95aab54c571140ae64cb3923602be, type: 3}
   cubes: []
 --- !u!114 &947713496
 MonoBehaviour:
