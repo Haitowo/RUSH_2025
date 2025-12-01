@@ -6168,17 +6168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &755455166 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6624923797022422552, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-  m_PrefabInstance: {fileID: 4997944285583097403}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &786586132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6503,6 +6492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ApparitionAndTpParticles: {fileID: 4807122823709240297, guid: 5ed95aab54c571140ae64cb3923602be, type: 3}
+  _Exclamation: {fileID: 2823294395109423306, guid: a822f293adf89f34db9f2421484de92e, type: 3}
   cubes: []
 --- !u!114 &947713496
 MonoBehaviour:
@@ -7212,17 +7202,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1297489606}
   m_LocalEulerAnglesHint: {x: -30.16, y: -90, z: 0}
---- !u!114 &1733066919 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4765424586136394461, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-  m_PrefabInstance: {fileID: 4997944285583097403}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1734169721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8258,10 +8237,6 @@ PrefabInstance:
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 868333207}
-    - target: {fileID: 34668241994014299, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _TileToPlace
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 178083493393992028, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: CameraPos
       value: 
@@ -8494,14 +8469,22 @@ PrefabInstance:
       propertyPath: _GameObjectsParents
       value: 
       objectReference: {fileID: 2058802094}
-    - target: {fileID: 3116897518488581341, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _TileToPlace
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3323158356764335041, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _Container
       value: 
       objectReference: {fileID: 271357836}
+    - target: {fileID: 3323158356764335041, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _AllHUD.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323158356764335041, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: '_AllHUD.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 765fd31345f6bab4098ccc2b1ec9f7b1, type: 2}
+    - target: {fileID: 3323158356764335041, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: '_AllHUD.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dbcbb11d9c2500246a5ea01e14071852, type: 2}
     - target: {fileID: 3382064853178788541, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
@@ -8586,10 +8569,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4377899425655465993, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _TileToPlace
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4530607908003351496, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickSound
       value: 
@@ -8646,6 +8625,14 @@ PrefabInstance:
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 1937533691}
+    - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _TextUILevel
+      value: 
+      objectReference: {fileID: 1029982994}
+    - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _GameObjectsParents
+      value: 
+      objectReference: {fileID: 2058802094}
     - target: {fileID: 5688886058588957699, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TargetMenu
       value: 1
@@ -8738,14 +8725,6 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6441744950487165754, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _ClickButton
-      value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
-    - target: {fileID: 6441744950487165754, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _CurrentButton
-      value: 
-      objectReference: {fileID: 1733066919}
     - target: {fileID: 6524656142790587536, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
@@ -8758,6 +8737,14 @@ PrefabInstance:
       propertyPath: m_ScreenMatchMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _TextUILevel
+      value: 
+      objectReference: {fileID: 1029982994}
+    - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _GameObjectsParents
+      value: 
+      objectReference: {fileID: 2058802094}
     - target: {fileID: 7053238768191499740, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -8817,10 +8804,6 @@ PrefabInstance:
     - target: {fileID: 7132036216558494239, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7369029197608241884, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: Type
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7369029197608241884, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: CameraPos
@@ -8978,14 +8961,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8983436137623664707, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _ClickButton
-      value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
-    - target: {fileID: 8983436137623664707, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
-      propertyPath: _CurrentButton
-      value: 
-      objectReference: {fileID: 755455166}
     - target: {fileID: 9031444371432354666, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
