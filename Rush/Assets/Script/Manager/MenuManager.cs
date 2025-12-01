@@ -4,6 +4,7 @@ using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,8 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private Button[] _BackLevelSelectButtonsArray;
 
         private const float TRANSITION_TIME = 1f;
+        private const float TWEEN_SCALE = 1f;
+        private const float TWEEN_DURATION = .5f;
 
         private GameManager _GameManager => GameManager.Instance;
         private HUDManager _HUDManager => HUDManager.Instance;
@@ -88,10 +91,16 @@ namespace Com.IsartDigital.Rush.UI
 
         public void ShowMenu(EMenuType pType)
         {
+            Transform lTransform = _Menus[pType].transform;
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
 
            _Menus[pType].SetActive(true);
+
+            lTransform = _Menus[pType].transform;
+            lTransform.localScale = Vector3.zero;
+            lTransform.DOScale(TWEEN_SCALE, TWEEN_DURATION).SetEase(Ease.OutBack);
+
             if (pType == EMenuType.PLAY) 
                 SetGameCamera(false);
         }

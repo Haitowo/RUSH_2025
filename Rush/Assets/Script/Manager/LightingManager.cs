@@ -73,5 +73,10 @@ namespace Com.IsartDigital.Rush.Lighting
                 }
             }
         }
+
+        public bool IsNight()
+        {
+            return _TimeOfDay < 6f || _TimeOfDay > 18f;
+        }
     }
 }

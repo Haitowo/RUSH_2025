@@ -58,6 +58,8 @@ namespace Com.IsartDigital.Rush.Manager
             onGameLost += DisactivateLevel;
             resetLevel += ResetCube;
 
+            SetFPS();
+
             #region Singleton Management
             if (Instance != this && Instance != null)
             {
@@ -131,5 +133,14 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void DestroyCurrentCubes(Cube pCube) => Destroy(pCube.gameObject);
 
+        private void SetFPS()
+        {
+#if UNITY_ANDROID || UNITY_IOS
+    QualitySettings.vSyncCount = 0;
+    Application.targetFrameRate = 60;
+#else
+            Application.targetFrameRate = -1;
+#endif
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _SlideDirection;
         private Vector3 _TpFinalPos;
+        private Vector3 _SquashAndStretchScale;
         public Vector3 lastDirectionBeforeFall;
         public Vector3 direction = Vector3.forward;
 
@@ -29,8 +30,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private float DISTANCE_RAYCAST = 1f;
         private const float TELEPORT_DECAY = .5f;
         private const float TWEEN_TIME = .2f;
-        private const float TWEEN_JUMP_POWER = .5f;
-        private const float TWEEN_JUMP_DURATION = .5f;
+        private const float SCALE_X_Z = 1.2f;
+        private const float SCALE_Y = .8f;
 
         private float _GridSize = 1f;
 
@@ -63,12 +64,15 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private bool _IsSliding;
         private bool _IsCubeJustSpawned;
 
+        private Tween squashStretchTween;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
         {
             _SelfTransform = transform;
 
             direction = _SelfTransform.forward;
+            _SquashAndStretchScale = new Vector3(SCALE_X_Z, SCALE_Y, SCALE_X_Z);
         }
 
         private void Start()
@@ -115,6 +119,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         {
             if (direction == Vector3.down)
                 direction = lastDirectionBeforeFall;
+
+            PlaySquashStretch(_SquashAndStretchScale, TWEEN_TIME);
             _IsCubeJustSpawned = false;
             _IsFalling = false;
             _JustTeleported = false;
@@ -360,6 +366,21 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void OnTriggerEnter(Collider pOther)
         {
             if (pOther.CompareTag(Utils.TAG_CUBE)) onCubeColliding?.Invoke(this);
+        }
+
+
+        private void PlaySquashStretch(Vector3 pTargetScale, float pDuration)
+        {
+            if (squashStretchTween != null && squashStretchTween.IsActive())
+                squashStretchTween.Kill();
+
+            squashStretchTween = _SelfTransform.DOScale(pTargetScale, pDuration * 0.5f)
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    _SelfTransform.DOScale(Vector3.one, pDuration * 0.5f)
+                        .SetEase(Ease.InQuad);
+                });
         }
 
     }
