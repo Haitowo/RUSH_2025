@@ -8513,6 +8513,10 @@ PrefabInstance:
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 1462653300}
+    - target: {fileID: 3824581675085144763, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: m_Name
+      value: IN_THE_CLOUDS_BTN
+      objectReference: {fileID: 0}
     - target: {fileID: 3883905750939002678, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
@@ -8585,6 +8589,10 @@ PrefabInstance:
       propertyPath: CameraPos
       value: 
       objectReference: {fileID: 596520921}
+    - target: {fileID: 4566081711939147200, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: m_text
+      value: In The Clouds
+      objectReference: {fileID: 0}
     - target: {fileID: 4625424397380387561, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: CameraPos
       value: 
