@@ -53,6 +53,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         public Action doAction { get; private set; }
         public Action<Cube, GameObject, ECollision> collisionSignal;
         public Action<Cube> onCubeColliding;
+        public Action<Cube> onTpEnding;
 
         public EColorSetter cubeColor;
         private ITickProvider _TickProvider;
@@ -251,6 +252,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             RaycastHit lHit;
             _JustTeleported = true;
 
+            onTpEnding?.Invoke(this);
             _SelfTransform.DOScale(Vector3.one, TWEEN_TIME / _TickProvider.TickSpeed);
 
             ResetAllValues();

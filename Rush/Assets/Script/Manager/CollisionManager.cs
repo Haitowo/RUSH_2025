@@ -46,6 +46,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             cubes.Add(pCube);
             pCube.collisionSignal += CheckCollision;
             pCube.onCubeColliding += OnCubeDeath;
+            pCube.onTpEnding += SpreadParticles;
         }
 
         private void CheckCollision(Cube pCube, GameObject pObject, ECollision pCollision)
