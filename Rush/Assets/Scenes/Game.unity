@@ -8321,6 +8321,10 @@ PrefabInstance:
       propertyPath: CameraPos
       value: 
       objectReference: {fileID: 1716978224}
+    - target: {fileID: 1138263490429251102, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: m_text
+      value: Get A Step Down
+      objectReference: {fileID: 0}
     - target: {fileID: 1232853535754192354, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_Name
       value: BACK_TO_LVL_SELEC_BTN
@@ -8876,6 +8880,10 @@ PrefabInstance:
     - target: {fileID: 7659054706853718689, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7720411199420523700, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: m_Name
+      value: GET_A_STEP_DOWN_BTN
       objectReference: {fileID: 0}
     - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _PauseButton
