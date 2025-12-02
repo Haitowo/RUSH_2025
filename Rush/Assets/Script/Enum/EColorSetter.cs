@@ -13,7 +13,7 @@ namespace Com.IsartDigital.Rush.GameObjects
         BLUE,
         GREEN,
         ORANGE,
-        YELLOW,
+        CYAN,
         PURPLE
     }
 }

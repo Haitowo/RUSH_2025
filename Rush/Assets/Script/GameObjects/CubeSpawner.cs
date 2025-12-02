@@ -4,6 +4,7 @@ using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -16,6 +17,9 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
+        [SerializeField] private Color _OrangeColor;
+        [SerializeField] private Color _PurpleColor;
+        [SerializeField] private Color _BlueColor;
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
         [SerializeField] private ELevelToload _CurrentLevel;
         [SerializeField] private bool _DoesLevelNeedsToGetDelaySpawn;
@@ -37,8 +41,23 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private Vector3 _SpawnPos;
 
+        private Dictionary<EColorSetter, Color> _ColorTable;
+        private Material _SpawnMaterial;
+
         private GameManager _GameManager => GameManager.Instance;
         private CollisionManager _CollisionManager => CollisionManager.Instance;
+
+        private void Awake()
+        {
+            _ColorTable = new Dictionary<EColorSetter, Color>(){
+            { EColorSetter.RED, Color.red },
+            { EColorSetter.BLUE, _BlueColor },
+            { EColorSetter.GREEN, Color.green },
+            { EColorSetter.ORANGE, _OrangeColor },
+            { EColorSetter.CYAN, Color.cyan },
+            { EColorSetter.PURPLE, _PurpleColor },
+            };
+        }
 
         private void Start()
         {
@@ -47,6 +66,10 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickProvider.tickEvent += OnTick;
 
             _GameManager.activatePlayPhase += _DoesLevelNeedsToGetDelaySpawn ? ResetTick : SpawnCube;
+
+            Renderer lRend = GetComponentInChildren<Renderer>();
+            _SpawnMaterial = lRend.material;
+            ApplyColorMaterial(_ColorSpawnerAndCube, _SpawnMaterial);
         }
 
         private void OnTick()
@@ -68,6 +91,8 @@ namespace Com.IsartDigital.Rush.GameObjects
 
             GameObject lPrefab = Instantiate(_CubePrefab, _SpawnPos, transform.rotation, _GameObjectContainer);
             Cube lCube = lPrefab.GetComponent<Cube>();
+            Renderer[] lRenderers = lPrefab.GetComponentsInChildren<Renderer>();
+            GetAllMaterials(lRenderers);
 
             lPrefab.transform.localScale = Vector3.zero;
             lPrefab.transform.DOScale(Vector3.one, SPAWN_CUBE_TIME);
@@ -91,6 +116,28 @@ namespace Com.IsartDigital.Rush.GameObjects
                 _TickProvider.tickEvent -= OnTick;
 
             _GameManager.activatePlayPhase -= SpawnCube;
+        }
+
+        private void GetAllMaterials(Renderer[] pRenderers)
+        {
+            foreach (Renderer r in pRenderers)
+            {
+                Material[] lMaths = r.materials;
+
+                for (int i = 0; i < lMaths.Length; i++)
+                {
+                    lMaths[i] = new Material(lMaths[i]);
+                    ApplyColorMaterial(_ColorSpawnerAndCube, lMaths[i]);
+                }
+
+                r.materials = lMaths;
+            }
+        }
+
+        private void ApplyColorMaterial(EColorSetter pCurrentColor, Material pMaterial)
+        {
+            if (_ColorTable.TryGetValue(pCurrentColor, out Color lColor))
+                pMaterial.color = lColor;
         }
     }
 }

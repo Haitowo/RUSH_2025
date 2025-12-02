@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private ParticleSystem _ApparitionAndTpParticles;
+        [SerializeField] private GameObject _Exclamation;
         [HideInInspector] public List<Cube> cubes = new List<Cube>();
 
         private Teleporter _CurrentTeleporter;
@@ -73,6 +75,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     pCube.SetStateTeleport(_NextTeleporter.transform.position);
                     break;
                 case ECollision.TERRAIN:
+                    InstantiateExclamation(pCube);
                     _GameManager.onGameLost?.Invoke();
                     break;
                 case ECollision.TARGET:
@@ -174,7 +177,18 @@ namespace Com.IsartDigital.Rush.CubeManagement
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
 
-        private void OnCubeDeath(Cube pCube) => _GameManager.onGameLost?.Invoke();
+        private void InstantiateExclamation(Cube pCube)
+        {
+            GameObject lExclamation = Instantiate(_Exclamation);
+            lExclamation.transform.DOMove(pCube.transform.position + Vector3.up * 2f, .1f).SetEase(Ease.OutBack)
+                .From(pCube.transform.position + Vector3.up * 10f);
+        }
+
+        private void OnCubeDeath(Cube pCube)
+        {
+            InstantiateExclamation(pCube);
+            _GameManager.onGameLost?.Invoke();
+        }
         
     }
 }

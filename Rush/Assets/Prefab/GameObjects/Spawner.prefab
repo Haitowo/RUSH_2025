@@ -70,7 +70,13 @@ MonoBehaviour:
   _CubePrefab: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
   _SpawnPoint: {fileID: 4358187150086414}
   _GameObjectContainer: {fileID: 0}
+  _OrangeColor: {r: 1, g: 0.6117647, b: 0, a: 1}
+  _PurpleColor: {r: 0.36932325, g: 0, b: 1, a: 1}
+  _BlueColor: {r: 0.43710685, g: 0.7120083, b: 1, a: 1}
   _ColorSpawnerAndCube: 0
+  _CurrentLevel: 3
+  _DoesLevelNeedsToGetDelaySpawn: 0
+  _TickToDelay: 0
 --- !u!1 &1451354327250352
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 68274b3f6118cc64db3b4984adf5ab7f, type: 3}
+  - {fileID: 2100000, guid: 996273954d048094685b8e4f9b81da64, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

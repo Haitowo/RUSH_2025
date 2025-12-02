@@ -13,7 +13,7 @@ namespace Com.IsartDigital.Rush.UI
         CASCADE = 0,
         ALL_OVER_THE_PLACE = 1,
         STADIUM = 2,
-        CUSTOM_LEVEL_ONE = 3,
+        GET_A_STEP_DOWN = 3,
         CUSTOM_LEVEL_TWO = 4
     }
 }

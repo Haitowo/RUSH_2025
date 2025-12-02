@@ -27,12 +27,13 @@ namespace Com.IsartDigital.Rush.CubeManagement
 
         private Transform _SelfTransform;
 
-        private float DISTANCE_RAYCAST = 1f;
+        private const float DISTANCE_RAYCAST = 1f;
         private const float TELEPORT_DECAY = .5f;
         private const float TWEEN_TIME = .2f;
         private const float SCALE_X_Z = 1.2f;
         private const float SCALE_Y = .8f;
 
+        private float _TickDuration;
         private float _GridSize = 1f;
 
         private int _SlideTickCount = 0;
@@ -70,7 +71,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void Awake()
         {
             _SelfTransform = transform;
-
             direction = _SelfTransform.forward;
             _SquashAndStretchScale = new Vector3(SCALE_X_Z, SCALE_Y, SCALE_X_Z);
         }
@@ -80,6 +80,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.tickEvent += ReceiveTick;
             _IsCubeJustSpawned = true;
+
+            _TickDuration = 1f / _TickProvider.TickSpeed;
 
             SetStateMove();
         }
