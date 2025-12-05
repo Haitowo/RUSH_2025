@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private ParticleSystem _ApparitionAndTpParticles;
         [SerializeField] private GameObject _Exclamation;
+        [SerializeField] private GameObject _SpawnDust;
         [HideInInspector] public List<Cube> cubes = new List<Cube>();
 
         private Teleporter _CurrentTeleporter;
@@ -59,6 +60,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     break;
                 case ECollision.GROUND:
                     pCube.SetStateMove();
+                    MoveParticles(pCube.gameObject);
                     break;
                 case ECollision.STOP:
                     pCube.SetStateStop();
@@ -174,6 +176,16 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private void SpreadParticles(Cube pCube)
         {
             ParticleSystem lParticles = Instantiate(_ApparitionAndTpParticles, pCube.transform.position, Quaternion.AngleAxis(-90f, Vector3.right));
+            lParticles.Play();
+            Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+        }
+
+        private void MoveParticles(GameObject pTile)
+        {
+            GameObject lDust = Instantiate(_SpawnDust);
+            lDust.transform.localScale = Vector3.one * .5f;
+            ParticleSystem lParticles = lDust.GetComponent<ParticleSystem>();
+            lParticles.transform.position = pTile.transform.position;
             lParticles.Play();
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
