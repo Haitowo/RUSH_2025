@@ -57,10 +57,11 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 case ECollision.ARROW:
                     pCube.SetDirection(pObject.transform.forward);
                     pCube.SetStateMove();
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.GROUND:
                     pCube.SetStateMove();
-                    MoveParticles(pCube.gameObject);
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.STOP:
                     pCube.SetStateStop();
@@ -68,6 +69,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     break;
                 case ECollision.TURNSTILE:
                     TurnTileManagement(pCube, pObject.GetComponent<TurnTile>());
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.CONVEYORS:
                     pCube.SetStateSlide(pObject.transform.forward);
@@ -180,21 +182,29 @@ namespace Com.IsartDigital.Rush.CubeManagement
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
 
-        private void MoveParticles(GameObject pTile)
+        private void CreateDustParticles(GameObject pTile)
         {
+#if UNITY_ANDROID || UNITY_IOS
+return;
+#else
             GameObject lDust = Instantiate(_SpawnDust);
             lDust.transform.localScale = Vector3.one * .5f;
             ParticleSystem lParticles = lDust.GetComponent<ParticleSystem>();
             lParticles.transform.position = pTile.transform.position;
             lParticles.Play();
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+#endif
         }
 
         private void InstantiateExclamation(Cube pCube)
         {
+            float lUpDecay = 2f;
+            float lDuration = .1f;
+            float lStartUpDecay = 10f;
             GameObject lExclamation = Instantiate(_Exclamation);
-            lExclamation.transform.DOMove(pCube.transform.position + Vector3.up * 2f, .1f).SetEase(Ease.OutBack)
-                .From(pCube.transform.position + Vector3.up * 10f);
+            lExclamation.transform.rotation = Quaternion.identity;
+            lExclamation.transform.DOMove(pCube.transform.position + Vector3.up * lUpDecay, lDuration).SetEase(Ease.OutBack)
+                .From(pCube.transform.position + Vector3.up * lStartUpDecay);
         }
 
         private void OnCubeDeath(Cube pCube)

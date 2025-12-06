@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.CubeManagement;
+using Com.IsartDigital.Rush.TargetManagement;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.GameObjects
 {
     
-    public class Target : MonoBehaviour
+    public class Target : ColorableTile
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private EColorSetter _TargetColor;
@@ -19,27 +20,11 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private CollisionManager _CollisionManager => CollisionManager.Instance;
 
-        private Dictionary<EColorSetter, Color> _ColorTable;
-        private Material _SpawnMaterial;
-
-        [SerializeField] private Color _OrangeColor;
-        [SerializeField] private Color _PurpleColor;
-        [SerializeField] private Color _BlueColor;
-
-        private void Awake()
+        private void Start()
         {
-            _ColorTable = new Dictionary<EColorSetter, Color>(){
-            { EColorSetter.RED, Color.red },
-            { EColorSetter.BLUE, _BlueColor },
-            { EColorSetter.GREEN, Color.green },
-            { EColorSetter.ORANGE, _OrangeColor },
-            { EColorSetter.CYAN, Color.cyan },
-            { EColorSetter.PURPLE, _PurpleColor },
-            };
-
             Renderer[] lRenderers = GetComponentsInChildren<Renderer>();
 
-            GetAllMaterials(lRenderers);
+            GetAllMaterials(lRenderers, _TargetColor);
         }
 
         public void DetectCubeColor(Cube pCurrentCube)
@@ -53,28 +38,6 @@ namespace Com.IsartDigital.Rush.GameObjects
         {
             _CollisionManager.RemoveCube(pCurrentCube);
             Destroy(pCurrentCube.gameObject);
-        }
-
-        private void GetAllMaterials(Renderer[] pRenderers)
-        {
-            foreach (Renderer r in pRenderers)
-            {
-                Material[] lMaths = r.materials;
-
-                for (int i = 0; i < lMaths.Length; i++)
-                {
-                    lMaths[i] = new Material(lMaths[i]);
-                    ApplyColorMaterial(_TargetColor, lMaths[i]);
-                }
-
-                r.materials = lMaths;
-            }
-        }
-
-        private void ApplyColorMaterial(EColorSetter pCurrentColor, Material pMaterial)
-        {
-            if (_ColorTable.TryGetValue(pCurrentColor, out Color lColor))
-                pMaterial.color = lColor;
         }
 
     }

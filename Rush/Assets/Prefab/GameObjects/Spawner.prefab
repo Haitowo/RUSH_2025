@@ -67,12 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6882968a937a24090d652afe150b1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OrangeColor: {r: 1, g: 0.6117647, b: 0, a: 1}
+  m_PurpleColor: {r: 0.36862746, g: 0, b: 1, a: 1}
+  m_BlueColor: {r: 0.43529412, g: 0.7137255, b: 1, a: 1}
   _CubePrefab: {fileID: 4527510764330037111, guid: 3fac2be1bbab1f145b33d19a7f36a378, type: 3}
   _SpawnPoint: {fileID: 4358187150086414}
   _GameObjectContainer: {fileID: 0}
-  _OrangeColor: {r: 1, g: 0.6117647, b: 0, a: 1}
-  _PurpleColor: {r: 0.36932325, g: 0, b: 1, a: 1}
-  _BlueColor: {r: 0.43710685, g: 0.7120083, b: 1, a: 1}
   _ColorSpawnerAndCube: 0
   _CurrentLevel: 3
   _DoesLevelNeedsToGetDelaySpawn: 0

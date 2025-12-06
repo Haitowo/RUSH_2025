@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.TargetManagement;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.GameObjects
 {
     
-    public class Teleporter : MonoBehaviour
+    public class Teleporter : ColorableTile
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private EColorSetter _TeleportColor;
@@ -20,6 +21,10 @@ namespace Com.IsartDigital.Rush.GameObjects
         private void Start()
         {
             _TeleporterManager.Register(this);
+
+            Renderer lRend = GetComponentInChildren<Renderer>();
+            m_SpawnMaterial = lRend.material;
+            ApplyColorMaterial(_TeleportColor, m_SpawnMaterial);
         }
     }
 }
