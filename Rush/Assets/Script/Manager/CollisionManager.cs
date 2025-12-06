@@ -187,12 +187,17 @@ namespace Com.IsartDigital.Rush.CubeManagement
 #if UNITY_ANDROID || UNITY_IOS
 return;
 #else
+            int lNumberOfParticles = 4;
+            ParticleSystem.MainModule lMainModule;
             GameObject lDust = Instantiate(_SpawnDust);
-            lDust.transform.localScale = Vector3.one * .5f;
             ParticleSystem lParticles = lDust.GetComponent<ParticleSystem>();
+
+            lDust.transform.localScale = Vector3.one * .5f;
+            lMainModule = lParticles.main;
+            lMainModule.maxParticles = lNumberOfParticles;
             lParticles.transform.position = pTile.transform.position;
             lParticles.Play();
-            Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+            Destroy(lParticles.gameObject, .7f);
 #endif
         }
 
