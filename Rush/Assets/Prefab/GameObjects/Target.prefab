@@ -136,6 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _TargetColor: 0
+  _OrangeColor: {r: 1, g: 0.6117647, b: 0, a: 0}
+  _PurpleColor: {r: 0.36862746, g: 0, b: 1, a: 0}
+  _BlueColor: {r: 0.43529412, g: 0.7137255, b: 1, a: 0}
 --- !u!65 &8155664800938119589
 BoxCollider:
   m_ObjectHideFlags: 0
