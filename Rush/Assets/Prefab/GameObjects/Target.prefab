@@ -138,6 +138,8 @@ MonoBehaviour:
   m_OrangeColor: {r: 1, g: 0.6117647, b: 0, a: 0}
   m_PurpleColor: {r: 0.36862746, g: 0, b: 1, a: 0}
   m_BlueColor: {r: 0.43529412, g: 0.7137255, b: 1, a: 0}
+  m_CyanColor: {r: 0.59607846, g: 0.79607844, b: 0.79607844, a: 0}
+  m_RedColor: {r: 1, g: 0.36078432, b: 0.30588236, a: 0}
   _TargetColor: 0
 --- !u!65 &8155664800938119589
 BoxCollider:

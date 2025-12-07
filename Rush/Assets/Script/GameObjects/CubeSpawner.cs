@@ -18,6 +18,7 @@ namespace Com.IsartDigital.Rush.GameObjects
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
+        [SerializeField] private ParticleSystem _TrailDirection;
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
         [SerializeField] private ELevelToload _CurrentLevel;
         [SerializeField] private bool _DoesLevelNeedsToGetDelaySpawn;
@@ -27,8 +28,8 @@ namespace Com.IsartDigital.Rush.GameObjects
         public EColorSetter ColorSpawnerAndCube => _ColorSpawnerAndCube;
         private ITickProvider _TickProvider;
 
-        private int _TickCount = 0;
         private float _NextSpawnTick;
+        private int _TickCount = 0;
         private int _TickNextSpawnToAdd = 9;
         private int _CubesSpawned = 0;
 
@@ -39,22 +40,26 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private Vector3 _SpawnPos;
 
-        private Dictionary<EColorSetter, Color> _ColorTable;
-
         private GameManager _GameManager => GameManager.Instance;
         private CollisionManager _CollisionManager => CollisionManager.Instance;
 
         private void Start()
         {
+            Renderer lRend = GetComponentInChildren<Renderer>();
+            ParticleSystem.MainModule lMain = _TrailDirection.main;
+
             enabled = false;
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.tickEvent += OnTick;
 
             _GameManager.activatePlayPhase += _DoesLevelNeedsToGetDelaySpawn ? ResetTick : SpawnCube;
+            _GameManager.activatePlayPhase += DisablePreview;
+            _GameManager.resetLevel += EnablePreview;
 
-            Renderer lRend = GetComponentInChildren<Renderer>();
             m_SpawnMaterial = lRend.material;
             ApplyColorMaterial(_ColorSpawnerAndCube, m_SpawnMaterial);
+            _TrailDirection.transform.localRotation = _TrailDirection.transform.localRotation;
+            lMain.startColor = m_SpawnMaterial.color;
         }
 
         private void OnTick()
@@ -88,6 +93,16 @@ namespace Com.IsartDigital.Rush.GameObjects
             _CubesSpawned++;
         }
 
+        private void DisablePreview()
+        {
+            _TrailDirection.Stop();
+        }
+
+        private void EnablePreview(bool pBool)
+        {
+            _TrailDirection.Play();
+        }
+
         private void ResetTick()
         {
             _TickCount = 0;
@@ -101,6 +116,8 @@ namespace Com.IsartDigital.Rush.GameObjects
                 _TickProvider.tickEvent -= OnTick;
 
             _GameManager.activatePlayPhase -= SpawnCube;
+            _GameManager.activatePlayPhase -= DisablePreview;
+            _GameManager.resetLevel -= EnablePreview;
         }
     }
 }

@@ -8017,14 +8017,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 33038240976372849, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
-      propertyPath: _ClickButton
-      value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
-    - target: {fileID: 33038240976372849, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
-      propertyPath: _CurrentButton
-      value: 
-      objectReference: {fileID: 1515525618}
     - target: {fileID: 108994173503058628, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: m_fontAsset
       value: 

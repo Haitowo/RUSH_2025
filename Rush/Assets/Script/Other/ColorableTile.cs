@@ -15,6 +15,8 @@ namespace Com.IsartDigital.Rush.TargetManagement
         [SerializeField] protected Color m_OrangeColor;
         [SerializeField] protected Color m_PurpleColor;
         [SerializeField] protected Color m_BlueColor;
+        [SerializeField] protected Color m_CyanColor;
+        [SerializeField] protected Color m_RedColor;
 
         protected Dictionary<EColorSetter, Color> m_ColorTable;
         protected Material m_SpawnMaterial;
@@ -23,7 +25,7 @@ namespace Com.IsartDigital.Rush.TargetManagement
         protected void Awake()
         {
             m_ColorTable = new Dictionary<EColorSetter, Color>(){
-            { EColorSetter.RED, Color.red },
+            { EColorSetter.RED, m_RedColor },
             { EColorSetter.BLUE, m_BlueColor },
             { EColorSetter.GREEN, Color.green },
             { EColorSetter.ORANGE, m_OrangeColor },

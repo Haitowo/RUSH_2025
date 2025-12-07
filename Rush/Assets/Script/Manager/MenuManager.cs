@@ -136,8 +136,6 @@ namespace Com.IsartDigital.Rush.UI
                 lHud.ClearAllSlots(pBool);
 
             _GameManager.backToMenu?.Invoke(pBool);
-
-            SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
 
         private void SetPauseCamera(bool pBool)
