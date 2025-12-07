@@ -138,10 +138,7 @@ namespace Com.IsartDigital.Rush.UI
             _GameManager.backToMenu?.Invoke(pBool);
         }
 
-        private void SetPauseCamera(bool pBool)
-        {
-            _GameManager.pauseGame?.Invoke(pBool);
-            SwitchCameraPos(EMenuType.PAUSE);
-        }
+        private void SetPauseCamera(bool pBool) => _GameManager.pauseGame?.Invoke(pBool);
+        
     }
 }

@@ -171,6 +171,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 {
                     lCube.collisionSignal -= CheckCollision;
                     lCube.onCubeColliding -= OnCubeDeath;
+                    lCube.onTpEnding -= SpreadParticles;
                 }
             }
         }

@@ -41,5 +41,8 @@ namespace Com.IsartDigital.Rush.Utilities
         public const string MASTER_PARAM = "MasterVolume";
         public const string MUSIC_PARAM = "MusicVolume";
         public const string SOUND_PARAM = "SFXVolume";
+
+        //SCENE NAMES
+        public const string SCENE_GAME = "Game";
     }
 }
