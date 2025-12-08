@@ -139,6 +139,7 @@ namespace Com.IsartDigital.Rush.Manager
     QualitySettings.vSyncCount = 0;
     Application.targetFrameRate = 60;
 #else
+            QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = -1;
 #endif
         }

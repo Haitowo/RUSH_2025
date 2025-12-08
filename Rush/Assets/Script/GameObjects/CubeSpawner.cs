@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.TargetManagement;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
@@ -12,14 +13,12 @@ using UnityEngine;
 
 namespace Com.IsartDigital.Rush.GameObjects
 {
-    public class CubeSpawner : MonoBehaviour
+    public class CubeSpawner : ColorableTile
     {
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
-        [SerializeField] private Color _OrangeColor;
-        [SerializeField] private Color _PurpleColor;
-        [SerializeField] private Color _BlueColor;
+        [SerializeField] private ParticleSystem _TrailDirection;
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
         [SerializeField] private ELevelToload _CurrentLevel;
         [SerializeField] private bool _DoesLevelNeedsToGetDelaySpawn;
@@ -29,8 +28,8 @@ namespace Com.IsartDigital.Rush.GameObjects
         public EColorSetter ColorSpawnerAndCube => _ColorSpawnerAndCube;
         private ITickProvider _TickProvider;
 
-        private int _TickCount = 0;
         private float _NextSpawnTick;
+        private int _TickCount = 0;
         private int _TickNextSpawnToAdd = 9;
         private int _CubesSpawned = 0;
 
@@ -41,35 +40,26 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private Vector3 _SpawnPos;
 
-        private Dictionary<EColorSetter, Color> _ColorTable;
-        private Material _SpawnMaterial;
-
         private GameManager _GameManager => GameManager.Instance;
         private CollisionManager _CollisionManager => CollisionManager.Instance;
 
-        private void Awake()
-        {
-            _ColorTable = new Dictionary<EColorSetter, Color>(){
-            { EColorSetter.RED, Color.red },
-            { EColorSetter.BLUE, _BlueColor },
-            { EColorSetter.GREEN, Color.green },
-            { EColorSetter.ORANGE, _OrangeColor },
-            { EColorSetter.CYAN, Color.cyan },
-            { EColorSetter.PURPLE, _PurpleColor },
-            };
-        }
-
         private void Start()
         {
+            Renderer lRend = GetComponentInChildren<Renderer>();
+            ParticleSystem.MainModule lMain = _TrailDirection.main;
+
             enabled = false;
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.tickEvent += OnTick;
 
             _GameManager.activatePlayPhase += _DoesLevelNeedsToGetDelaySpawn ? ResetTick : SpawnCube;
+            _GameManager.activatePlayPhase += DisablePreview;
+            _GameManager.resetLevel += EnablePreview;
 
-            Renderer lRend = GetComponentInChildren<Renderer>();
-            _SpawnMaterial = lRend.material;
-            ApplyColorMaterial(_ColorSpawnerAndCube, _SpawnMaterial);
+            m_SpawnMaterial = lRend.material;
+            ApplyColorMaterial(_ColorSpawnerAndCube, m_SpawnMaterial);
+            _TrailDirection.transform.localRotation = _TrailDirection.transform.localRotation;
+            lMain.startColor = m_SpawnMaterial.color;
         }
 
         private void OnTick()
@@ -92,7 +82,7 @@ namespace Com.IsartDigital.Rush.GameObjects
             GameObject lPrefab = Instantiate(_CubePrefab, _SpawnPos, transform.rotation, _GameObjectContainer);
             Cube lCube = lPrefab.GetComponent<Cube>();
             Renderer[] lRenderers = lPrefab.GetComponentsInChildren<Renderer>();
-            GetAllMaterials(lRenderers);
+            GetAllMaterials(lRenderers, _ColorSpawnerAndCube);
 
             lPrefab.transform.localScale = Vector3.zero;
             lPrefab.transform.DOScale(Vector3.one, SPAWN_CUBE_TIME);
@@ -101,6 +91,16 @@ namespace Com.IsartDigital.Rush.GameObjects
             if (lCube != null) _CollisionManager.RegisterCube(lCube);
 
             _CubesSpawned++;
+        }
+
+        private void DisablePreview()
+        {
+            _TrailDirection.Stop();
+        }
+
+        private void EnablePreview(bool pBool)
+        {
+            _TrailDirection.Play();
         }
 
         private void ResetTick()
@@ -116,28 +116,8 @@ namespace Com.IsartDigital.Rush.GameObjects
                 _TickProvider.tickEvent -= OnTick;
 
             _GameManager.activatePlayPhase -= SpawnCube;
-        }
-
-        private void GetAllMaterials(Renderer[] pRenderers)
-        {
-            foreach (Renderer r in pRenderers)
-            {
-                Material[] lMaths = r.materials;
-
-                for (int i = 0; i < lMaths.Length; i++)
-                {
-                    lMaths[i] = new Material(lMaths[i]);
-                    ApplyColorMaterial(_ColorSpawnerAndCube, lMaths[i]);
-                }
-
-                r.materials = lMaths;
-            }
-        }
-
-        private void ApplyColorMaterial(EColorSetter pCurrentColor, Material pMaterial)
-        {
-            if (_ColorTable.TryGetValue(pCurrentColor, out Color lColor))
-                pMaterial.color = lColor;
+            _GameManager.activatePlayPhase -= DisablePreview;
+            _GameManager.resetLevel -= EnablePreview;
         }
     }
 }

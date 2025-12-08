@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private ParticleSystem _ApparitionAndTpParticles;
         [SerializeField] private GameObject _Exclamation;
+        [SerializeField] private GameObject _SpawnDust;
         [HideInInspector] public List<Cube> cubes = new List<Cube>();
 
         private Teleporter _CurrentTeleporter;
@@ -56,9 +57,11 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 case ECollision.ARROW:
                     pCube.SetDirection(pObject.transform.forward);
                     pCube.SetStateMove();
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.GROUND:
                     pCube.SetStateMove();
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.STOP:
                     pCube.SetStateStop();
@@ -66,6 +69,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                     break;
                 case ECollision.TURNSTILE:
                     TurnTileManagement(pCube, pObject.GetComponent<TurnTile>());
+                    CreateDustParticles(pCube.gameObject);
                     break;
                 case ECollision.CONVEYORS:
                     pCube.SetStateSlide(pObject.transform.forward);
@@ -167,6 +171,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
                 {
                     lCube.collisionSignal -= CheckCollision;
                     lCube.onCubeColliding -= OnCubeDeath;
+                    lCube.onTpEnding -= SpreadParticles;
                 }
             }
         }
@@ -178,11 +183,34 @@ namespace Com.IsartDigital.Rush.CubeManagement
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
         }
 
+        private void CreateDustParticles(GameObject pTile)
+        {
+#if UNITY_ANDROID || UNITY_IOS
+return;
+#else
+            int lNumberOfParticles = 4;
+            ParticleSystem.MainModule lMainModule;
+            GameObject lDust = Instantiate(_SpawnDust);
+            ParticleSystem lParticles = lDust.GetComponent<ParticleSystem>();
+
+            lDust.transform.localScale = Vector3.one * .5f;
+            lMainModule = lParticles.main;
+            lMainModule.maxParticles = lNumberOfParticles;
+            lParticles.transform.position = pTile.transform.position;
+            lParticles.Play();
+            Destroy(lParticles.gameObject, .7f);
+#endif
+        }
+
         private void InstantiateExclamation(Cube pCube)
         {
+            float lUpDecay = 2f;
+            float lDuration = .1f;
+            float lStartUpDecay = 10f;
             GameObject lExclamation = Instantiate(_Exclamation);
-            lExclamation.transform.DOMove(pCube.transform.position + Vector3.up * 2f, .1f).SetEase(Ease.OutBack)
-                .From(pCube.transform.position + Vector3.up * 10f);
+            lExclamation.transform.rotation = Quaternion.identity;
+            lExclamation.transform.DOMove(pCube.transform.position + Vector3.up * lUpDecay, lDuration).SetEase(Ease.OutBack)
+                .From(pCube.transform.position + Vector3.up * lStartUpDecay);
         }
 
         private void OnCubeDeath(Cube pCube)

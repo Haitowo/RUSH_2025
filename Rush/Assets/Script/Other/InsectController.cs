@@ -24,10 +24,15 @@ namespace Com.IsartDigital.Rush.Environment
 
         private void PlayParticlesInsect()
         {
+#if UNITY_ANDROID || UNITY_IOS
+            Destroy(gameObject);
+            return,;
+#else
             bool lIsNight = _Lighting.IsNight();
 
             HandleParticles(_ParticlesButterfly, pShouldPlay: !lIsNight);
             HandleParticles(_ParticlesFireFly, pShouldPlay: lIsNight);
+#endif
         }
 
 
