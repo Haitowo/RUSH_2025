@@ -405,8 +405,8 @@ GameObject:
   - component: {fileID: 2097029088598806925}
   - component: {fileID: 474238089637250683}
   - component: {fileID: 7762247244453623293}
-  - component: {fileID: 33038240976372849}
   - component: {fileID: 3909289883579342481}
+  - component: {fileID: 3879410120847790777}
   m_Layer: 5
   m_Name: BACK_BTN
   m_TagString: Untagged
@@ -516,23 +516,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &33038240976372849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3134538837523311477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5351e81b4abcf1c428b380c90fc26392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ScaleMultiplier: 1.05
-  _Duration: 0.5
-  _TargetMenu: 1
-  _ClickButton: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
-  _CurrentButton: {fileID: 7762247244453623293}
 --- !u!114 &3909289883579342481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +532,22 @@ MonoBehaviour:
   pos: 2
   currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
+--- !u!114 &3879410120847790777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3134538837523311477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b165e9439b744469d8461c6d4c35bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ScaleMultiplier: 1.1
+  _Duration: 0.5
+  _ClickSound: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+  _CurrentButton: {fileID: 0}
 --- !u!1 &4268105706578758766
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +933,7 @@ MonoBehaviour:
   - {fileID: 3909289883579342481}
   - {fileID: 8060211145404003809}
   - {fileID: 5368638548305850158}
-  - {fileID: 1442929347326315278}
+  - {fileID: 0}
   hudTileToPlace: {fileID: 0}
   _PlayButton: {fileID: 445485827251183671}
   _Offset: 300
@@ -1238,8 +1237,8 @@ GameObject:
   - component: {fileID: 4124766060630922397}
   - component: {fileID: 140561085013672765}
   - component: {fileID: 3200681020186851778}
-  - component: {fileID: 1442929347326315278}
-  - component: {fileID: 2813727373178557405}
+  - component: {fileID: 246760624332532215}
+  - component: {fileID: 4635766016625906900}
   m_Layer: 5
   m_Name: PAUSE_BTN
   m_TagString: Untagged
@@ -1349,7 +1348,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1442929347326315278
+--- !u!114 &246760624332532215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1361,11 +1360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd1a8a4d7519264a82744a366ae1eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToTransform: {fileID: 2773870412750065788}
-  pos: 2
+  objectToTransform: {fileID: 0}
+  pos: 0
   currentPos: {x: 0, y: 0, z: 0}
   ignoreHide: 0
---- !u!114 &2813727373178557405
+--- !u!114 &4635766016625906900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1374,14 +1373,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6678622099954012093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5351e81b4abcf1c428b380c90fc26392, type: 3}
+  m_Script: {fileID: 11500000, guid: 06b165e9439b744469d8461c6d4c35bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _ScaleMultiplier: 1.1
   _Duration: 0.5
-  _TargetMenu: 7
-  _ClickButton: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
-  _CurrentButton: {fileID: 3200681020186851778}
+  _ClickSound: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+  _CurrentButton: {fileID: 0}
 --- !u!1 &6905612357722276907
 GameObject:
   m_ObjectHideFlags: 0

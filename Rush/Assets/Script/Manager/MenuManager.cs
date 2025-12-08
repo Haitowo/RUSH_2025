@@ -21,7 +21,6 @@ namespace Com.IsartDigital.Rush.UI
 
         [SerializeField] private Transform _CurrentCameraGame;
         [SerializeField] private AudioClip _TransitionSound;
-        [SerializeField] private Button _BackMenuGame;
         [SerializeField] private Button _PauseButton;
         [SerializeField] private Button[] _BackLevelSelectButtonsArray;
 
@@ -42,7 +41,6 @@ namespace Com.IsartDigital.Rush.UI
             ShowMenu(EMenuType.MAIN);
             _GameManager.gameFinished += ShowMenu;
 
-            _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
             _PauseButton.onClick.AddListener(() => SetPauseCamera(true));
 
             foreach (Button lBackButton in _BackLevelSelectButtonsArray)
@@ -75,7 +73,6 @@ namespace Com.IsartDigital.Rush.UI
         {
             CheckTypeOfQuit(pType);
 
-            _SoundManager.PlaySound(_TransitionSound, transform.position);
             MenuType lNextMenuToShow;
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
@@ -116,6 +113,8 @@ namespace Com.IsartDigital.Rush.UI
                 #endif
                 return;
             }
+
+            _SoundManager.PlaySound(_TransitionSound, transform.position);
         }
 
         private void SetGameCamera(bool pIsPause)
@@ -136,9 +135,14 @@ namespace Com.IsartDigital.Rush.UI
                 lHud.ClearAllSlots(pBool);
 
             _GameManager.backToMenu?.Invoke(pBool);
+            SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
 
-        private void SetPauseCamera(bool pBool) => _GameManager.pauseGame?.Invoke(pBool);
-        
+        private void SetPauseCamera(bool pBool)
+        {
+            _GameManager.pauseGame?.Invoke(pBool);
+            SwitchCameraPos(EMenuType.PAUSE);
+        }
+
     }
 }
