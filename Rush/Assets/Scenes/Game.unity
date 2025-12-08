@@ -6920,6 +6920,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2773870412750065788, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
   m_PrefabInstance: {fileID: 4532844193296738771}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1485495596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 246760624332532215, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
+  m_PrefabInstance: {fileID: 4532844193296738771}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd1a8a4d7519264a82744a366ae1eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1499703542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3828421243238534356, guid: b33d3895a7675674bbaf7ddfe4db5838, type: 3}
@@ -8224,7 +8235,7 @@ PrefabInstance:
     - target: {fileID: 7061495573192959376, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: '_HudElementsToSpawn.Array.data[7]'
       value: 
-      objectReference: {fileID: 1515525620}
+      objectReference: {fileID: 1485495596}
     - target: {fileID: 8239268057310323146, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
