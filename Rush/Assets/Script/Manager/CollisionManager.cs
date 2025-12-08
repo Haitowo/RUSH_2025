@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.GameObjects;
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
     public class CollisionManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [Header(Utils.PARTICLES_MANAGEMENT)]
         [SerializeField] private ParticleSystem _ApparitionAndTpParticles;
         [SerializeField] private GameObject _Exclamation;
         [SerializeField] private GameObject _SpawnDust;

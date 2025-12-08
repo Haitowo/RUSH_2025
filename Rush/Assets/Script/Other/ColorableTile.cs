@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.GameObjects;
+using Com.IsartDigital.Rush.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Com.IsartDigital.Rush.TargetManagement
     public class ColorableTile : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLE
+        [Header(Utils.COLORS_MANAGEMENT)]
         [SerializeField] protected Color m_OrangeColor;
         [SerializeField] protected Color m_PurpleColor;
         [SerializeField] protected Color m_BlueColor;
