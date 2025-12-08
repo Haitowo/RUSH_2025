@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Com.IsartDigital.Rush.UI
     public class HUDManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [Header(Utils.PARAMETERS_HUD)]
         [SerializeField] private HUDElementToSpawn[] _HudElementsToSpawn;
         [SerializeField] public HUDTileToPlace hudTileToPlace;
         [SerializeField] private Button _PlayButton;

@@ -17,8 +17,7 @@ namespace Com.IsartDigital.Rush.UI
     public class MenuManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
-
+        [Header(Utils.PARAMETERS_MENU)]
         [SerializeField] private Transform _CurrentCameraGame;
         [SerializeField] private AudioClip _TransitionSound;
         [SerializeField] private Button _PauseButton;
@@ -27,6 +26,8 @@ namespace Com.IsartDigital.Rush.UI
         private const float TRANSITION_TIME = 1f;
         private const float TWEEN_SCALE = 1f;
         private const float TWEEN_DURATION = .5f;
+
+        private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
 
         private GameManager _GameManager => GameManager.Instance;
         private HUDManager _HUDManager => HUDManager.Instance;

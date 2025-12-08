@@ -1,5 +1,6 @@
 using Com.IsartDigital.Rush.CubeManagement;
 using Com.IsartDigital.Rush.UI;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Com.IsartDigital.Rush.Manager
     public class TilePreviewManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [Header(Utils.PARAMETERS_PREVIEW)]
         [SerializeField] private HUDTileToPlace _HUDTileToPlace;
         [SerializeField] private GameObject _SpawnDust;
         [SerializeField] private LayerMask _ObstacleMask;

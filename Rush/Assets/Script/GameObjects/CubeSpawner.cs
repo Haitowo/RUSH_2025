@@ -3,6 +3,7 @@ using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.TargetManagement;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,10 +16,13 @@ namespace Com.IsartDigital.Rush.GameObjects
 {
     public class CubeSpawner : ColorableTile
     {
+        [Header(Utils.PARAMETERS_SPAWNER)]
         [SerializeField] private GameObject _CubePrefab;
         [SerializeField] private Transform _SpawnPoint;
         [SerializeField] private Transform _GameObjectContainer;
         [SerializeField] private ParticleSystem _TrailDirection;
+
+        [Header(Utils.PARAMETERS_LEVEL)]
         [SerializeField] private EColorSetter _ColorSpawnerAndCube;
         [SerializeField] private ELevelToload _CurrentLevel;
         [SerializeField] private bool _DoesLevelNeedsToGetDelaySpawn;
