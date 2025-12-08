@@ -1,5 +1,7 @@
 using Com.IsartDigital.Rush.CubeManagement;
+using Com.IsartDigital.Rush.TargetManagement;
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Author : Florian MAJCHER - Isart DIGITAL
@@ -8,15 +10,22 @@ using UnityEngine;
 namespace Com.IsartDigital.Rush.GameObjects
 {
     
-    public class Target : MonoBehaviour
+    public class Target : ColorableTile
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
         [SerializeField] private EColorSetter _TargetColor;
         public EColorSetter CurrentColor => _TargetColor;
 
-        private const float TWEEN_TIME_SCALE = .2f;
+        private const float TWEEN_TIME_SCALE = .1f;
 
         private CollisionManager _CollisionManager => CollisionManager.Instance;
+
+        private void Start()
+        {
+            Renderer[] lRenderers = GetComponentsInChildren<Renderer>();
+
+            GetAllMaterials(lRenderers, _TargetColor);
+        }
 
         public void DetectCubeColor(Cube pCurrentCube)
         {
@@ -30,6 +39,6 @@ namespace Com.IsartDigital.Rush.GameObjects
             _CollisionManager.RemoveCube(pCurrentCube);
             Destroy(pCurrentCube.gameObject);
         }
-        
+
     }
 }

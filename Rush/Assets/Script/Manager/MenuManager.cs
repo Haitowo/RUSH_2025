@@ -4,6 +4,7 @@ using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,15 +17,17 @@ namespace Com.IsartDigital.Rush.UI
     public class MenuManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
-        private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
-
+        [Header(Utils.PARAMETERS_MENU)]
         [SerializeField] private Transform _CurrentCameraGame;
         [SerializeField] private AudioClip _TransitionSound;
-        [SerializeField] private Button _BackMenuGame;
         [SerializeField] private Button _PauseButton;
         [SerializeField] private Button[] _BackLevelSelectButtonsArray;
 
         private const float TRANSITION_TIME = 1f;
+        private const float TWEEN_SCALE = 1f;
+        private const float TWEEN_DURATION = .5f;
+
+        private Dictionary<EMenuType, GameObject> _Menus = new Dictionary<EMenuType, GameObject>();
 
         private GameManager _GameManager => GameManager.Instance;
         private HUDManager _HUDManager => HUDManager.Instance;
@@ -39,7 +42,6 @@ namespace Com.IsartDigital.Rush.UI
             ShowMenu(EMenuType.MAIN);
             _GameManager.gameFinished += ShowMenu;
 
-            _BackMenuGame.onClick.AddListener(() => SetMenuCamera(false));
             _PauseButton.onClick.AddListener(() => SetPauseCamera(true));
 
             foreach (Button lBackButton in _BackLevelSelectButtonsArray)
@@ -72,7 +74,6 @@ namespace Com.IsartDigital.Rush.UI
         {
             CheckTypeOfQuit(pType);
 
-            _SoundManager.PlaySound(_TransitionSound, transform.position);
             MenuType lNextMenuToShow;
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
@@ -88,10 +89,16 @@ namespace Com.IsartDigital.Rush.UI
 
         public void ShowMenu(EMenuType pType)
         {
+            Transform lTransform = _Menus[pType].transform;
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
 
            _Menus[pType].SetActive(true);
+
+            lTransform = _Menus[pType].transform;
+            lTransform.localScale = Vector3.zero;
+            lTransform.DOScale(TWEEN_SCALE, TWEEN_DURATION).SetEase(Ease.OutBack);
+
             if (pType == EMenuType.PLAY) 
                 SetGameCamera(false);
         }
@@ -107,6 +114,8 @@ namespace Com.IsartDigital.Rush.UI
                 #endif
                 return;
             }
+
+            _SoundManager.PlaySound(_TransitionSound, transform.position);
         }
 
         private void SetGameCamera(bool pIsPause)
@@ -127,7 +136,6 @@ namespace Com.IsartDigital.Rush.UI
                 lHud.ClearAllSlots(pBool);
 
             _GameManager.backToMenu?.Invoke(pBool);
-
             SwitchCameraPos(EMenuType.LEVEL_SELECT);
         }
 
@@ -136,5 +144,6 @@ namespace Com.IsartDigital.Rush.UI
             _GameManager.pauseGame?.Invoke(pBool);
             SwitchCameraPos(EMenuType.PAUSE);
         }
+
     }
 }

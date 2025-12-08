@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 00/00/0000 - Beginning of the class
@@ -17,7 +16,9 @@ namespace Com.IsartDigital.Rush.Manager
     public class TilePreviewManager : MonoBehaviour
     {
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // VARIABLES
+        [Header(Utils.PARAMETERS_PREVIEW)]
         [SerializeField] private HUDTileToPlace _HUDTileToPlace;
+        [SerializeField] private GameObject _SpawnDust;
         [SerializeField] private LayerMask _ObstacleMask;
 
         private GameObject _GhostTile;
@@ -144,8 +145,7 @@ namespace Com.IsartDigital.Rush.Manager
             lIdentifier.tileEntry = _TileSelectionManager.CurrentEntry;
             Destroy(_GhostTile);
             _GhostTile = null;
-            lPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360)
-                .SetRelative(true).OnComplete(() => PlaceTile(lPlacedTile));
+            AnimateTilePlacement(lPlacedTile, lPos);
 
             _TileSelectionManager.UseOne();
             GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
@@ -155,6 +155,7 @@ namespace Com.IsartDigital.Rush.Manager
         private void PlaceTile(GameObject pTile)
         {
             _PlacedTiles.Add(pTile);
+            SpawnParticles(pTile);
         }
 
         private void HandleInventoryEmpty()
@@ -283,7 +284,42 @@ namespace Com.IsartDigital.Rush.Manager
             lSequence.Append(pTile.transform.DOMoveY(pTile.transform.position.y + DECAY_TILE, TWEEN_TIME / 2f).SetEase(Ease.OutQuad));
             lSequence.Join(pTile.transform.DORotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true));
             lSequence.AppendInterval(PAUSE_TIME);
-            lSequence.OnComplete(() => Destroy(pTile));
+            lSequence.OnComplete(() => DestroyTile(pTile));
+        }
+
+        private void AnimateTilePlacement(GameObject pPlacedTile, Vector3 pFinalPos)
+        {
+            float lSpawnHeight = 1f;
+            float lYoyoHeight = 1f;
+            float lYoyoTime = .25f;
+            float lFallTime = .05f;
+
+            float spawnY = pFinalPos.y + lSpawnHeight;
+
+            pPlacedTile.transform.position = new Vector3(pFinalPos.x, spawnY, pFinalPos.z);
+
+            Sequence lSequence = DOTween.Sequence();
+
+            lSequence.Join(pPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), lYoyoTime * 2f + lFallTime,RotateMode.FastBeyond360).SetRelative(true));
+            lSequence.Append(pPlacedTile.transform.DOMoveY(spawnY + lYoyoHeight, lYoyoTime).SetEase(Ease.OutCubic).SetLoops(2, LoopType.Yoyo));
+            lSequence.AppendInterval(0f);
+            lSequence.Append(pPlacedTile.transform.DOMoveY(pFinalPos.y, lFallTime).SetEase(Ease.InCubic));
+            lSequence.OnComplete(() => PlaceTile(pPlacedTile));
+        }
+
+        private void SpawnParticles(GameObject pTile)
+        {
+            GameObject lDust = Instantiate(_SpawnDust);
+            ParticleSystem lParticles = lDust.GetComponent<ParticleSystem>();
+            lParticles.transform.position = pTile.transform.position;
+            lParticles.Play();
+            Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+        }
+
+        private void DestroyTile(GameObject pTile)
+        {
+            SpawnParticles(pTile);
+            Destroy(pTile);
         }
 
         private bool GetPrimaryDown()

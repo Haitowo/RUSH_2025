@@ -25,6 +25,14 @@ namespace Com.IsartDigital.Rush.Utilities
         //HEADER
         public const string CAMERA_MANAGEMENT = "Camera Management";
         public const string CUBE_MANAGEMENT = "Cube Management";
+        public const string PARTICLES_MANAGEMENT = "Particles Management";
+        public const string COLORS_MANAGEMENT = "Colors - Dictionnary";
+        public const string PARAMETERS_SPAWNER = "Parameters - Spawner";
+        public const string PARAMETERS_LEVEL = "Parameters - Level";
+        public const string PARAMETERS_HUD = "Parameters - HUD";
+        public const string PARAMETERS_MENU = "Parameters - Menu";
+        public const string PARAMETERS_SOUND = "Parameters - Sound";
+        public const string PARAMETERS_PREVIEW = "Parameters - Preview Tile";
         public const string GAME_SPEED = "Game Speed - Ticks";
         public const string SOUND = "Sounds";
 
@@ -41,5 +49,8 @@ namespace Com.IsartDigital.Rush.Utilities
         public const string MASTER_PARAM = "MasterVolume";
         public const string MUSIC_PARAM = "MusicVolume";
         public const string SOUND_PARAM = "SFXVolume";
+
+        //SCENE NAMES
+        public const string SCENE_GAME = "Game";
     }
 }

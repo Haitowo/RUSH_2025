@@ -1,3 +1,4 @@
+using Com.IsartDigital.Rush.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,14 +12,12 @@ namespace Com.IsartDigital.Rush.Manager
 
     public class SoundManager : MonoBehaviour
     {
+        [Header(Utils.PARAMETERS_SOUND)]
         [SerializeField] private AudioMixerGroup _SoundGroup;
         [SerializeField] private AudioMixerGroup _MusicGroup;
-
         [SerializeField] private AudioMixer _Mixer;
-
         [SerializeField] private GameObject _MusicPlayerParent;
         [SerializeField] private GameObject _SoundPoolParent;
-
         [SerializeField] private AudioSource _SFX_Source;
 
         public AudioMixer mixer => _Mixer;
