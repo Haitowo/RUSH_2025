@@ -26,7 +26,7 @@ namespace Com.IsartDigital.Rush.Environment
         {
 #if UNITY_ANDROID || UNITY_IOS
             Destroy(gameObject);
-            return,;
+            return;
 #else
             bool lIsNight = _Lighting.IsNight();
 
