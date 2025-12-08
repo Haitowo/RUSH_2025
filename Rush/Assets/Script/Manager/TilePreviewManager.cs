@@ -125,8 +125,11 @@ namespace Com.IsartDigital.Rush.Manager
         {
             Vector3? lCurrentMousePos = SnapOnGrid();
             if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && !positionUSed.Contains(lCurrentMousePos))
+            {
                 ValidateTilePlacement();
-            else if (_GhostTile == null && GetPrimaryDown())
+                return;
+            }
+            if(Input.GetMouseButtonDown(LEFT_CLICK_BUTTON_AND_TOUCH))
                 TryRemoveTile();
         }
 
