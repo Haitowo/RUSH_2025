@@ -34,12 +34,12 @@ namespace Com.IsartDigital.Rush.Manager
         public event Action tickEvent;
         public Action onGameLost;
         public Action activatePlayPhase;
+        public Action finishPauseGame;
         public Action<bool> resetLevel;
         public Action<bool> switchToGame;
         public Action<bool> backToMenu;
         public Action<EMenuType> gameFinished;
         public Action<bool> pauseGame;
-        public Action<bool> finishPauseGame;
 
         private bool _IsGamePlaying;
 
@@ -55,6 +55,8 @@ namespace Com.IsartDigital.Rush.Manager
         {
             TickProviderLocator.Register(this);
             activatePlayPhase += ActivateLevel;
+            pauseGame += Pause;
+            finishPauseGame += ActivateLevel;
             onGameLost += DisactivateLevel;
             resetLevel += ResetCube;
 
@@ -82,6 +84,8 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (_IsGamePlaying) TickManager();
         }
+
+        private void Pause(bool pPause) => _IsGamePlaying = pPause;
 
         private void TickManager()
         {

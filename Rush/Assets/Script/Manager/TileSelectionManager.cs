@@ -37,6 +37,7 @@ namespace Com.IsartDigital.Rush.Manager
             _GameManager.switchToGame += Activate;
             _GameManager.backToMenu += Disable;
             _GameManager.pauseGame += Disable;
+            _GameManager.finishPauseGame += Reactivate;
 
             #region Singleton Management
             if (Instance != this && Instance != null)
@@ -160,6 +161,8 @@ namespace Com.IsartDigital.Rush.Manager
         private void NotifyAmountChanged() => OnAmountChanged?.Invoke();
 
         private void Activate(bool pEnable) => enabled = pEnable;
+
+        private void Reactivate() => enabled = true;
 
         private void Disable(bool pEnable) => enabled = pEnable;
     }

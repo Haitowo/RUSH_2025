@@ -8058,7 +8058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 246760624332532215, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: pos
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 246760624332532215, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: objectToTransform
@@ -8950,6 +8950,10 @@ PrefabInstance:
       propertyPath: _BackMenuGame
       value: 
       objectReference: {fileID: 1515525618}
+    - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ContinueButton
+      value: 
+      objectReference: {fileID: 149738838}
     - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentCameraGame
       value: 

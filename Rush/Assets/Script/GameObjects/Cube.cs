@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.GameObjects;
+using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
@@ -32,8 +33,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private const float TWEEN_TIME = .2f;
         private const float SCALE_X_Z = 1.2f;
         private const float SCALE_Y = .8f;
+        private const float SQUASH_DELAY = .5f;
 
-        private float _TickDuration;
         private float _GridSize = 1f;
 
         private int _SlideTickCount = 0;
@@ -46,7 +47,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private const int SLIDE_WAIT_DURATION = 2;
         private const int STOP_TICK_COUNT = 2;
         private const int WALL_HIT_STOP_TICK_COUNT = 3;
-        private const int NUMBER_OF_JUMPS = 1;
 
         private Quaternion _FromRotation, _ToRotation;
 
@@ -81,8 +81,6 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _TickProvider = TickProviderLocator.Instance;
             _TickProvider.tickEvent += ReceiveTick;
             _IsCubeJustSpawned = true;
-
-            _TickDuration = 1f / _TickProvider.TickSpeed;
 
             SetStateMove();
         }
@@ -372,20 +370,18 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (pOther.CompareTag(Utils.TAG_CUBE)) onCubeColliding?.Invoke(this);
         }
 
-
         private void PlaySquashStretch(Vector3 pTargetScale, float pDuration)
         {
             if (squashStretchTween != null && squashStretchTween.IsActive())
                 squashStretchTween.Kill();
 
-            squashStretchTween = _SelfTransform.DOScale(pTargetScale, pDuration * 0.5f)
+            squashStretchTween = _SelfTransform.DOScale(pTargetScale, pDuration * SQUASH_DELAY)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {
-                    _SelfTransform.DOScale(Vector3.one, pDuration * 0.5f)
+                    _SelfTransform.DOScale(Vector3.one, pDuration * SQUASH_DELAY)
                         .SetEase(Ease.InQuad);
                 });
         }
-
     }
 }

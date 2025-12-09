@@ -47,7 +47,8 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
             _GameManager.switchToGame += Activate;
             _GameManager.backToMenu += Disable;
-            _GameManager.pauseGame += Disable;
+            _GameManager.pauseGame += Pause;
+            _GameManager.finishPauseGame += Reactivate;
             _TileSelectionManager.OnInventoryEmpty += HandleInventoryEmpty;
 
             #region Singleton Management
@@ -265,6 +266,8 @@ namespace Com.IsartDigital.Rush.Manager
 
         private void Activate(bool pEnable) => enabled = pEnable;
 
+        private void Reactivate() => enabled = true;
+
         private void Disable(bool pEnable)
         {
             enabled = pEnable;
@@ -279,6 +282,8 @@ namespace Com.IsartDigital.Rush.Manager
             positionUSed.Clear();
         }
 
+        private void Pause(bool pPause) => enabled = false;
+        
         private void AnimateTileRemoval(GameObject pTile, TileRuntimeIdentifier pIdentifier)
         {
             _TileSelectionManager.AddOne(pIdentifier.tileEntry);
