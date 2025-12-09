@@ -1,10 +1,19 @@
 # ninja log v5
 36	1202	7862837558082072	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	be1cd657895b50de
 17	1214	7862837558181538	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	e1037ddbe215e303
-12	1261	7862837558565478	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	90046b35717f18ce
-43	1264	7862837558659373	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a73f3373995a56b8
-1	1287	7862837558935261	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3789ccfb3f181433
 49	1469	7862837560684464	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2ada438fbd5fced1
+12	1261	7862837558565478	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	90046b35717f18ce
+1580	1709	7862837563231340	C:/Users/fmajc/Desktop/Isart/GDP2/Rush/Florian MAJCHER GDP2 - Rush/Rush/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3sg5w6i9/obj/arm64-v8a/libgame.so	bc0b79bb6c7d43c0
+1	1287	7862837558935261	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3789ccfb3f181433
+43	1264	7862837558659373	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a73f3373995a56b8
 23	1492	7862837560891883	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	fe12eca6502ef9e1
 7	1580	7862837561755373	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	fa1457027284c197
-1580	1709	7862837563231340	C:/Users/fmajc/Desktop/Isart/GDP2/Rush/Florian MAJCHER GDP2 - Rush/Rush/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3sg5w6i9/obj/arm64-v8a/libgame.so	bc0b79bb6c7d43c0
+54	2364	7869786205253495	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	e1037ddbe215e303
+18	2366	7869786205283826	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	be1cd657895b50de
+36	2390	7869786205499523	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	90046b35717f18ce
+63	2413	7869786205626197	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a73f3373995a56b8
+25	2473	7869786206207694	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	3789ccfb3f181433
+45	2625	7869786207798317	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	fe12eca6502ef9e1
+10	2691	7869786208473486	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	fa1457027284c197
+73	3114	7869786212760803	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2ada438fbd5fced1
+3114	3310	7869786214788281	C:/Users/fmajc/Desktop/Isart/GDP2/Rush/Florian MAJCHER GDP2 - Rush/Rush/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3sg5w6i9/obj/arm64-v8a/libgame.so	bc0b79bb6c7d43c0

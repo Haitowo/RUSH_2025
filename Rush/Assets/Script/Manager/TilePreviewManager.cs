@@ -90,7 +90,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             Vector3? lSnapPos = SnapOnGrid();
 
-            if (!lSnapPos.HasValue && _GhostTile.activeSelf)
+            if (!lSnapPos.HasValue || positionUSed.Contains(lSnapPos.Value))
             {
                 _GhostTile.SetActive(false);
                 return;
@@ -257,6 +257,7 @@ namespace Com.IsartDigital.Rush.Manager
                 {
                     _PlacedTiles.Remove(lTargetTile);
                     positionUSed.Remove(lTargetTile.transform.position);
+                    _DoActionUI = DoActionVoid;
                     AnimateTileRemoval(lTargetTile, lIdentifier);
                 }
             }
@@ -287,7 +288,13 @@ namespace Com.IsartDigital.Rush.Manager
             lSequence.Append(pTile.transform.DOMoveY(pTile.transform.position.y + DECAY_TILE, TWEEN_TIME / 2f).SetEase(Ease.OutQuad));
             lSequence.Join(pTile.transform.DORotate(new Vector3(0f, FULL_TURN, 0f), TWEEN_TIME, RotateMode.FastBeyond360).SetRelative(true));
             lSequence.AppendInterval(PAUSE_TIME);
-            lSequence.OnComplete(() => DestroyTile(pTile));
+            lSequence.OnComplete(() =>
+            {
+                DestroyTile(pTile);
+
+                if (_GhostTile != null)
+                    _DoActionUI = DoActionTileOnGrid;
+            });
         }
 
         private void AnimateTilePlacement(GameObject pPlacedTile, Vector3 pFinalPos)

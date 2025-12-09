@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 04/11/2025 - Beginning of the class

@@ -5,9 +5,8 @@ using Com.IsartDigital.Rush.Ticks;
 using Com.IsartDigital.Rush.UI;
 using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 09/11/2025 - Beginning of the class
@@ -46,6 +45,7 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private GameManager _GameManager => GameManager.Instance;
         private CollisionManager _CollisionManager => CollisionManager.Instance;
+        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         private void Start()
         {
@@ -60,10 +60,9 @@ namespace Com.IsartDigital.Rush.GameObjects
             _GameManager.activatePlayPhase += DisablePreview;
             _GameManager.resetLevel += EnablePreview;
 
-            m_SpawnMaterial = lRend.material;
-            ApplyColorMaterial(_ColorSpawnerAndCube, m_SpawnMaterial);
-            _TrailDirection.transform.localRotation = _TrailDirection.transform.localRotation;
-            lMain.startColor = m_SpawnMaterial.color;
+            _TilePreviewManager.positionUSed.Add(transform.position);
+
+            SetColor(lRend, lMain);
         }
 
         private void OnTick()
@@ -112,6 +111,14 @@ namespace Com.IsartDigital.Rush.GameObjects
             _TickCount = 0;
             _NextSpawnTick = 0;
             _CubesSpawned = 0;
+        }
+
+        private void SetColor(Renderer pRend, ParticleSystem.MainModule pMain)
+        {
+            m_SpawnMaterial = pRend.material;
+            ApplyColorMaterial(_ColorSpawnerAndCube, m_SpawnMaterial);
+            _TrailDirection.transform.localRotation = _TrailDirection.transform.localRotation;
+            pMain.startColor = m_SpawnMaterial.color;
         }
 
         private void OnDestroy()

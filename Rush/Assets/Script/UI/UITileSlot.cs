@@ -75,8 +75,11 @@ namespace Com.IsartDigital.Rush.UI
                 lPreviewTile.SetActive(true);
                 _TilePreviewManager.SetStateSelectTile(lPreviewTile);
             }
-            else if(_IsTileAlreadySelected)
+            else if (_IsTileAlreadySelected)
+            {
+                _IsTileAlreadySelected = false;
                 _TilePreviewManager.SetStateVoid();
+            }
             else return;
         }
 

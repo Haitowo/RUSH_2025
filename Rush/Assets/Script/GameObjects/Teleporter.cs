@@ -17,10 +17,12 @@ namespace Com.IsartDigital.Rush.GameObjects
         public int Index { get; set; }
 
         private TeleporterManager _TeleporterManager => TeleporterManager.Instance;
+        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         private void Start()
         {
             _TeleporterManager.Register(this);
+            _TilePreviewManager.positionUSed.Add(transform.position);
 
             Renderer lRend = GetComponentInChildren<Renderer>();
             m_SpawnMaterial = lRend.material;
