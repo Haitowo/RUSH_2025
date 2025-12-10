@@ -21,6 +21,11 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private GameObject _SpawnDust;
         [SerializeField] private LayerMask _ObstacleMask;
 
+        [Header(Utils.SOUND_PARAM)]
+        [SerializeField] private AudioClip[] _RandomHoverSounds;
+        [SerializeField] private AudioClip _ValidateTileSound;
+        [SerializeField] private AudioClip _PlaceTile;
+
         private GameObject _GhostTile;
         private Action<GameObject> _DoActionUI;
 
@@ -32,12 +37,15 @@ namespace Com.IsartDigital.Rush.Manager
         private const float PAUSE_TIME = .05f;
         private const float FULL_TURN = 360f;
 
+        private Vector3? _LastHoverPos = null;
+
         private List<GameObject> _PlacedTiles = new List<GameObject>();
         public List<Vector3?> positionUSed = new List<Vector3?>();
 
         public static TilePreviewManager Instance { get; private set; }
 
         private GameManager _GameManager => GameManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -101,6 +109,12 @@ namespace Com.IsartDigital.Rush.Manager
 
             if (lSnapPos.HasValue) 
                 pTile.transform.position = lSnapPos.Value;
+
+            if (_LastHoverPos != lSnapPos)
+            {
+                _SoundManager.PlayRandomSound(_RandomHoverSounds, lSnapPos.Value);
+                _LastHoverPos = lSnapPos;
+            }
         }
 
         private Vector3? SnapOnGrid()
@@ -154,6 +168,7 @@ namespace Com.IsartDigital.Rush.Manager
             _TileSelectionManager.UseOne();
             GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
             CheckNextPrefab(lNextPrefab);
+            _SoundManager.PlaySound(_ValidateTileSound, lPos);
         }
 
         private void PlaceTile(GameObject pTile)
@@ -329,6 +344,7 @@ namespace Com.IsartDigital.Rush.Manager
             lParticles.transform.position = pTile.transform.position;
             lParticles.Play();
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+            _SoundManager.PlaySound(_PlaceTile, pTile.transform.position);
         }
 
         private void DestroyTile(GameObject pTile)

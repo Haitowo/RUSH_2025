@@ -375,7 +375,9 @@ namespace Com.IsartDigital.Rush.CubeManagement
             if (squashStretchTween != null && squashStretchTween.IsActive())
                 squashStretchTween.Kill();
 
-            squashStretchTween = _SelfTransform.DOScale(pTargetScale, pDuration * SQUASH_DELAY)
+            float lAdaptativeDuration = (pDuration * SQUASH_DELAY) / _TickProvider.TickSpeed;
+
+            squashStretchTween = _SelfTransform.DOScale(pTargetScale, lAdaptativeDuration)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {
