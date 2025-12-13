@@ -1,5 +1,4 @@
 using Com.IsartDigital.Rush.Manager;
-using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;

@@ -20,12 +20,9 @@ namespace Com.IsartDigital.Rush.GameObjects
         private const float TWEEN_TIME_SCALE = .1f;
 
         private CollisionManager _CollisionManager => CollisionManager.Instance;
-        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         private void Start()
         {
-            _TilePreviewManager.positionUSed.Add(transform.position);
-
             Renderer[] lRenderers = GetComponentsInChildren<Renderer>();
 
             GetAllMaterials(lRenderers, _TargetColor);

@@ -123,7 +123,8 @@ namespace Com.IsartDigital.Rush.CubeManagement
             CheckTarget(pCube, pCurrentTarget);
             CheckDisconnectCurrentCube(pCube, pCurrentTarget);
             pCurrentTarget.DetectCubeColor(pCube);
-            SpreadParticles(pCube);
+            if (pCurrentTarget.CurrentColor == pCube.cubeColor) SpreadParticles(pCube);
+            else return;
         }
 
         private void CheckTarget(Cube pCube, Target pCurrentTarget)

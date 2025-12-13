@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.GameObjects;
+using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +35,10 @@ namespace Com.IsartDigital.Rush.TargetManagement
             { EColorSetter.CYAN, Color.cyan },
             { EColorSetter.PURPLE, m_PurpleColor },
             };
+        }
+
+        private void Start()
+        {
         }
 
         protected void GetAllMaterials(Renderer[] pRenderers, EColorSetter pColorToSet)

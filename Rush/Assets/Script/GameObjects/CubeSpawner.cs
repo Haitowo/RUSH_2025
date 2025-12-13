@@ -45,7 +45,6 @@ namespace Com.IsartDigital.Rush.GameObjects
 
         private GameManager _GameManager => GameManager.Instance;
         private CollisionManager _CollisionManager => CollisionManager.Instance;
-        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         private void Start()
         {
@@ -59,8 +58,6 @@ namespace Com.IsartDigital.Rush.GameObjects
             _GameManager.activatePlayPhase += _DoesLevelNeedsToGetDelaySpawn ? ResetTick : SpawnCube;
             _GameManager.activatePlayPhase += DisablePreview;
             _GameManager.resetLevel += EnablePreview;
-
-            _TilePreviewManager.positionUSed.Add(transform.position);
 
             SetColor(lRend, lMain);
         }

@@ -1,6 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,6 +22,7 @@ namespace Com.IsartDigital.Rush.UI
         private List<GameObject> _InstantiatedLevel = new List<GameObject>();
 
         private GameManager _GameManager => GameManager.Instance;
+        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -52,6 +52,7 @@ namespace Com.IsartDigital.Rush.UI
             }
 
             _InstantiatedLevel.Clear();
+            _TilePreviewManager.positionUsedBaseLevel.Clear();
         }
 
     }
