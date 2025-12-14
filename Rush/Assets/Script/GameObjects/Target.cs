@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.CubeManagement;
+using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.TargetManagement;
 using DG.Tweening;
 using System.Collections.Generic;

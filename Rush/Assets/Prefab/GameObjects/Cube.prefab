@@ -82,6 +82,14 @@ MonoBehaviour:
   _ObstacleLayer:
     serializedVersion: 2
     m_Bits: 128
+  _CubeSound:
+  - {fileID: 8300000, guid: 0633c36a5bb36fa40963431f589562ef, type: 3}
+  - {fileID: 8300000, guid: 87daba9eb9381cb4e89f32df0e9d5272, type: 3}
+  - {fileID: 8300000, guid: abbad6165b6c3ad4bbf0779ab50accfb, type: 3}
+  _TeleportSound:
+  - {fileID: 8300000, guid: 2b64296aa0a4af44ab16a7f51dc9adb7, type: 3}
+  - {fileID: 8300000, guid: d00dd643079e67b47985f4b5d16ceb55, type: 3}
+  - {fileID: 8300000, guid: 5fe147a0701979a4dbe17e16172378ae, type: 3}
   lastDirectionBeforeFall: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 1}
   cubeColor: 0

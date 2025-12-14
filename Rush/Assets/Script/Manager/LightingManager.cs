@@ -22,6 +22,9 @@ namespace Com.IsartDigital.Rush.Lighting
         private float _Height = 170f;
         private float _DayTimeSpeed = .25f;
 
+        private const float MORNING_TIME = 6f;
+        private const float EVENING_TIME = 18f;
+
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // PROCESS
         private void Update() => CheckTime();
         
@@ -76,7 +79,7 @@ namespace Com.IsartDigital.Rush.Lighting
 
         public bool IsNight()
         {
-            return _TimeOfDay < 6f || _TimeOfDay > 18f;
+            return _TimeOfDay < MORNING_TIME || _TimeOfDay > EVENING_TIME;
         }
     }
 }

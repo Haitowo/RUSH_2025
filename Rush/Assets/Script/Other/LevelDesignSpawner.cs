@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.TargetManagement;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,9 +38,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
         private void GetLevel()
         {
             foreach (Transform tile in _LevelContainer)
-            {
-                _TilesForLevel.Add(tile.gameObject);
-            }
+                _TilesForLevel.Add(tile.gameObject); 
         }
 
         private void SpawnLevel(bool pShow)
@@ -51,9 +50,7 @@ namespace Com.IsartDigital.Rush.LevelDesign
                     .From(tile.transform.position + (Vector3.down * DECAY_DOWN)).SetEase(Ease.OutBack);
         }
 
-        private void OnDestroy()
-        {
-            _GameManager.switchToGame -= SpawnLevel;
-        }   
+        private void OnDestroy() => _GameManager.switchToGame -= SpawnLevel;
+         
     }
 }
