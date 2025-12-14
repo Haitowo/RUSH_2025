@@ -6539,7 +6539,8 @@ MonoBehaviour:
   _GhostTileParent: {fileID: 0}
   _ObstacleMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 180160
+  _TargetLayer: 7
   _RandomHoverSounds:
   - {fileID: 8300000, guid: 7a6fad381b2b7bb45840a1513e27b13a, type: 3}
   - {fileID: 8300000, guid: 66bac8a84c7d91e44a83c205c2d5f166, type: 3}
