@@ -21,6 +21,7 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private GameObject _SpawnDust;
         [SerializeField] private GameObject _GhostTileParent;
         [SerializeField] private LayerMask _ObstacleMask;
+        [SerializeField] private ECollision _TargetLayer;
 
         [Header(Utils.SOUND_PARAM)]
         [SerializeField] private AudioClip[] _RandomHoverSounds;
@@ -42,7 +43,6 @@ namespace Com.IsartDigital.Rush.Manager
         private Vector3? _LastHoverPos = null;
 
         private List<GameObject> _PlacedTiles = new List<GameObject>();
-        public List<Vector3?> positionUsedBaseLevel = new List<Vector3?>();
         public List<Vector3?> positionUsedTilesPlaced = new List<Vector3?>();
 
         public static TilePreviewManager Instance { get; private set; }
@@ -102,7 +102,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             Vector3? lSnapPos = SnapOnGrid();
 
-            if (!lSnapPos.HasValue || positionUsedTilesPlaced.Contains(lSnapPos.Value) || positionUsedBaseLevel.Contains(lSnapPos.Value))
+            if (!lSnapPos.HasValue || positionUsedTilesPlaced.Contains(lSnapPos.Value))
             {
                 _GhostTile.SetActive(false);
                 return;
@@ -126,7 +126,7 @@ namespace Com.IsartDigital.Rush.Manager
             Vector3 lGlobalIndexToIndex;
             Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
 
-            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, _ObstacleMask))
+            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, _ObstacleMask) && lHitInfo.collider.gameObject.layer == (int)_TargetLayer)
             {
                 lGlobalIndexToIndex = lHitInfo.point;
                 int lX = Mathf.FloorToInt(lGlobalIndexToIndex.x + DECAY_TILE);
