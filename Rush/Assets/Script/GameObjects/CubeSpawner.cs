@@ -7,6 +7,7 @@ using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 // Author : Florian MAJCHER - Isart DIGITAL
 // DATE : 09/11/2025 - Beginning of the class

@@ -6477,7 +6477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _WinScreenToShow: 6
-  _GameMusic: {fileID: 8300000, guid: 18256091deb3c934ba1ce2aa912bf30d, type: 3}
+  _GameMusic: {fileID: 8300000, guid: 8c928b8ad66160047a4f13c0eafffc5e, type: 3}
   _WinScreenSound: {fileID: 8300000, guid: 28840f292ff3ddc449d8e95a36986493, type: 3}
 --- !u!114 &947713495
 MonoBehaviour:
@@ -6536,6 +6536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _HUDTileToPlace: {fileID: 617192375}
   _SpawnDust: {fileID: 2885657029949217313, guid: 1a8d138f7c3e74f4ca90b5dd9df3e2f4, type: 3}
+  _GhostTileParent: {fileID: 0}
   _ObstacleMask:
     serializedVersion: 2
     m_Bits: 128
@@ -8540,6 +8541,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3011191986911826450, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
+    - target: {fileID: 3011191986911826450, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
       objectReference: {fileID: 1029982994}
@@ -8724,6 +8729,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1937533691}
     - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
+    - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
       objectReference: {fileID: 1029982994}
@@ -8832,6 +8841,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 6524656142790587536, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
+    - target: {fileID: 6524656142790587536, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
       objectReference: {fileID: 1029982994}
@@ -8843,6 +8856,10 @@ PrefabInstance:
       propertyPath: m_ScreenMatchMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
@@ -9099,6 +9116,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9040880833912040951, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 9040880833912040951, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 

@@ -20,6 +20,10 @@ namespace Com.IsartDigital.Rush.CubeManagement
         [SerializeField] private float _UturnAngle = 180f;
         [SerializeField] private LayerMask _ObstacleLayer;
 
+        [Header(Utils.SOUND)]
+        [SerializeField] private AudioClip[] _CubeSound;
+        [SerializeField] private AudioClip[] _TeleportSound;
+
         private Vector3 _FromPos, _ToPos, _CrossProduct, _PivotPoint, _SlideDirection;
         private Vector3 _TpFinalPos;
         private Vector3 _SquashAndStretchScale;
@@ -67,6 +71,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
         private bool _IsCubeJustSpawned;
 
         private Tween squashStretchTween;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Awake()
@@ -134,6 +139,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _ToRotation = Quaternion.AngleAxis(_Angle, _CrossProduct) * _FromRotation;
             lastDirectionBeforeFall = direction;
 
+            _SoundManager.PlayRandomSound(_CubeSound, transform.position);
             doAction = DoActionMove;
         }
 
@@ -164,6 +170,7 @@ namespace Com.IsartDigital.Rush.CubeManagement
             _TeleportationTickCount = 0;
             _FromPos = _SelfTransform.position;
             _TpFinalPos = pFinalPos + Vector3.up * TELEPORT_DECAY;
+            _SoundManager.PlayRandomSound(_TeleportSound, transform.position);
             doAction = DoActionTeleport;
         }
 

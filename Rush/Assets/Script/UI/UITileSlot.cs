@@ -82,10 +82,8 @@ namespace Com.IsartDigital.Rush.UI
             else return;
         }
 
-        private void UpdateUI()
-        {
-            amountText.text = _RuntimeEntry.remaining.ToString();
-        }
+        private void UpdateUI() => amountText.text = _RuntimeEntry.remaining.ToString();
+        
 
         private void ShowPrefab()
         {

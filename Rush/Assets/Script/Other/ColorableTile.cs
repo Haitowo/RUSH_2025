@@ -37,10 +37,6 @@ namespace Com.IsartDigital.Rush.TargetManagement
             };
         }
 
-        private void Start()
-        {
-        }
-
         protected void GetAllMaterials(Renderer[] pRenderers, EColorSetter pColorToSet)
         {
             foreach (Renderer r in pRenderers)

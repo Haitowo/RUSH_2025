@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.Manager;
+using Com.IsartDigital.Rush.Utilities;
 using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
@@ -18,11 +19,12 @@ namespace Com.IsartDigital.Rush.UI
         [SerializeField] private GameObject _GameObjectsParents;
         [SerializeField] private TextMeshProUGUI _TextUILevel;
         [SerializeField] private Button _LoadLevel;
+        [SerializeField] private AudioClip _PlayGame;
 
         private List<GameObject> _InstantiatedLevel = new List<GameObject>();
 
         private GameManager _GameManager => GameManager.Instance;
-        private TilePreviewManager _TilePreviewManager => TilePreviewManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
         private void Start()
@@ -38,6 +40,8 @@ namespace Com.IsartDigital.Rush.UI
             lInstanciatedLevel.transform.localPosition = Vector3.zero;
             _InstantiatedLevel.Add(lInstanciatedLevel);
             _TextUILevel.text = _TargetPrefabToLoad.name;
+            _SoundManager.PlaySound(_PlayGame, transform.position);
+
         }
 
         private void OnBackToMenu(bool pBool)
@@ -52,7 +56,6 @@ namespace Com.IsartDigital.Rush.UI
             }
 
             _InstantiatedLevel.Clear();
-            _TilePreviewManager.positionUsedBaseLevel.Clear();
         }
 
     }
