@@ -19,7 +19,13 @@ namespace Com.IsartDigital.Rush.Manager
         [Header(Utils.PARAMETERS_PREVIEW)]
         [SerializeField] private HUDTileToPlace _HUDTileToPlace;
         [SerializeField] private GameObject _SpawnDust;
+        [SerializeField] private GameObject _GhostTileParent;
         [SerializeField] private LayerMask _ObstacleMask;
+
+        [Header(Utils.SOUND_PARAM)]
+        [SerializeField] private AudioClip[] _RandomHoverSounds;
+        [SerializeField] private AudioClip _ValidateTileSound;
+        [SerializeField] private AudioClip _PlaceTile;
 
         private GameObject _GhostTile;
         private Action<GameObject> _DoActionUI;
@@ -28,16 +34,21 @@ namespace Com.IsartDigital.Rush.Manager
         private const int RIGHT_CLICK_BUTTON_AND_TOUCH = 1;
 
         private const float DECAY_TILE = .5f;
+        private const float DECAY_TILE_UNDER = .25f;
         private const float TWEEN_TIME = .5f;
         private const float PAUSE_TIME = .05f;
         private const float FULL_TURN = 360f;
 
+        private Vector3? _LastHoverPos = null;
+
         private List<GameObject> _PlacedTiles = new List<GameObject>();
-        public List<Vector3?> positionUSed = new List<Vector3?>();
+        public List<Vector3?> positionUsedBaseLevel = new List<Vector3?>();
+        public List<Vector3?> positionUsedTilesPlaced = new List<Vector3?>();
 
         public static TilePreviewManager Instance { get; private set; }
 
         private GameManager _GameManager => GameManager.Instance;
+        private SoundManager _SoundManager => SoundManager.Instance;
         private TileSelectionManager _TileSelectionManager => TileSelectionManager.Instance;
 
         // ----------------~~~~~~~~~~~~~~~~~~~==========================# // READY
@@ -47,7 +58,8 @@ namespace Com.IsartDigital.Rush.Manager
             enabled = false;
             _GameManager.switchToGame += Activate;
             _GameManager.backToMenu += Disable;
-            _GameManager.pauseGame += Disable;
+            _GameManager.pauseGame += Pause;
+            _GameManager.finishPauseGame += Reactivate;
             _TileSelectionManager.OnInventoryEmpty += HandleInventoryEmpty;
 
             #region Singleton Management
@@ -77,7 +89,7 @@ namespace Com.IsartDigital.Rush.Manager
         }
 
         public void SetStateSelectTile(GameObject pTile)
-        {
+        {   
             _GhostTile = pTile;
             TileEntryRuntime lEntry = _TileSelectionManager.CurrentEntry;
             _GhostTile.transform.rotation = Quaternion.Euler(0f, lEntry.angleToTurn, 0f);
@@ -90,7 +102,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             Vector3? lSnapPos = SnapOnGrid();
 
-            if (!lSnapPos.HasValue || positionUSed.Contains(lSnapPos.Value))
+            if (!lSnapPos.HasValue || positionUsedTilesPlaced.Contains(lSnapPos.Value) || positionUsedBaseLevel.Contains(lSnapPos.Value))
             {
                 _GhostTile.SetActive(false);
                 return;
@@ -99,7 +111,13 @@ namespace Com.IsartDigital.Rush.Manager
                 _GhostTile.SetActive(true);
 
             if (lSnapPos.HasValue) 
-                pTile.transform.position = lSnapPos.Value;
+                pTile.transform.localPosition = lSnapPos.Value;
+
+            if (_LastHoverPos != lSnapPos)
+            {
+                _SoundManager.PlayRandomSound(_RandomHoverSounds, lSnapPos.Value);
+                _LastHoverPos = lSnapPos;
+            }
         }
 
         private Vector3? SnapOnGrid()
@@ -116,6 +134,15 @@ namespace Com.IsartDigital.Rush.Manager
                 float lY = Mathf.FloorToInt(lGlobalIndexToIndex.y) + DECAY_TILE;
 
                 lGlobalIndexToIndex = new Vector3(lX, lY, lZ);
+
+                Vector3 lCheckPos = lGlobalIndexToIndex + Vector3.up;
+
+                Collider[] lHits = Physics.OverlapBox(lCheckPos, Vector3.one * DECAY_TILE_UNDER, Quaternion.identity, _ObstacleMask);
+
+                foreach (Collider col in lHits)
+                    if (col.gameObject.layer == (int)ECollision.GROUND)
+                        return null;
+
                 return lGlobalIndexToIndex;
             }
             else return null;
@@ -124,7 +151,8 @@ namespace Com.IsartDigital.Rush.Manager
         private void CheckValidation()
         {
             Vector3? lCurrentMousePos = SnapOnGrid();
-            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && !positionUSed.Contains(lCurrentMousePos))
+            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && 
+                !positionUsedTilesPlaced.Contains(lCurrentMousePos))
             {
                 ValidateTilePlacement();
                 return;
@@ -141,7 +169,7 @@ namespace Com.IsartDigital.Rush.Manager
             GameObject lPlacedTile = Instantiate(_GhostTile);
 
             Vector3 lPos = _GhostTile.transform.position;
-            positionUSed.Add(lPos);
+            positionUsedTilesPlaced.Add(lPos);
                 
             lPlacedTile.transform.position = lPos;
             lIdentifier = lPlacedTile.AddComponent<TileRuntimeIdentifier>();
@@ -153,6 +181,7 @@ namespace Com.IsartDigital.Rush.Manager
             _TileSelectionManager.UseOne();
             GameObject lNextPrefab = _TileSelectionManager.GetCurrentPrefab();
             CheckNextPrefab(lNextPrefab);
+            _SoundManager.PlaySound(_ValidateTileSound, lPos);
         }
 
         private void PlaceTile(GameObject pTile)
@@ -256,7 +285,7 @@ namespace Com.IsartDigital.Rush.Manager
                 if (lIdentifier != null && _PlacedTiles.Contains(lTargetTile))
                 {
                     _PlacedTiles.Remove(lTargetTile);
-                    positionUSed.Remove(lTargetTile.transform.position);
+                    positionUsedTilesPlaced.Remove(lTargetTile.transform.position);
                     _DoActionUI = DoActionVoid;
                     AnimateTileRemoval(lTargetTile, lIdentifier);
                 }
@@ -264,6 +293,8 @@ namespace Com.IsartDigital.Rush.Manager
         }
 
         private void Activate(bool pEnable) => enabled = pEnable;
+
+        private void Reactivate() => enabled = true;
 
         private void Disable(bool pEnable)
         {
@@ -276,9 +307,11 @@ namespace Com.IsartDigital.Rush.Manager
             }
 
             _PlacedTiles.Clear();
-            positionUSed.Clear();
+            positionUsedTilesPlaced.Clear();
         }
 
+        private void Pause(bool pPause) => enabled = false;
+        
         private void AnimateTileRemoval(GameObject pTile, TileRuntimeIdentifier pIdentifier)
         {
             _TileSelectionManager.AddOne(pIdentifier.tileEntry);
@@ -304,6 +337,8 @@ namespace Com.IsartDigital.Rush.Manager
             float lYoyoTime = .25f;
             float lFallTime = .05f;
 
+            int lNumberOfLoops = 2;
+
             float spawnY = pFinalPos.y + lSpawnHeight;
 
             pPlacedTile.transform.position = new Vector3(pFinalPos.x, spawnY, pFinalPos.z);
@@ -311,7 +346,7 @@ namespace Com.IsartDigital.Rush.Manager
             Sequence lSequence = DOTween.Sequence();
 
             lSequence.Join(pPlacedTile.transform.DOLocalRotate(new Vector3(0f, FULL_TURN, 0f), lYoyoTime * 2f + lFallTime,RotateMode.FastBeyond360).SetRelative(true));
-            lSequence.Append(pPlacedTile.transform.DOMoveY(spawnY + lYoyoHeight, lYoyoTime).SetEase(Ease.OutCubic).SetLoops(2, LoopType.Yoyo));
+            lSequence.Append(pPlacedTile.transform.DOMoveY(spawnY + lYoyoHeight, lYoyoTime).SetEase(Ease.OutCubic).SetLoops(lNumberOfLoops, LoopType.Yoyo));
             lSequence.AppendInterval(0f);
             lSequence.Append(pPlacedTile.transform.DOMoveY(pFinalPos.y, lFallTime).SetEase(Ease.InCubic));
             lSequence.OnComplete(() => PlaceTile(pPlacedTile));
@@ -324,6 +359,7 @@ namespace Com.IsartDigital.Rush.Manager
             lParticles.transform.position = pTile.transform.position;
             lParticles.Play();
             Destroy(lParticles.gameObject, lParticles.main.duration + lParticles.main.startLifetime.constantMax);
+            _SoundManager.PlaySound(_PlaceTile, pTile.transform.position);
         }
 
         private void DestroyTile(GameObject pTile)

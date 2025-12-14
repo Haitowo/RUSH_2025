@@ -1,4 +1,5 @@
 using Com.IsartDigital.Rush.GameObjects;
+using Com.IsartDigital.Rush.Manager;
 using Com.IsartDigital.Rush.Utilities;
 using System.Collections;
 using System.Collections.Generic;

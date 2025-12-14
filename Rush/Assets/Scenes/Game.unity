@@ -6477,8 +6477,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _WinScreenToShow: 6
-  _GameMusic: {fileID: 8300000, guid: 7f787238bee686b46a2e0cdecd1d12f5, type: 3}
-  _WinScreenSound: {fileID: 8300000, guid: 7aaafc44c4c4fe647a205e2c46cfac91, type: 3}
+  _GameMusic: {fileID: 8300000, guid: 8c928b8ad66160047a4f13c0eafffc5e, type: 3}
+  _WinScreenSound: {fileID: 8300000, guid: 28840f292ff3ddc449d8e95a36986493, type: 3}
 --- !u!114 &947713495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6536,9 +6536,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _HUDTileToPlace: {fileID: 617192375}
   _SpawnDust: {fileID: 2885657029949217313, guid: 1a8d138f7c3e74f4ca90b5dd9df3e2f4, type: 3}
+  _GhostTileParent: {fileID: 0}
   _ObstacleMask:
     serializedVersion: 2
     m_Bits: 128
+  _RandomHoverSounds:
+  - {fileID: 8300000, guid: 7a6fad381b2b7bb45840a1513e27b13a, type: 3}
+  - {fileID: 8300000, guid: 66bac8a84c7d91e44a83c205c2d5f166, type: 3}
+  - {fileID: 8300000, guid: d3c256c6dcad4b045bbfa32b8f0c52f5, type: 3}
+  _ValidateTileSound: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
+  _PlaceTile: {fileID: 8300000, guid: 4e7173b0c4f88f645ae14e103af328ed, type: 3}
 --- !u!114 &947713499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6899,6 +6906,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
   m_PrefabInstance: {fileID: 631236565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1373845400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5333497840886356357, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+  m_PrefabInstance: {fileID: 4997944285583097403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1439974941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1890598291414099013, guid: 7c99249be75df0d489f4becc61bd9a5e, type: 3}
@@ -8058,7 +8076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 246760624332532215, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: pos
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 246760624332532215, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: objectToTransform
@@ -8067,7 +8085,7 @@ PrefabInstance:
     - target: {fileID: 677083959819402180, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _ClickSound
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 677083959819402180, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8137,13 +8155,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3879410120847790777, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
+      propertyPath: _ClickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
+    - target: {fileID: 3879410120847790777, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 1515525618}
     - target: {fileID: 3978188496317870205, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _ClickSound
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 3978188496317870205, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8156,6 +8178,10 @@ PrefabInstance:
       propertyPath: _HUDTileToPlace
       value: 
       objectReference: {fileID: 617192375}
+    - target: {fileID: 4635766016625906900, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
+      propertyPath: _ClickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 4635766016625906900, guid: 6329940d45e34e849b3d7d043bd716c6, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8421,7 +8447,7 @@ PrefabInstance:
     - target: {fileID: 1591187505497263032, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 1591187505497263032, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8453,7 +8479,7 @@ PrefabInstance:
     - target: {fileID: 2257445390055499875, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 2257445390055499875, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8515,6 +8541,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3011191986911826450, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
+    - target: {fileID: 3011191986911826450, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
       objectReference: {fileID: 1029982994}
@@ -8545,7 +8575,7 @@ PrefabInstance:
     - target: {fileID: 3426806617177471192, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 3426806617177471192, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8557,7 +8587,7 @@ PrefabInstance:
     - target: {fileID: 3792487433497864527, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 3792487433497864527, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8569,7 +8599,7 @@ PrefabInstance:
     - target: {fileID: 3883905750939002678, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 3883905750939002678, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8598,6 +8628,10 @@ PrefabInstance:
       propertyPath: _TargetMenu
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3999176384747164367, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 4294920240490614703, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -8661,7 +8695,7 @@ PrefabInstance:
     - target: {fileID: 4839151845045369178, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 4839151845045369178, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8678,14 +8712,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5383000330614905520, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
+    - target: {fileID: 5492901632333912935, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 5549102097385973350, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 5549102097385973350, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
       objectReference: {fileID: 1937533691}
+    - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 5552933019893135308, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
@@ -8701,7 +8747,7 @@ PrefabInstance:
     - target: {fileID: 5688886058588957699, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 5688886058588957699, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8713,7 +8759,7 @@ PrefabInstance:
     - target: {fileID: 5776728939571303639, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _ClickButton
       value: 
-      objectReference: {fileID: 8300000, guid: 9c768015901a74549884d7fc099809a2, type: 3}
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 5776728939571303639, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentButton
       value: 
@@ -8722,6 +8768,10 @@ PrefabInstance:
       propertyPath: _TargetMenu
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5846063934124626996, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 5858971401467660115, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_fontColor.b
       value: 0
@@ -8786,6 +8836,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6441744950487165754, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
+    - target: {fileID: 6524656142790587536, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 6524656142790587536, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
@@ -8798,6 +8856,10 @@ PrefabInstance:
       propertyPath: m_ScreenMatchMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 6971933132495292300, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 
@@ -8866,6 +8928,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7222777063441597825, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 7369029197608241884, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: CameraPos
       value: 
@@ -8951,6 +9017,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1515525618}
     - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ContinueButton
+      value: 
+      objectReference: {fileID: 1373845400}
+    - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _TransitionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ea08cecd29b10f5458d43dfa4ccb7573, type: 3}
+    - target: {fileID: 7785111947777521079, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _CurrentCameraGame
       value: 
       objectReference: {fileID: 330585546}
@@ -9034,10 +9108,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8983436137623664707, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _ClickButton
+      value: 
+      objectReference: {fileID: 8300000, guid: fb144b75b82a11d46be10fb710ee09ab, type: 3}
     - target: {fileID: 9031444371432354666, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9040880833912040951, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
+      propertyPath: _PlayGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 14af192785cdc864296ba4d241eb2bfb, type: 3}
     - target: {fileID: 9040880833912040951, guid: a75238d11f2fce145ad1d3fba0d5085a, type: 3}
       propertyPath: _TextUILevel
       value: 

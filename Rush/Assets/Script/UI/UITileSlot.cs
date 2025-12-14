@@ -1,5 +1,4 @@
 using Com.IsartDigital.Rush.Manager;
-using Com.IsartDigital.Rush.UI;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -83,10 +82,8 @@ namespace Com.IsartDigital.Rush.UI
             else return;
         }
 
-        private void UpdateUI()
-        {
-            amountText.text = _RuntimeEntry.remaining.ToString();
-        }
+        private void UpdateUI() => amountText.text = _RuntimeEntry.remaining.ToString();
+        
 
         private void ShowPrefab()
         {
