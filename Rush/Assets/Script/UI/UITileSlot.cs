@@ -65,7 +65,8 @@ namespace Com.IsartDigital.Rush.UI
             _SoundManager.PlaySound(_ClickSound, transform.position);
             if (_TileSelectionManager.CurrentSlot != null && _TileSelectionManager.CurrentSlot != this)
                 _TileSelectionManager.CurrentSlot.Deselect();
-            
+
+            DestroyPreviousGhostTile();
             if (_RuntimeEntry.remaining > 0 && !_IsTileAlreadySelected)
             {
                 _TileSelectionManager.SetIndex(_Index);
@@ -133,6 +134,15 @@ namespace Com.IsartDigital.Rush.UI
 
             _CurrentTween = transform.DOScale(_OriginalScale, _Duration)
                 .SetEase(Ease.OutElastic);
+        }
+
+        private void DestroyPreviousGhostTile()
+        {
+            if (_TilePreviewManager.CurrentGhostTile != null)
+            {
+                Destroy(_TilePreviewManager.CurrentGhostTile);
+                _TilePreviewManager.SetStateVoid();
+            }
         }
 
         public void Deselect() => _IsTileAlreadySelected = false;

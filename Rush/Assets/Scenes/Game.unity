@@ -6537,10 +6537,10 @@ MonoBehaviour:
   _HUDTileToPlace: {fileID: 617192375}
   _SpawnDust: {fileID: 2885657029949217313, guid: 1a8d138f7c3e74f4ca90b5dd9df3e2f4, type: 3}
   _GhostTileParent: {fileID: 0}
-  _ObstacleMask:
+  _AllLayersAbleToBeChecked:
     serializedVersion: 2
-    m_Bits: 180160
-  _TargetLayer: 7
+    m_Bits: 136320
+  _TargetGroundLayer: 7
   _RandomHoverSounds:
   - {fileID: 8300000, guid: 7a6fad381b2b7bb45840a1513e27b13a, type: 3}
   - {fileID: 8300000, guid: 66bac8a84c7d91e44a83c205c2d5f166, type: 3}

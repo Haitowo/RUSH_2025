@@ -20,8 +20,8 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private HUDTileToPlace _HUDTileToPlace;
         [SerializeField] private GameObject _SpawnDust;
         [SerializeField] private GameObject _GhostTileParent;
-        [SerializeField] private LayerMask _ObstacleMask;
-        [SerializeField] private ECollision _TargetLayer;
+        [SerializeField] private LayerMask _AllLayersAbleToBeChecked;
+        [SerializeField] private ECollision _TargetGroundLayer;
 
         [Header(Utils.SOUND_PARAM)]
         [SerializeField] private AudioClip[] _RandomHoverSounds;
@@ -29,6 +29,8 @@ namespace Com.IsartDigital.Rush.Manager
         [SerializeField] private AudioClip _PlaceTile;
 
         private GameObject _GhostTile;
+        public GameObject CurrentGhostTile => _GhostTile;
+
         private Action<GameObject> _DoActionUI;
 
         private const int LEFT_CLICK_BUTTON_AND_TOUCH = 0;
@@ -101,23 +103,17 @@ namespace Com.IsartDigital.Rush.Manager
         private void DoActionTileOnGrid(GameObject pTile)
         {
             Vector3? lSnapPos = SnapOnGrid();
+            UpdateGhostTileState(lSnapPos);
 
-            if (!lSnapPos.HasValue || positionUsedTilesPlaced.Contains(lSnapPos.Value))
-            {
-                _GhostTile.SetActive(false);
-                return;
-            }
-            else if (!_GhostTile.activeSelf && lSnapPos.HasValue)
-                _GhostTile.SetActive(true);
+            if (lSnapPos.HasValue)
+                pTile.transform.position = lSnapPos.Value;
 
-            if (lSnapPos.HasValue) 
-                pTile.transform.localPosition = lSnapPos.Value;
-
-            if (_LastHoverPos != lSnapPos)
+            if (_LastHoverPos != lSnapPos && lSnapPos.HasValue)
             {
                 _SoundManager.PlayRandomSound(_RandomHoverSounds, lSnapPos.Value);
                 _LastHoverPos = lSnapPos;
             }
+
         }
 
         private Vector3? SnapOnGrid()
@@ -126,7 +122,7 @@ namespace Com.IsartDigital.Rush.Manager
             Vector3 lGlobalIndexToIndex;
             Ray lRay = Camera.main.ScreenPointToRay(lMousePos);
 
-            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, _ObstacleMask) && lHitInfo.collider.gameObject.layer == (int)_TargetLayer)
+            if (Physics.Raycast(lRay, out RaycastHit lHitInfo, Mathf.Infinity, _AllLayersAbleToBeChecked) && lHitInfo.collider.gameObject.layer == (int)_TargetGroundLayer)
             {
                 lGlobalIndexToIndex = lHitInfo.point;
                 int lX = Mathf.FloorToInt(lGlobalIndexToIndex.x + DECAY_TILE);
@@ -137,7 +133,7 @@ namespace Com.IsartDigital.Rush.Manager
 
                 Vector3 lCheckPos = lGlobalIndexToIndex + Vector3.up;
 
-                Collider[] lHits = Physics.OverlapBox(lCheckPos, Vector3.one * DECAY_TILE_UNDER, Quaternion.identity, _ObstacleMask);
+                Collider[] lHits = Physics.OverlapBox(lCheckPos, Vector3.one * DECAY_TILE_UNDER, Quaternion.identity, _AllLayersAbleToBeChecked);
 
                 foreach (Collider col in lHits)
                     if (col.gameObject.layer == (int)ECollision.GROUND)
@@ -151,7 +147,7 @@ namespace Com.IsartDigital.Rush.Manager
         private void CheckValidation()
         {
             Vector3? lCurrentMousePos = SnapOnGrid();
-            if (_GhostTile != null && GetPrimaryDown() && SnapOnGrid() != null && 
+            if (_GhostTile != null && GetPrimaryDown() && lCurrentMousePos != null && 
                 !positionUsedTilesPlaced.Contains(lCurrentMousePos))
             {
                 ValidateTilePlacement();
@@ -237,7 +233,7 @@ namespace Com.IsartDigital.Rush.Manager
         {
             if (_GhostTile != null && Input.GetMouseButton(RIGHT_CLICK_BUTTON_AND_TOUCH))
             {
-                _GhostTile.SetActive(false);
+                Destroy(_GhostTile.gameObject);
                 SetStateVoid();
             } 
         }
@@ -366,6 +362,15 @@ namespace Com.IsartDigital.Rush.Manager
         {
             SpawnParticles(pTile);
             Destroy(pTile);
+        }
+
+        private void UpdateGhostTileState(Vector3? pSnapPos)
+        {
+            if(_GhostTile == null) return;
+            bool lShouldBeActive = pSnapPos.HasValue && !positionUsedTilesPlaced.Contains(pSnapPos.Value);
+
+            if(_GhostTile.activeSelf != lShouldBeActive)
+                _GhostTile.SetActive(lShouldBeActive);
         }
 
         private bool GetPrimaryDown()
