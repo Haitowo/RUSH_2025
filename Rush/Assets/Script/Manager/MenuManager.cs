@@ -93,7 +93,7 @@ namespace Com.IsartDigital.Rush.UI
             foreach (GameObject lMenu in _Menus.Values)
                 lMenu.SetActive(false);
 
-           _Menus[pType].SetActive(true);
+            _Menus[pType].SetActive(true);
 
             lTransform = _Menus[pType].transform;
             lTransform.localScale = Vector3.zero;
